@@ -1,4 +1,4 @@
-Budget App
+#Budget App
 
 This app is to help me keep track of my expenses. Know exactly how much money I have at a specific time.
 

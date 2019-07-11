@@ -18,8 +18,8 @@ Features I want:
 * View budget vs actuals
 * CRUD expense
 * Authentication - Multiple users.
-** cookie saving - so you don't have to login every time
-*** Google? Sign in with Google?
+   * cookie saving - so you don't have to login every time
+   * Google? Sign in with Google?
 * Automatic expenses - cron job of sorts?
  
 

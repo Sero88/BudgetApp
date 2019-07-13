@@ -5,16 +5,20 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
-
+                <div class="card-header">Transaction</div>
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                    <form method="POST" action="/transactions">
 
-                    You are logged in!
+                        <input type="number" name="amount">
+
+                        <button type="submit">Submit</button>
+                        @csrf
+
+                    </form>
+
+                    @foreach($cats as $cat)
+                        {{ $cat['name'] }}
+                    @endforeach
                 </div>
             </div>
         </div>

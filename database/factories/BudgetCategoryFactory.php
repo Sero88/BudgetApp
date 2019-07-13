@@ -10,6 +10,7 @@ $factory->define(BudgetCategory::class, function (Faker $faker) {
         'name' => $faker->name,
         'description' => $faker->text(200),
         'budget' => $faker->randomFloat(2 , 1, 9999),
-        'balance_id' => $faker->randomDigitNotNull,
+        'balance_id' => 1
+
     ];
 });

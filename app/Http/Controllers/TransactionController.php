@@ -40,7 +40,15 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->validate(['amount' => 'min:3|required']));
+        //dd($request->validate(['amount' => 'min:3|required']));
+
+        dd($request->validate(
+            [
+                'amount' => 'required|numeric|min:0.01|',
+                'type_id' => 'required',
+                'budget_cat_id' => 'required',
+            ]
+        ));
     }
 
     /**

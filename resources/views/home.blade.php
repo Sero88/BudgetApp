@@ -7,6 +7,9 @@
             <div class="card">
                 <div class="card-header">Transaction</div>
                 <div class="card-body">
+                    @if(session('message'))
+                        <div>{{session('message')}}</div>
+                    @endif
                     <form method="POST" action="/transactions">
 
                         <div>

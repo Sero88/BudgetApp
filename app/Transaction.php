@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     protected $guarded = [];
+    public $timestamps = false;
 
     public function budget_categories(){
         return $this->belongsTo(BudgetCategory::class, 'budget_cat_id');

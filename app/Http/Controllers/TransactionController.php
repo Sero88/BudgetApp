@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -40,15 +41,30 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->validate(['amount' => 'min:3|required']));
 
-        dd($request->validate(
+        //get user input
+        $new_transaction = $request->validate(
             [
                 'amount' => 'required|numeric|min:0.01|',
                 'type_id' => 'required',
                 'budget_cat_id' => 'required',
-            ]
-        ));
+            ]);
+
+        //get user id and time
+        $new_transaction['owner_id'] = Auth::user()->id;
+        $new_transaction['date_made'] = now();
+
+        //save the transaction
+        $saved_trans = Transaction::create($new_transaction);
+
+        if( !empty($saved_trans) ){
+            $request->session()->flash('message','Transaction created successfully.');
+        } else{
+            $request->session()->flash('message', 'Error: Something went wrong. Transaction not saved');
+        }
+
+
+        return redirect('/home');
     }
 
     /**

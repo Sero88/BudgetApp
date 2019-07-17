@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Transaction;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +21,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return view('transactions.index', ['transactions' => Transaction::all()]);
+
+        return view('transactions.index', ['transactions' => Transaction::all()->where('owner_id','=', Auth::user()->id)]);
     }
 
     /**
@@ -86,7 +88,8 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        //
+        $this->authorize('update', $transaction);
+        //abort_unless(\Gate::allows('update',$transaction), 403);
     }
 
     /**

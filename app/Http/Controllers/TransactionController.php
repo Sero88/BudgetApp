@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\BudgetCategory;
 use App\Transaction;
+use App\TransactionType;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,6 +92,11 @@ class TransactionController extends Controller
     {
         $this->authorize('update', $transaction);
         //abort_unless(\Gate::allows('update',$transaction), 403);
+
+        $cats = BudgetCategory::all();
+        $types = TransactionType::all();
+
+        return view('home', compact('transaction', 'cats','types'));
     }
 
     /**

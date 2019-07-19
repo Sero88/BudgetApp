@@ -40,4 +40,9 @@ class User extends Authenticatable
     public function balances(){
         return $this->hasMany(Balance::class, 'owner_id');
     }
+
+    public function budget_categories(){
+        return $this->hasManyThrough(BudgetCategory::class, Balance::class, 'owner_id', 'balance_id');
+    }
 }
+

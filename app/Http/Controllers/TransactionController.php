@@ -96,7 +96,7 @@ class TransactionController extends Controller
         $cats = BudgetCategory::all();
         $types = TransactionType::all();
 
-        return view('home', compact('transaction', 'cats','types'));
+        return view('transactions.edit', compact('transaction', 'cats','types'));
     }
 
     /**
@@ -108,7 +108,27 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        //
+
+        //can user update this transaction
+        $this->authorize('update', $transaction);
+
+        //run update
+        $updated = $transaction->update($request->validate(
+            [
+                'amount' => 'required|numeric|min:0.01|',
+                'type_id' => 'required',
+                'budget_cat_id' => 'required'
+            ]
+        ));
+
+        if($updated){
+            session()->flash('message','Transaction successfully updated.');
+        } else {
+            session()->flash('message', 'Unable to update transaction.');
+        }
+
+        return back();
+
     }
 
     /**

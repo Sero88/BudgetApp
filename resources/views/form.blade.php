@@ -3,9 +3,11 @@
 @endif
 
 
+
 <div>
     <label for="#trans-amount">Amount</label><br>
     <?php
+    //todo wondering if this can be refactored
     $amount = '';
     if(!empty( old('amount') ) ) {
         $amount = old('amount');
@@ -21,7 +23,7 @@
     <select id="type_id" name="type_id">
         @foreach($types as $type)
             <?php
-
+            //todo wondering if this can be refactored
                 $old_type = '';
                 if(!empty( old('type_id') ) ) {
                     $old_type = old('type_id');
@@ -41,7 +43,7 @@
     <select id="budget_cat_id" name="budget_cat_id">
         @foreach($cats as $cat)
             <?php
-
+            //todo wondering if this can be refactored
             $old_cat = '';
             if(!empty( old('budget_cat_id') ) ) {
                 $old_cat= old('budget_cat_id');

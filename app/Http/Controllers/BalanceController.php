@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Balance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BalanceController extends Controller
 {
@@ -14,7 +15,10 @@ class BalanceController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Auth::user()->id;
+        $balances = Balance::where('owner_id', $user_id)->get();
+        dd($balances);
+
     }
 
     /**
@@ -24,7 +28,10 @@ class BalanceController extends Controller
      */
     public function create()
     {
-        //
+        $balance = new Balance();
+        $balance->get_old_data();
+
+        return view('balances.create', compact('balance'));
     }
 
     /**

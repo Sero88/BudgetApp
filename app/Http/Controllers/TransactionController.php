@@ -93,7 +93,13 @@ class TransactionController extends Controller
         $this->authorize('update', $transaction);
         //abort_unless(\Gate::allows('update',$transaction), 403);
 
-        $cats = BudgetCategory::all();
+        $transaction->get_old_data();
+
+        //get the current logged in user
+        $user = Auth::user();
+
+        //get the user balances and its budget categories
+        $cats = $user->budget_categories()->get();
         $types = TransactionType::all();
 
         return view('transactions.edit', compact('transaction', 'cats','types'));
@@ -139,6 +145,16 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
-        //
+        $this->authorize('update', $transaction);
+
+
+        $deleted = $transaction->delete();
+
+        if($deleted){
+            session()->flash('message', 'You have successfully deleted the transaction');
+        } else {
+            session()->flash('message', 'Unable to delete transaction');
+        }
+        return back();
     }
 }

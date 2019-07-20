@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Edit Transaction')
 @section('content')
     <form action="/transactions/{{$transaction->id}}" method="post">
         @csrf

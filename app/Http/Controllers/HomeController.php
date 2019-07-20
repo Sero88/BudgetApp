@@ -29,14 +29,17 @@ class HomeController extends Controller
     {
 
         //instantiate a new transaction
-        $trans= new Transaction();
+        $transaction= new Transaction();
+
+        //get old values if they exist
+        $transaction->get_old_data();
 
         //get the current logged in user
         $user = Auth::user();
 
         //get the user balances and its budget categories
-
         $cats = $user->budget_categories()->get();
+
         /*$balances = $user->balances();
         $cats = [];
         foreach($balances->get() as $balance){
@@ -50,6 +53,6 @@ class HomeController extends Controller
         $types = TransactionType::all();
 
 
-        return view('home', compact('trans', 'cats', 'types'));
+        return view('home', compact('transaction', 'cats', 'types'));
     }
 }

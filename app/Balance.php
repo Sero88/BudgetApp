@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Balance extends Model
 {
+    protected $guarded = [];
+    //public $timestamps = true;
+
     public function owner(){
         return $this->belongsTo(User::class, 'owner_id');
     }

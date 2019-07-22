@@ -42,7 +42,30 @@ class BalanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        dd($request->validate(['budget_cat.*' => 'required']));
+
+        exit;
+        //validate balance info
+        $new_balance = $request->validate(
+            [
+                'name' => 'required',
+                'description' => 'required',
+                'amount' => 'required|numeric|min:0.01'
+            ]
+        );
+        $new_balance['owner_id'] = Auth::user()->id;
+
+        //create new balance
+        $new_balance = Balance::create($new_balance);
+
+
+
+        if( !empty($new_balance) ){
+            session()->flash('message', 'New balance created!');
+        } else{
+            session()->flash('message', 'Error! Unable to create new balance');
+        }
     }
 
     /**

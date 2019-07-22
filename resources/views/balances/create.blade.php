@@ -8,6 +8,7 @@
         {{ session('message') }}
     @endcomponent
 
-    @include('balances.form')
-
+    <form action="/balances" method="post" >
+        @include('balances.form')
+    </form>
 @endsection

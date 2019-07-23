@@ -43,17 +43,24 @@ class BalanceController extends Controller
     public function store(Request $request)
     {
 
-        dd($request->validate(['budget_cat.*' => 'required']));
 
-        exit;
+        //todo use between or size validation to make sure user is giving you correct amount
+
+
         //validate balance info
         $new_balance = $request->validate(
             [
                 'name' => 'required',
                 'description' => 'required',
-                'amount' => 'required|numeric|min:0.01'
+                'amount' => 'required|numeric|min:0.01',
+                'budget_cat.*' => 'required',
+                'budget_cat_quantity.*' => 'required|numeric|min:0.01',
+                'budget_cat_description.*' => 'required'
             ]
         );
+
+        return back();
+        dd($new_balance);
         $new_balance['owner_id'] = Auth::user()->id;
 
         //create new balance

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Balance;
+use App\BudgetCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +18,7 @@ class BalanceController extends Controller
     {
         $user_id = Auth::user()->id;
         $balances = Balance::where('owner_id', $user_id)->get();
-        dd($balances);
+        return view('home');
 
     }
 
@@ -28,6 +29,8 @@ class BalanceController extends Controller
      */
     public function create()
     {
+        //todo add policy for balances
+
         $balance = new Balance();
         $balance->get_old_data();
 
@@ -43,32 +46,43 @@ class BalanceController extends Controller
     public function store(Request $request)
     {
 
-
-        //todo use between or size validation to make sure user is giving you correct amount
-
-
         //validate balance info
-        $new_balance = $request->validate(
+        $user_input = $request->validate(
             [
                 'name' => 'required',
                 'description' => 'required',
                 'amount' => 'required|numeric|min:0.01',
+//                'budget_cat' => 'size:2' in this case we require array to be of 2, but since we require all cat_names on the line below , we do not need to match amounts
                 'budget_cat.*' => 'required',
-                'budget_cat_quantity.*' => 'required|numeric|min:0.01',
-                'budget_cat_description.*' => 'required'
+                'budget_cat_amount.*' => 'required|numeric|min:0.01',
+                'budget_cat_description.*' => 'nullable'
             ]
         );
 
-        return back();
-        dd($new_balance);
-        $new_balance['owner_id'] = Auth::user()->id;
+        $user_input['owner_id'] = Auth::user()->id;
+
+
 
         //create new balance
-        $new_balance = Balance::create($new_balance);
+        $new_balance = Balance::create([
+            'name' => $user_input['name'],
+            'description' => $user_input['description'],
+            'amount' => $user_input['amount'],
+            'owner_id' => Auth::user()->id
+        ]);
 
+        //create budget categories
+        for($i = 0; $i < count($user_input['budget_cat']); $i++){
+            $new_cat = [];
+            $new_cat['name'] = $user_input['budget_cat'][$i];
+            $new_cat['description'] = !empty($user_input['budget_cat_description'][$i]) ? $user_input['budget_cat_description'][$i] : '';
+            $new_cat['budget'] = $user_input['budget_cat_amount'][$i];
+            $new_cat['balance_id'] = $new_balance->id;
 
+            BudgetCategory::create($new_cat);
+        }
 
-        if( !empty($new_balance) ){
+        if( !empty($user_input) ){
             session()->flash('message', 'New balance created!');
         } else{
             session()->flash('message', 'Error! Unable to create new balance');

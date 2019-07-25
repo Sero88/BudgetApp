@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BalancesTest extends TestCase
 {
-    use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
@@ -28,12 +28,13 @@ class BalancesTest extends TestCase
             'name' => 'test',
             'description' => 'test description',
             'amount' => 100,
-            'budget_cat' => ['test'],
-            'budget_cat_quantity' => [100,123],
-            'budget_cat_description.*' => ['description'],
+            'budget_cat' => ['test','test2'],
+            'budget_cat_amount' => [100,123],
+            'budget_cat_description' => ['description', NULL],
         ]);
 
         //there should be a new balance
         $this->assertDatabaseHas('balances', ['name'=>'test']);
+        $this->assertDatabaseHas('budget_categories', ['name'=>'test', 'budget' => 100, 'description' => 'description'] );
     }
 }

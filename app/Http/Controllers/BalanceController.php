@@ -18,8 +18,8 @@ class BalanceController extends Controller
     {
         $user_id = Auth::user()->id;
         $balances = Balance::where('owner_id', $user_id)->get();
-        return view('home');
 
+        return view('balances.index',compact('balances'));
     }
 
     /**
@@ -82,11 +82,11 @@ class BalanceController extends Controller
             BudgetCategory::create($new_cat);
         }
 
-        if( !empty($user_input) ){
-            session()->flash('message', 'New balance created!');
-        } else{
-            session()->flash('message', 'Error! Unable to create new balance');
-        }
+
+        session()->flash('message', 'New balance and budget categories created!');
+
+        return redirect('/balances');
+
     }
 
     /**
@@ -97,7 +97,11 @@ class BalanceController extends Controller
      */
     public function show(Balance $balance)
     {
-        //
+        $this->authorize('update', $balance);
+
+        $transactions = $balance->transactions()->get();
+
+        return view('balances.show', compact('balance', 'transactions'));
     }
 
     /**
@@ -108,7 +112,8 @@ class BalanceController extends Controller
      */
     public function edit(Balance $balance)
     {
-        //
+        $this->authorize('update', $balance);
+        return view('balances.edit', compact('balance'));
     }
 
     /**
@@ -120,7 +125,17 @@ class BalanceController extends Controller
      */
     public function update(Request $request, Balance $balance)
     {
-        //
+        $this->authorize('update', $balance);
+        $new_input = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'amount' => 'required|numeric|min:0.01',
+        ]);
+        $balance->update($new_input);
+
+        session()->flash('message', 'Balance was updated successfully.');
+
+        return redirect('/balances');
     }
 
     /**
@@ -131,6 +146,10 @@ class BalanceController extends Controller
      */
     public function destroy(Balance $balance)
     {
-        //
+        $balance->delete();
+
+        session()->flash('message', 'Balance deleted successfully');
+
+        redirect('/balances');
     }
 }

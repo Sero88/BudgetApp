@@ -10,5 +10,6 @@
 
     <form action="/balances" method="post" >
         @include('balances.form')
+        @include('budget-categories.form);
     </form>
 @endsection

@@ -17,6 +17,10 @@ class Balance extends Model
         return $this->hasMany(BudgetCategory::class);
     }
 
+    public function transactions(){
+        return $this->hasManyThrough(Transaction::class, BudgetCategory::class, 'balance_id', 'budget_cat_id');
+    }
+
     public function get_old_data(){
         $this->name = !empty(old('name')) ? old('name') : '';
         $this->description = !empty(old('description')) ? old('description') : '';

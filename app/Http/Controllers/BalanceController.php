@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Balance;
 use App\BudgetCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,6 +19,9 @@ class BalanceController extends Controller
     {
         $user_id = Auth::user()->id;
         $balances = Balance::where('owner_id', $user_id)->get();
+
+
+
 
         return view('balances.index',compact('balances'));
     }

@@ -17,7 +17,7 @@ class CreateBalancesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name',100);
             $table->text('description');
-            $table->decimal('amount', 8, 2);
+            $table->decimal('amount', 8, 2)->unsigned();
             $table->unsignedBigInteger('owner_id');
             $table->timestamps();
 

@@ -146,10 +146,14 @@ class BalanceController extends Controller
      */
     public function destroy(Balance $balance)
     {
+
+        //delete delete children relations tied to balances first then balance
+        $balance->transactions()->delete();
+        $balance->budget_categories()->delete();
         $balance->delete();
 
         session()->flash('message', 'Balance deleted successfully');
 
-        redirect('/balances');
+        return redirect('/balances');
     }
 }

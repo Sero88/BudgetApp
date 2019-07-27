@@ -21,5 +21,6 @@ class Transaction extends Model
         $this->amount = !empty(old('amount')) ? old('amount') : $this->amount;
         $this->type_id = !empty(old('type_id')) ? old('type_id') : $this->type_id;
         $this->budget_cat_id = !empty(old('budget_cat_id')) ? old('budget_cat_id') : $this->budget_cat_id;
+        $this->description = !empty(old('description')) ? old('description') : '';
     }
 }

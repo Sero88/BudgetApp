@@ -17,4 +17,3 @@
     </div>
 
     <?php print_r($errors->all()); ?>
-    <input type="submit" value="Save">

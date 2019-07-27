@@ -10,6 +10,7 @@
 
     <form action="/balances" method="post" >
         @include('balances.form')
-        @include('budget-categories.form);
+        @include('budget_categories.form')
+        <input type="submit">
     </form>
 @endsection

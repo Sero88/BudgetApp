@@ -15,10 +15,11 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->decimal('amount',8,2);
+            $table->decimal('amount',8,2)->unsigned();
             $table->unsignedBigInteger('owner_id');
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('budget_cat_id');
+            $table->text('description')->nullable();
             $table->dateTime('date_made');
 
             $table->foreign('owner_id')->references('id')->on('users');

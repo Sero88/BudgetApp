@@ -5,5 +5,6 @@
         @csrf
         @method('PATCH')
         @include('form')
+        <button type="submit">Submit</button>
     </form>
 @endsection

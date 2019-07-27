@@ -29,6 +29,11 @@
     </select>
 </div>
 
+<div>
+    <label for="description">Description</label><br>
+    <textarea name="description">{{$transaction->description}}</textarea>
+</div>
+
 <?php print_r($errors->all()); ?>
 
-<button type="submit">Submit</button>
+

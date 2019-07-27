@@ -6,5 +6,6 @@
         <form method="POST" action="/transactions">
             @include('form')
             @csrf
+            <button type="submit">Submit</button>
         </form>
 @endsection

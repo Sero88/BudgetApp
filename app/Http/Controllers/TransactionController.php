@@ -47,12 +47,7 @@ class TransactionController extends Controller
     {
 
         //get user input
-        $new_transaction = $request->validate(
-            [
-                'amount' => 'required|numeric|min:0.01|',
-                'type_id' => 'required',
-                'budget_cat_id' => 'required',
-            ]);
+        $new_transaction = $this->get_validated_data();
 
         //get user id and time
         $new_transaction['owner_id'] = Auth::user()->id;
@@ -119,13 +114,7 @@ class TransactionController extends Controller
         $this->authorize('update', $transaction);
 
         //run update
-        $updated = $transaction->update($request->validate(
-            [
-                'amount' => 'required|numeric|min:0.01|',
-                'type_id' => 'required',
-                'budget_cat_id' => 'required'
-            ]
-        ));
+        $updated =  $transaction->update($this->get_validated_data());
 
         if($updated){
             session()->flash('message','Transaction successfully updated.');
@@ -156,5 +145,16 @@ class TransactionController extends Controller
             session()->flash('message', 'Unable to delete transaction');
         }
         return back();
+    }
+
+    private function get_validated_data(){
+        return request()->validate(
+            [
+                'amount' => 'required|numeric|min:0.01|',
+                'type_id' => 'required',
+                'budget_cat_id' => 'required',
+                'description' => 'nullable'
+            ]
+        );
     }
 }

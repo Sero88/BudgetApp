@@ -26,5 +26,6 @@ class Balance extends Model
         $this->description = !empty(old('description')) ? old('description') : '';
         $this->amount = !empty(old('amount')) ? old('amount') : '';
         $this->owner_id = !empty(old('owner_id')) ? old('ownder_id') : '';
+
     }
 }

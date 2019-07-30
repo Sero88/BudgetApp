@@ -2,7 +2,7 @@
 @section('title', $balance->name)
 
 @section('content')
-    @foreach($transactions as $trans)
-        {{$trans->amount}}
-    @endforeach
+    @include('balances.actuals-vs-budget')
+	@include('balances.balance-categories')
+	@include('balances.balance-transactions')
 @endsection

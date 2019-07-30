@@ -9,7 +9,7 @@ class Transaction extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public function budget_categories(){
+    public function budget_category(){
         return $this->belongsTo(BudgetCategory::class, 'budget_cat_id');
     }
 

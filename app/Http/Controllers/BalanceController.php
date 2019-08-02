@@ -20,9 +20,6 @@ class BalanceController extends Controller
         $user_id = Auth::user()->id;
         $balances = Balance::where('owner_id', $user_id)->get();
 
-
-
-
         return view('balances.index',compact('balances'));
     }
 
@@ -36,7 +33,7 @@ class BalanceController extends Controller
         //todo add policy for balances
 
         $balance = new Balance();
-        $balance->get_old_data();
+        $this->get_old_data();
 
         return view('balances.create', compact('balance'));
     }
@@ -45,7 +42,13 @@ class BalanceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illu public function get_old_data(){
+        $this->name = !empty(old('name')) ? old('name') : '';
+        $this->description = !empty(old('description')) ? old('description') : '';
+        $this->amount = !empty(old('amount')) ? old('amount') : '';
+        $this->owner_id = !empty(old('owner_id')) ? old('ownder_id') : '';
+
+    }minate\Http\Response
      */
     public function store(Request $request)
     {
@@ -159,5 +162,14 @@ class BalanceController extends Controller
         session()->flash('message', 'Balance deleted successfully');
 
         return redirect('/balances');
+    }
+
+
+    private function get_old_data(){
+        $this->name = !empty(old('name')) ? old('name') : '';
+        $this->description = !empty(old('description')) ? old('description') : '';
+        $this->amount = !empty(old('amount')) ? old('amount') : '';
+        $this->owner_id = !empty(old('owner_id')) ? old('ownder_id') : '';
+
     }
 }

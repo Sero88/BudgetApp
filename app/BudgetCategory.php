@@ -12,6 +12,10 @@ class BudgetCategory extends Model
         return $this->hasMany(Transaction::class, 'budget_cat_id');
     }
 
+    public function balance(){
+        return $this->belongsTo('\App\Balance', 'balance_id');
+    }
+
     public function monthlyTransactions(){
         //get first and last day of current month
         $first_day = date('Y-m-d H:i:s', strtotime('first day of '. date('F Y')));

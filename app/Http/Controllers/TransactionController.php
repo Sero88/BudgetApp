@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Balance;
 use App\BudgetCategory;
 use App\Transaction;
 use App\TransactionType;
@@ -24,7 +25,7 @@ class TransactionController extends Controller
     public function index()
     {
 
-        return view('transactions.index', ['transactions' => Transaction::all()->where('owner_id','=', Auth::user()->id)]);
+        return view('transactions.index', ['transactions' => Transaction::all()->where('owner_id','=', Auth::user()->id)->sortByDesc('date_made')]);
     }
 
     /**
@@ -49,6 +50,7 @@ class TransactionController extends Controller
         //get user input
         $new_transaction = $this->get_validated_data();
 
+
         //get user id and time
         $new_transaction['owner_id'] = Auth::user()->id;
         $new_transaction['date_made'] = now();
@@ -56,13 +58,20 @@ class TransactionController extends Controller
         //save the transaction
         $saved_trans = Transaction::create($new_transaction);
 
-        if( !empty($saved_trans) ){
-            $request->session()->flash('message','Transaction created successfully.');
-        } else{
-            $request->session()->flash('message', 'Error: Something went wrong. Transaction not saved');
-        }
 
+        //get the transaction amount
+        $trans_amount = $saved_trans->transaction_type->name == 'credit' ? $saved_trans->amount * -1 : $saved_trans->amount;
 
+        //get its corresponding balance
+        $balance = $saved_trans->budget_category->balance;
+
+        //update balance amount
+        $balance->update(['amount' => $balance->amount + $trans_amount ]);
+
+        //user feedback
+        $request->session()->flash('message','Transaction created successfully.');
+
+        //redirect
         return redirect('/home');
     }
 
@@ -88,7 +97,7 @@ class TransactionController extends Controller
         $this->authorize('update', $transaction);
         //abort_unless(\Gate::allows('update',$transaction), 403);
 
-        $transaction->get_old_data();
+        $transaction = get_old_trans_data($transaction);
 
         //get the current logged in user
         $user = Auth::user();
@@ -113,14 +122,22 @@ class TransactionController extends Controller
         //can user update this transaction
         $this->authorize('update', $transaction);
 
-        //run update
-        $updated =  $transaction->update($this->get_validated_data());
+        //get old amount and new trans data
+        $old_amount = $transaction->amount;
+        $data = $this->get_validated_data();
 
-        if($updated){
-            session()->flash('message','Transaction successfully updated.');
-        } else {
-            session()->flash('message', 'Unable to update transaction.');
+        //run update
+        $transaction->update($data);
+
+        //update balance if amount is not the same
+        if($old_amount != $data['amount']){
+            //update balance
+            $balance = $transaction->budget_category->balance;
+            $balance->update(['amount' => $balance->amount + ($old_amount - $data['amount'])]);
         }
+
+        session()->flash('message','Transaction successfully updated.');
+
 
         return back();
 
@@ -157,4 +174,6 @@ class TransactionController extends Controller
             ]
         );
     }
+
+
 }

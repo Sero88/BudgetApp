@@ -32,7 +32,7 @@ class HomeController extends Controller
         $transaction= new Transaction();
 
         //get old values if they exist
-        $transaction->get_old_data();
+        $transaction = get_old_trans_data($transaction);
 
         //get the current logged in user
         $user = Auth::user();

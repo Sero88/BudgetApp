@@ -31,12 +31,4 @@ class Balance extends Model
             ['date_made', '<=', $last_day]
         ]);
     }
-
-    public function get_old_data(){
-        $this->name = !empty(old('name')) ? old('name') : '';
-        $this->description = !empty(old('description')) ? old('description') : '';
-        $this->amount = !empty(old('amount')) ? old('amount') : '';
-        $this->owner_id = !empty(old('owner_id')) ? old('ownder_id') : '';
-
-    }
 }

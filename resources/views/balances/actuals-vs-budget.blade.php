@@ -1,6 +1,6 @@
 <?php
 
-$month_total = $balance->monthlyTransactions()->sum('amount');
+$month_total = $balance->monthly_transactions('credit')->sum('amount');
 
 $budget_total = $balance->budget_categories()->sum('budget');
 

@@ -20,7 +20,7 @@ class BalanceController extends Controller
         $user_id = Auth::user()->id;
         $balances = Balance::where('owner_id', $user_id)->get();
 
-        return view('balances.index',compact('balances'));
+        return view('balances.index', compact('balances'));
     }
 
     /**
@@ -41,14 +41,14 @@ class BalanceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illu public function get_old_data(){
-        $this->name = !empty(old('name')) ? old('name') : '';
-        $this->description = !empty(old('description')) ? old('description') : '';
-        $this->amount = !empty(old('amount')) ? old('amount') : '';
-        $this->owner_id = !empty(old('owner_id')) ? old('ownder_id') : '';
-
-    }minate\Http\Response
+     * $this->name = !empty(old('name')) ? old('name') : '';
+     * $this->description = !empty(old('description')) ? old('description') : '';
+     * $this->amount = !empty(old('amount')) ? old('amount') : '';
+     * $this->owner_id = !empty(old('owner_id')) ? old('ownder_id') : '';
+     *
+     * }minate\Http\Response
      */
     public function store(Request $request)
     {
@@ -69,7 +69,6 @@ class BalanceController extends Controller
         $user_input['owner_id'] = Auth::user()->id;
 
 
-
         //create new balance
         $new_balance = Balance::create([
             'name' => $user_input['name'],
@@ -79,7 +78,7 @@ class BalanceController extends Controller
         ]);
 
         //create budget categories
-        for($i = 0; $i < count($user_input['budget_cat']); $i++){
+        for ($i = 0; $i < count($user_input['budget_cat']); $i++) {
             $new_cat = [];
             $new_cat['name'] = $user_input['budget_cat'][$i];
             $new_cat['description'] = !empty($user_input['budget_cat_description'][$i]) ? $user_input['budget_cat_description'][$i] : '';
@@ -99,7 +98,7 @@ class BalanceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Balance  $balance
+     * @param \App\Balance $balance
      * @return \Illuminate\Http\Response
      */
     public function show(Balance $balance)
@@ -114,7 +113,7 @@ class BalanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Balance  $balance
+     * @param \App\Balance $balance
      * @return \Illuminate\Http\Response
      */
     public function edit(Balance $balance)
@@ -126,8 +125,8 @@ class BalanceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Balance  $balance
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Balance $balance
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Balance $balance)
@@ -148,7 +147,7 @@ class BalanceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Balance  $balance
+     * @param \App\Balance $balance
      * @return \Illuminate\Http\Response
      */
     public function destroy(Balance $balance)
@@ -165,7 +164,8 @@ class BalanceController extends Controller
     }
 
 
-    private function get_old_data(){
+    private function get_old_data()
+    {
         $this->name = !empty(old('name')) ? old('name') : '';
         $this->description = !empty(old('description')) ? old('description') : '';
         $this->amount = !empty(old('amount')) ? old('amount') : '';

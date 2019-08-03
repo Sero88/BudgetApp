@@ -11,6 +11,7 @@
         </div>
         @endif
         <div class="transaction-block">
+            <p>{{$trans->budget_category->balance->name}}: {{$trans->budget_category->name}}</p>
             <p>{{ date('m-d-Y', strtotime($trans->date_made) ) }}</p>
             <p>{{$trans->transaction_type->name}}: {{$trans->amount}}</p>
             <p><a href="/transactions/{{$trans->id}}/edit">Edit</a></p>

@@ -17,12 +17,14 @@ trait Monthly
             ['date_made', '<=', $last_day],
         ];
 
+
         //if there is a specified type, add it
         if($type != 'all'){
-            $type = $type == 'credit ' ? 1 : 2;
+            $type = $type == 'credit' ? 1 : 2;
             $where_clause[] = ['type_id', '=', $type];
         }
 
+        //dd($this->transactions()->where($where_clause)->get()->all());
         return $this->transactions()->where($where_clause);
 
     }

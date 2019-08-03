@@ -35,7 +35,7 @@ class BudgetCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -46,7 +46,8 @@ class BudgetCategoryController extends Controller
      */
     public function show(BudgetCategory $budgetCategory)
     {
-        //
+        $this->authorize('update', $budgetCategory);
+        return view('budget_categories.show', compact('budgetCategory') );
     }
 
     /**

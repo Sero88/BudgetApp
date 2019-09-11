@@ -55,7 +55,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ '/balances' }}">Edit</a>
+                                    <a class="dropdown-item" href="{{ '/balances' }}">View All</a>
                                     <a class="dropdown-item" href="{{ '/balances/create' }}">New</a>
                                 </div>
 
@@ -67,7 +67,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ '/transactions' }}">Edit</a>
+                                    <a class="dropdown-item" href="{{ '/transactions' }}">View All</a>
                                     <a class="dropdown-item" href="{{ '/' }}">New</a>
                                 </div>
 

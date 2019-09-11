@@ -58,7 +58,8 @@ class BudgetCategoryController extends Controller
      */
     public function edit(BudgetCategory $budgetCategory)
     {
-        //
+
+        return view('budget_categories.edit', compact('budgetCategory'));
     }
 
     /**
@@ -70,7 +71,7 @@ class BudgetCategoryController extends Controller
      */
     public function update(Request $request, BudgetCategory $budgetCategory)
     {
-        //
+        dd($request);
     }
 
     /**

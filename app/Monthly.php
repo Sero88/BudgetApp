@@ -12,6 +12,8 @@ trait Monthly
         $first_day = date('Y-m-d H:i:s', strtotime('first day of ' . date('F Y')));
         $last_day = date('Y-m-d H:i:s', strtotime('last day of' . date('F Y') . '23:59:59'));
 
+        //dd(strtotime('first day of ' . date('F Y')));
+
         $where_clause = [
             ['date_made', '>=', $first_day],
             ['date_made', '<=', $last_day],

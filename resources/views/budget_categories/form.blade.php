@@ -3,7 +3,7 @@
     <div class="budget-cat-container">
         <div>
             <label for="budget_cat_1">Category Name</label> <br />
-            <input id="budget_cat_1" name="budget_cat[]" value="">
+            <input id="budget_cat_1" name="budget_cat[]" value="<?=$budgetCategory->name?>">
         </div>
 
         <div>

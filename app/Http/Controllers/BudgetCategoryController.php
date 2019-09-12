@@ -71,7 +71,9 @@ class BudgetCategoryController extends Controller
      */
     public function update(Request $request, BudgetCategory $budgetCategory)
     {
-        dd($request);
+        $budgetCategory->update( $this->validate_data() );
+
+        return redirect(route('budget-categories.show', ['id' => $budgetCategory->id]));
     }
 
     /**
@@ -83,5 +85,21 @@ class BudgetCategoryController extends Controller
     public function destroy(BudgetCategory $budgetCategory)
     {
         //
+    }
+
+
+    private function validate_data(){
+       $validated_data = request()->validate([
+            'budget_cat.*' => 'required',
+            'budget_cat_amount.*' => 'required|numeric|min:0.01',
+            'budget_cat_description.*' => 'nullable'
+        ]);
+
+       //get value of array
+       $budget_cat['name'] = $validated_data['budget_cat'][0];
+       $budget_cat['budget'] = $validated_data['budget_cat_amount'][0];
+       $budget_cat['description'] = $validated_data['budget_cat_description'][0];
+
+       return $budget_cat;
     }
 }

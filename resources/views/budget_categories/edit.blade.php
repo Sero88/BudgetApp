@@ -8,5 +8,5 @@
     @csrf
     <input type="submit" value="Save">
 </form>
-<?php //dd($budgetCategory); ?>
+<?php //dd($errors->all()); ?>
 @endsection

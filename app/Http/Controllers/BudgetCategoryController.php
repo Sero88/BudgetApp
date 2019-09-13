@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BudgetCategory;
 use Illuminate\Http\Request;
+use App\Balance;
 
 class BudgetCategoryController extends Controller
 {
@@ -22,9 +23,10 @@ class BudgetCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Balance $balance)
     {
-        //
+        $budgetCategory = new BudgetCategory();
+        return view('budget_categories.create', compact('balance','budgetCategory'));
     }
 
     /**
@@ -35,6 +37,7 @@ class BudgetCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        BudgetCategory::create($this->validate_data());
 
     }
 
@@ -84,7 +87,14 @@ class BudgetCategoryController extends Controller
      */
     public function destroy(BudgetCategory $budgetCategory)
     {
-        //
+        $balance = $budgetCategory->balance()->first();
+
+        //remove all associated transactions
+        $budgetCategory->remove_transactions();
+
+        $budgetCategory->delete();
+
+        return redirect(route("balances.show", ['id'=>$balance->id]) );
     }
 
 

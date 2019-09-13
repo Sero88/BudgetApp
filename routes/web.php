@@ -21,4 +21,4 @@ Route::resource('transactions', 'TransactionController');
 
 Route::resource('balances', 'BalanceController');
 
-Route::resource('budget-categories', 'BudgetCategoryController');
+Route::resource('balances/{balance}/budget-categories', 'BudgetCategoryController');

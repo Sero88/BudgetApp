@@ -17,4 +17,11 @@ class BudgetCategory extends Model
         return $this->belongsTo('\App\Balance', 'balance_id');
     }
 
+    public function remove_transactions(){
+        foreach( $this->transactions()->get()->all() as $transaction){
+            $transaction->delete();
+        }
+
+    }
+
 }

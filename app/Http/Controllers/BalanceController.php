@@ -56,8 +56,6 @@ class BalanceController extends Controller
     {
 
         //validate balance info
-
-        dd(request());
         $user_input = $request->validate(
             [
                 'name' => 'required',

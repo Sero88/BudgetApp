@@ -22,7 +22,7 @@ trait Monthly
 
         //if there is a specified type, add it
         if($type != 'all'){
-            $type = $type == 'credit' ? 1 : 2;
+            $type = $type == 'credit' ? 1 : 2; //todo change these magic numbers - replace them with eloquent get id
             $where_clause[] = ['type_id', '=', $type];
         }
 

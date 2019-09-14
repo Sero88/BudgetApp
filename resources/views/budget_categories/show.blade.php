@@ -10,6 +10,6 @@
     @if(!empty($budgetCategory->description))
 
     @endif
-    <a href="<?= route('budget-categories.edit',['id' => $budgetCategory->id])?>">Edit</a>
+    <a href="<?= route('budget-categories.edit',['budget_category' => $budgetCategory->id, 'balance' => $budgetCategory->balance->id])?>">Edit</a>
 
 @endsection

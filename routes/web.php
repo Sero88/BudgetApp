@@ -11,6 +11,10 @@
 |
 */
 
+/* app()->bind('App\MyItem', function(){
+    return new App\MyItem('123key');
+}); */
+
 Route::get('/','HomeController@index');
 
 Auth::routes();

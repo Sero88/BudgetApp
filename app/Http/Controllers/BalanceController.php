@@ -107,7 +107,7 @@ class BalanceController extends Controller
     {
         $this->authorize('update', $balance);
 
-        $transactions = $balance->transactions()->get();
+        $transactions = $balance->transactions;
 
         return view('balances.show', compact('balance', 'transactions'));
     }

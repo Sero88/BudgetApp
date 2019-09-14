@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\BudgetCategory;
+
+use App\MyItem;
 use App\Transaction;
 use App\TransactionType;
 use Illuminate\Http\Request;
@@ -27,7 +29,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         //instantiate a new transaction
         $transaction= new Transaction();
 
@@ -38,7 +39,7 @@ class HomeController extends Controller
         $user = Auth::user();
 
         //get the user balances and its budget categories
-        $cats = $user->budget_categories()->get();
+        $cats = $user->budget_categories;
 
         /*$balances = $user->balances();
         $cats = [];

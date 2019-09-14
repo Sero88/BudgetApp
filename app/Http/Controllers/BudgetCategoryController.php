@@ -35,9 +35,15 @@ class BudgetCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Balance $balance, Request $request)
     {
-        BudgetCategory::create($this->validate_data());
+        $validated_data = $this->validateData();
+        $validated_data['balance_id'] = $balance->id;
+
+        BudgetCategory::create($validated_data);
+
+        //return user to balance page
+        return redirect(route("balances.show", ['id'=>$balance->id]) );
 
     }
 
@@ -47,7 +53,7 @@ class BudgetCategoryController extends Controller
      * @param  \App\BudgetCategory  $budgetCategory
      * @return \Illuminate\Http\Response
      */
-    public function show(BudgetCategory $budgetCategory)
+    public function show(Balance $balance, BudgetCategory $budgetCategory)
     {
         $this->authorize('update', $budgetCategory);
         return view('budget_categories.show', compact('budgetCategory') );
@@ -74,7 +80,7 @@ class BudgetCategoryController extends Controller
      */
     public function update(Request $request, BudgetCategory $budgetCategory)
     {
-        $budgetCategory->update( $this->validate_data() );
+        $budgetCategory->update( $this->validateData() );
 
         return redirect(route('budget-categories.show', ['id' => $budgetCategory->id]));
     }
@@ -87,7 +93,8 @@ class BudgetCategoryController extends Controller
      */
     public function destroy(BudgetCategory $budgetCategory)
     {
-        $balance = $budgetCategory->balance()->first();
+
+        $balance = $budgetCategory->balance;
 
         //remove all associated transactions
         $budgetCategory->remove_transactions();
@@ -98,7 +105,7 @@ class BudgetCategoryController extends Controller
     }
 
 
-    private function validate_data(){
+    private function validateData(){
        $validated_data = request()->validate([
             'budget_cat.*' => 'required',
             'budget_cat_amount.*' => 'required|numeric|min:0.01',

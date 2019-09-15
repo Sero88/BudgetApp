@@ -8,7 +8,7 @@
         {{ session('message') }}
     @endcomponent
 
-    <form action="<?=route('budget-categories.store',['balance' => $balance->id])?>" method="post" >
+    <form action="<?=route( 'budget-categories.store', compact('balance') )?>" method="post" >
         @csrf
         @include('budget_categories.form')
         <input type="submit">

@@ -3,17 +3,17 @@
     <div class="budget-cat-container">
         <div>
             <label for="budget_cat_1">Category Name</label> <br />
-            <input id="budget_cat_1" name="budget_cat[]" value="<?=$budgetCategory->name?>">
+            <input id="budget_cat_1" name="budget_cat[]" value="<?=$budget_category->name?>">
         </div>
 
         <div>
             <label for="budget_cat_quantity_1">Budget Amount</label> <br />
-            <input id="budget_cat_quantity_1" name="budget_cat_amount[]" value="<?=$budgetCategory->budget?>">
+            <input id="budget_cat_quantity_1" name="budget_cat_amount[]" value="<?=$budget_category->budget?>">
         </div>
 
         <div>
             <label for="budget_cat_description_1">Description</label> <br />
-            <textarea id="budget_cat_description_1" name="budget_cat_description[]"><?=$budgetCategory->description?></textarea>
+            <textarea id="budget_cat_description_1" name="budget_cat_description[]"><?=$budget_category->description?></textarea>
         </div>
     </div>
 

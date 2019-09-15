@@ -13,9 +13,9 @@ class BudgetCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Balance $balance)
     {
-        //
+        return redirect( route('balances.show', compact ('balance') ) );
     }
 
     /**
@@ -25,8 +25,8 @@ class BudgetCategoryController extends Controller
      */
     public function create(Balance $balance)
     {
-        $budgetCategory = new BudgetCategory();
-        return view('budget_categories.create', compact('balance','budgetCategory'));
+        $budget_category = new BudgetCategory();
+        return view('budget_categories.create', compact('balance','budget_category') );
     }
 
     /**
@@ -35,7 +35,7 @@ class BudgetCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Balance $balance, Request $request)
+    public function store(Request $request, Balance $balance)
     {
         $validated_data = $this->validateData();
         $validated_data['balance_id'] = $balance->id;
@@ -43,65 +43,61 @@ class BudgetCategoryController extends Controller
         BudgetCategory::create($validated_data);
 
         //return user to balance page
-        return redirect(route("balances.show", ['id'=>$balance->id]) );
+        return redirect(route("balances.show", compact('balance')) );
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\BudgetCategory  $budgetCategory
+     * @param  \App\BudgetCategory  $budget_category
      * @return \Illuminate\Http\Response
      */
-    public function show(Balance $balance, BudgetCategory $budgetCategory)
+    public function show(Balance $balance, BudgetCategory $budget_category)
     {
-        $this->authorize('update', $budgetCategory);
-        return view('budget_categories.show', compact('budgetCategory') );
+        $this->authorize('update', $budget_category);
+        return view('budget_categories.show', compact('balance','budget_category') );
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\BudgetCategory  $budgetCategory
+     * @param  \App\BudgetCategory  $budget_category
      * @return \Illuminate\Http\Response
      */
-    public function edit(BudgetCategory $budgetCategory)
+    public function edit(Balance $balance, BudgetCategory $budget_category)
     {
-
-        return view('budget_categories.edit', compact('budgetCategory'));
+        return view('budget_categories.edit', compact('balance','budget_category'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BudgetCategory  $budgetCategory
+     * @param  \App\BudgetCategory  $budget_category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BudgetCategory $budgetCategory)
+    public function update(Request $request, Balance $balance, BudgetCategory $budget_category)
     {
-        $budgetCategory->update( $this->validateData() );
+        $budget_category->update( $this->validateData() );
 
-        return redirect(route('budget-categories.show', ['id' => $budgetCategory->id]));
+        return redirect(route('budget-categories.show', compact('balance', 'budget_category')));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\BudgetCategory  $budgetCategory
+     * @param  \App\BudgetCategory  $budget_category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BudgetCategory $budgetCategory)
+    public function destroy(Balance $balance, BudgetCategory $budget_category)
     {
-
-        $balance = $budgetCategory->balance;
-
         //remove all associated transactions
-        $budgetCategory->remove_transactions();
+        $budget_category->remove_transactions();
 
-        $budgetCategory->delete();
+        $budget_category->delete();
 
-        return redirect(route("balances.show", ['id'=>$balance->id]) );
+        return redirect(route("balances.show", compact('balance')) );
     }
 
 

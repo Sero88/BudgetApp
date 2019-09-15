@@ -1,12 +1,13 @@
 
 <h2>Budget Categories</h2>
 <ul>
-@foreach($balance->budget_categories as $cat)
+@foreach($balance->budget_categories as $budget_category)
 	<?php
 		//get cat transaction sum
-		$cat_sum = $cat->monthly_transactions('credit')->sum('amount');
+		$budget_category_sum = $budget_category->monthly_transactions('credit')->sum('amount');
+
 	?>
-		<li><a href="<?=route('budget-categories.show', ['balance'=> $balance, 'budget_category' => $cat])?>">{{$cat->name}}</a> <span class="<?= $cat_sum > $cat->budget ?'amount-over':'amount-under'?>">($<?=number_format($cat_sum, 2)?></span> / ${{$cat->budget}})</li>
+    <li><a href="<?=route( 'budget-categories.show', compact('balance', 'budget_category') )?>">{{$budget_category->name}}</a> <span class="<?= $budget_category_sum > $budget_category->budget ?'amount-over':'amount-under'?>">($<?=number_format($budget_category_sum, 2)?></span> / ${{$budget_category->budget}})</li>
 @endforeach
 </ul>
-<? //todo create new link here to create new budget cat for balance
+<a href="<?=route( 'budget-categories.create', compact('balance') )?>">New Budget Category</a>

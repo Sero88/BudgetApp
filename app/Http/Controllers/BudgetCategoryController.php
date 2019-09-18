@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BudgetCategory;
+use App\Http\Requests\BudgetCategoryRequest;
 use Illuminate\Http\Request;
 use App\Balance;
 
@@ -35,9 +36,10 @@ class BudgetCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Balance $balance)
+    public function store(BudgetCategoryRequest $request, Balance $balance)
     {
-        $validated_data = $this->validateData();
+        //$validated_data = $this->validateData();
+        $validated_data = $request->conformValidatedData();
         $validated_data['balance_id'] = $balance->id;
 
         BudgetCategory::create($validated_data);
@@ -98,21 +100,5 @@ class BudgetCategoryController extends Controller
         $budget_category->delete();
 
         return redirect(route("balances.show", compact('balance')) );
-    }
-
-
-    private function validateData(){
-       $validated_data = request()->validate([
-            'budget_cat.*' => 'required',
-            'budget_cat_amount.*' => 'required|numeric|min:0.01',
-            'budget_cat_description.*' => 'nullable'
-        ]);
-
-       //get value of array
-       $budget_cat['name'] = $validated_data['budget_cat'][0];
-       $budget_cat['budget'] = $validated_data['budget_cat_amount'][0];
-       $budget_cat['description'] = $validated_data['budget_cat_description'][0];
-
-       return $budget_cat;
     }
 }

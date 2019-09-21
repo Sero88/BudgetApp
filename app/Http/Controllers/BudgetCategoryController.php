@@ -79,9 +79,9 @@ class BudgetCategoryController extends Controller
      * @param  \App\BudgetCategory  $budget_category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Balance $balance, BudgetCategory $budget_category)
+    public function update(BudgetCategoryRequest $request, Balance $balance, BudgetCategory $budget_category)
     {
-        $budget_category->update( $this->validateData() );
+        $budget_category->update( $request->conformValidatedData() );
 
         return redirect(route('budget-categories.show', compact('balance', 'budget_category')));
     }

@@ -35,9 +35,9 @@ class BalanceController extends Controller
         $balance = new Balance();
         $this->get_old_data();
 
-        $budgetCategory = new BudgetCategory();
+        $budget_category = new BudgetCategory();
 
-        return view('balances.create', compact('balance', 'budgetCategory'));
+        return view('balances.create', compact('balance', 'budget_category'));
     }
 
     /**

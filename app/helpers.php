@@ -14,4 +14,27 @@ function get_old_budget_data($budgetCategory){
     $budgetCategory->budget = !empty( old('budget_cat_amount') ) ? $budget_cat_amount[0] : $budgetCategory->budget;
 }
 
+function transaction_details($transaction, $cat = false){
+    $date_section = date('D, M. d \a\t g:ia', strtotime($transaction->date_made) );
+    $amount_section =  get_trans_amount($transaction, '$');
+    $description = !empty($transaction->description) ? $transaction->description : '';
+
+    $cat_name = $cat == true ? $transaction->budget_category->name . html_entity_decode('&ndash;') : '';
+
+    return "$date_section : $amount_section ({$cat_name}$description)";
+}
+
+function get_trans_amount($transaction, $currency_symbol = false){
+    $amount = $transaction->transaction_type->name == 'credit' ? $transaction->amount * -1 : $transaction->amount;
+
+    //add money format with currency symbol
+    if($currency_symbol){
+        setlocale(LC_MONETARY, 'en_US.UTF-8');
+        $amount = money_format('%.2n', $amount);
+    }
+
+    return $amount;
+
+}
+
 

@@ -3,10 +3,11 @@
 
 namespace App;
 
+use App\TransactionType;
 
 trait Monthly
 {
-    public function monthly_transactions($type = 'all'){
+    public function monthlyTransactions($type = 'all'){
 
         //get first and last day of current month
         $first_day = date('Y-m-d H:i:s', strtotime('first day of ' . date('F Y')));
@@ -22,7 +23,8 @@ trait Monthly
 
         //if there is a specified type, add it
         if($type != 'all'){
-            $type = $type == 'credit' ? 1 : 2; //todo change these magic numbers - replace them with eloquent get id
+            $trans_type = new TransactionType();
+            $type = $type == 'credit' ? $trans_type->where('name', '=', 'credit')->get()->first()->id  :  $trans_type->where('name', '=', 'debit')->get()->first()->id; //todo change these magic numbers - replace them with eloquent get id
             $where_clause[] = ['type_id', '=', $type];
         }
 

@@ -60,7 +60,7 @@ class TransactionController extends Controller
 
 
         //get the transaction amount
-        $trans_amount = $saved_trans->transaction_type->name == 'credit' ? $saved_trans->amount * -1 : $saved_trans->amount;
+        $trans_amount = get_trans_amount($saved_trans);
 
         //get its corresponding balance
         $balance = $saved_trans->budget_category->balance;

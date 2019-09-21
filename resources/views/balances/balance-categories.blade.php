@@ -4,7 +4,7 @@
 @foreach($balance->budget_categories as $budget_category)
 	<?php
 		//get cat transaction sum
-		$budget_category_sum = $budget_category->monthly_transactions('credit')->sum('amount');
+		$budget_category_sum = $budget_category->monthlyTransactions('credit')->sum('amount');
 
 	?>
     <li><a href="<?=route( 'budget-categories.show', compact('balance', 'budget_category') )?>">{{$budget_category->name}}</a> <span class="<?= $budget_category_sum > $budget_category->budget ?'amount-over':'amount-under'?>">($<?=number_format($budget_category_sum, 2)?></span> / ${{$budget_category->budget}})</li>

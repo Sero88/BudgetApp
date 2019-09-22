@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Balance;
-use App\BudgetCategory;
+use App\Http\Requests\TransactionRequest;
 use App\Transaction;
 use App\TransactionType;
-use Illuminate\Auth\Access\Gate;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
@@ -41,15 +38,14 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\TransactionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TransactionRequest $request)
     {
 
         //get user input
-        $new_transaction = $this->get_validated_data();
-
+        $new_transaction = $request->validated();
 
         //get user id and time
         $new_transaction['owner_id'] = Auth::user()->id;
@@ -112,11 +108,11 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\TransactionRequest  $request
      * @param  \App\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Transaction $transaction)
+    public function update(TransactionRequest $request, Transaction $transaction)
     {
 
         //can user update this transaction
@@ -124,7 +120,7 @@ class TransactionController extends Controller
 
         //get old amount and new trans data
         $old_amount = $transaction->amount;
-        $data = $this->get_validated_data();
+        $data = $request->validated();
 
         //run update
         $transaction->update($data);
@@ -163,17 +159,4 @@ class TransactionController extends Controller
         }
         return back();
     }
-
-    private function get_validated_data(){
-        return request()->validate(
-            [
-                'amount' => 'required|numeric|min:0.01|',
-                'type_id' => 'required',
-                'budget_cat_id' => 'required',
-                'description' => 'nullable'
-            ]
-        );
-    }
-
-
 }

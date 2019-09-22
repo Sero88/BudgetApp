@@ -17,7 +17,9 @@ class BalanceController extends Controller
      */
     public function index()
     {
+
         $user_id = Auth::user()->id;
+
         $balances = Balance::where('owner_id', $user_id)->get();
 
         return view('balances.index', compact('balances'));

@@ -21,8 +21,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('transactions', 'TransactionController');
+Route::resource('transactions', 'TransactionController')->middleware('auth');
 
-Route::resource('balances', 'BalanceController');
+Route::resource('balances', 'BalanceController')->middleware('auth');
 
-Route::resource('balances/{balance}/budget-categories', 'BudgetCategoryController');
+Route::resource('balances/{balance}/budget-categories', 'BudgetCategoryController')->middleware('auth');

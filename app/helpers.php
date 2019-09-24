@@ -8,6 +8,14 @@ function get_old_trans_data($transaction){
     return $transaction;
 }
 
+function get_old_balance_data($balance){
+    $balance->name = !empty(old('name')) ? old('name') : '';
+    $balance->description = !empty(old('description')) ? old('description') : '';
+    $balance->amount = !empty(old('amount')) ? old('amount') : '';
+    $balance->owner_id = !empty(old('owner_id')) ? old('ownder_id') : '';
+    return $balance;
+}
+
 function get_old_budget_data($budgetCategory){
     $budgetCategory->name = !empty( old('budget_cat') ) ? $budget_cat[0] : $budgetCategory->name;
     $budgetCategory->description = !empty( old('budget_cat_description') ) ? $budget_cat_description[0] : $budgetCategory->description;

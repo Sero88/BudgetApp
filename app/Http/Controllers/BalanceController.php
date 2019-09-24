@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Balance;
 use App\BudgetCategory;
+use App\Http\Requests\BalanceRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,10 +33,8 @@ class BalanceController extends Controller
      */
     public function create()
     {
-        //todo add policy for balances
-
         $balance = new Balance();
-        $this->get_old_data();
+        $balance = get_old_balance_data($balance);
 
         $budget_category = new BudgetCategory();
 
@@ -46,7 +45,7 @@ class BalanceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illu public function get_old_data(){
+     * @return redirect
      * $this->name = !empty(old('name')) ? old('name') : '';
      * $this->description = !empty(old('description')) ? old('description') : '';
      * $this->amount = !empty(old('amount')) ? old('amount') : '';
@@ -54,35 +53,17 @@ class BalanceController extends Controller
      *
      * }minate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BalanceRequest $request)
     {
-
         //validate balance info
-        $user_input = $request->validate(
-            [
-                'name' => 'required',
-                'description' => 'required',
-                'amount' => 'required|numeric|min:0.01',
-//                'budget_cat' => 'size:2' in this case we require array to be of 2, but since we require all cat_names on the line below , we do not need to match amounts
-                'budget_cat.*' => 'required',
-                'budget_cat_amount.*' => 'required|numeric|min:0.01',
-                'budget_cat_description.*' => 'nullable'
-            ]
-        );
-
+        $user_input = $request->validated();
         $user_input['owner_id'] = Auth::user()->id;
 
-
         //create new balance
-        $new_balance = Balance::create([
-            'name' => $user_input['name'],
-            'description' => $user_input['description'],
-            'amount' => $user_input['amount'],
-            'owner_id' => Auth::user()->id
-        ]);
+        $balance = Balance::create($user_input);
 
         //create budget categories
-        for ($i = 0; $i < count($user_input['budget_cat']); $i++) {
+        /*for ($i = 0; $i < count($user_input['budget_cat']); $i++) {
             $new_cat = [];
             $new_cat['name'] = $user_input['budget_cat'][$i];
             $new_cat['description'] = !empty($user_input['budget_cat_description'][$i]) ? $user_input['budget_cat_description'][$i] : '';
@@ -90,12 +71,10 @@ class BalanceController extends Controller
             $new_cat['balance_id'] = $new_balance->id;
 
             BudgetCategory::create($new_cat);
-        }
+        }*/
 
-
-        session()->flash('message', 'New balance and budget categories created!');
-
-        return redirect('/balances');
+        session()->flash('message', 'New balance created! Create budget categories for ' . $balance->name );
+        return redirect( route('budget-categories.create', compact('balance') ) );
 
     }
 
@@ -133,17 +112,13 @@ class BalanceController extends Controller
      * @param \App\Balance $balance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Balance $balance)
+    public function update(BalanceRequest $request, Balance $balance)
     {
         $this->authorize('update', $balance);
-        $new_input = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'amount' => 'required|numeric|min:0.01',
-        ]);
-        $balance->update($new_input);
 
-        session()->flash('message', 'Balance was updated successfully.');
+        $balance->update($request->validated());
+
+        session()->flash('message', $balance->name . ' was updated successfully.');
 
         return redirect('/balances');
     }
@@ -157,7 +132,7 @@ class BalanceController extends Controller
     public function destroy(Balance $balance)
     {
 
-        //delete delete children relations tied to balances first then balance
+        //delete children relations tied to balances first then balance
         $balance->transactions()->delete();
         $balance->budget_categories()->delete();
         $balance->delete();
@@ -165,15 +140,5 @@ class BalanceController extends Controller
         session()->flash('message', 'Balance deleted successfully');
 
         return redirect('/balances');
-    }
-
-
-    private function get_old_data()
-    {
-        $this->name = !empty(old('name')) ? old('name') : '';
-        $this->description = !empty(old('description')) ? old('description') : '';
-        $this->amount = !empty(old('amount')) ? old('amount') : '';
-        $this->owner_id = !empty(old('owner_id')) ? old('ownder_id') : '';
-
     }
 }

@@ -132,6 +132,8 @@ class BalanceController extends Controller
     public function destroy(Balance $balance)
     {
 
+        $this->authorize('update', $balance);
+
         //delete children relations tied to balances first then balance
         $balance->transactions()->delete();
         $balance->budget_categories()->delete();

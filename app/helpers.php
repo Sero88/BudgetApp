@@ -24,12 +24,12 @@ function get_old_budget_data($budgetCategory){
 
 function transaction_details($transaction, $cat = false){
     $date_section = date('D, M. d \a\t g:ia', strtotime($transaction->date_made) );
-    $amount_section =  get_trans_amount($transaction, '$');
-    $description = !empty($transaction->description) ? $transaction->description : '';
+    $amount_section =  $transaction->amount; //get_trans_amount($transaction, '$');
+    $description = !empty($transaction->description) ? ' - ' . $transaction->description : '';
 
-    $cat_name = $cat == true ? $transaction->budget_category->name . html_entity_decode('&ndash;') : '';
+    $cat_name = $cat == true ? $transaction->budget_category->name : '';
 
-    return "$date_section : $amount_section ({$cat_name}$description)";
+    return "$date_section: $$amount_section ({$cat_name}$description)";
 }
 
 function get_trans_amount($transaction, $currency_symbol = false){

@@ -4,5 +4,5 @@
 @section('content')
     @include('balances.actuals-vs-budget')
 	@include('balances.balance-categories')
-	@include('balances.balance-transactions')
+	@include('transactions.list',['object' => $balance])
 @endsection

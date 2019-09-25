@@ -5,7 +5,7 @@
     <p>{{$budget_category->description}}</p>
 
 	@include('budget_categories.actuals-vs-budget')
-	@include('budget_categories.budget-transactions')
+	@include('transactions.list', ['object' => $budget_category])
 
     @if(!empty($budget_category->description))
 

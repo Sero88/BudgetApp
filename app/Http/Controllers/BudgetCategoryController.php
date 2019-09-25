@@ -16,6 +16,7 @@ class BudgetCategoryController extends Controller
      */
     public function index(Balance $balance)
     {
+        $this->authorize('update', $balance);
         return redirect( route('balances.show', compact ('balance') ) );
     }
 
@@ -26,6 +27,7 @@ class BudgetCategoryController extends Controller
      */
     public function create(Balance $balance)
     {
+        $this->authorize('update', $balance);
         $budget_category = new BudgetCategory();
         return view('budget_categories.create', compact('balance','budget_category') );
     }
@@ -38,6 +40,9 @@ class BudgetCategoryController extends Controller
      */
     public function store(BudgetCategoryRequest $request, Balance $balance)
     {
+
+        $this->authorize('update', $balance);
+
         //$validated_data = $this->validateData();
         $validated_data = $request->conformValidatedData();
         $validated_data['balance_id'] = $balance->id;
@@ -69,6 +74,7 @@ class BudgetCategoryController extends Controller
      */
     public function edit(Balance $balance, BudgetCategory $budget_category)
     {
+        $this->authorize('update', $budget_category);
         return view('budget_categories.edit', compact('balance','budget_category'));
     }
 
@@ -81,6 +87,7 @@ class BudgetCategoryController extends Controller
      */
     public function update(BudgetCategoryRequest $request, Balance $balance, BudgetCategory $budget_category)
     {
+        $this->authorize('update', $budget_category);
         $budget_category->update( $request->conformValidatedData() );
 
         return redirect(route('budget-categories.show', compact('balance', 'budget_category')));
@@ -94,6 +101,8 @@ class BudgetCategoryController extends Controller
      */
     public function destroy(Balance $balance, BudgetCategory $budget_category)
     {
+        $this->authorize('update', $budget_category);
+
         //remove all associated transactions
         $budget_category->remove_transactions();
 

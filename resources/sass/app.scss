@@ -4,7 +4,129 @@
 // Variables
 @import 'variables';
 
+
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+//resets
+@import 'resets';
+
+// Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.navbar{
+    background-color: #444;
+
+    .navbar-brand{
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .navbar-toggler{
+        background-color: transparent;
+        border: none;
+        color: $primary-color;
+    }
+
+    .navbar-nav{
+        .nav-link{
+            color: $primary-color;
+        }
+    }
+}
+
+.card {
+    background-color: $main-bg;
+    border: none;
+    border-radius: 0;
+    padding: 50px 45px 45px 45px;
+    @include bx-shadow();
+
+    .card-header {
+        background-color: transparent;
+        border: 0;
+        padding: 0;
+        margin-bottom: 30px;
+    }
+
+    .card-body{
+        padding: 0;
+
+        form{
+
+            div{
+                margin-bottom: 25px;
+            }
+
+            label{
+                color: $label-color;
+                padding: 0;
+                margin: 0;
+            }
+
+            input, select, textarea{
+                width: 100%;
+                border: 0;
+                margin: 0;
+                background-color: transparent;
+                color: $primary-color;
+                border-bottom: 1px solid #767e84;
+                font-size: 1.5rem;
+                -webkit-appearance: none;
+                box-shadow: none;
+                outline: none;
+            }
+
+            input{
+                font-size: 4.50rem;
+                text-align: center;
+                border-bottom: 0;
+            }
+
+            textarea{
+                resize: none;
+            }
+
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            input[type=number] {
+                -moz-appearance:textfield;
+            }
+
+            textarea, select{
+                font-size: 1.25rem;
+            }
+        }
+    }
+}
+
+.button{
+    color: $body-bg;
+    padding: 5px 20px;
+    width: 100%;
+    background-color: $main-bg;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 1s all;
+    border-top: 2px solid $body-bg;
+    border-left: 2px solid $body-bg;
+    border-right: 2px solid #a0a0a0;
+    border-bottom: 2px solid #a0a0a0;
+    margin-top: 25px;
+
+    &:hover{
+        color: $primary-color;
+        border: 2px solid $main-bg;
+        border-bottom: 2px solid $primary-color;
+    }
+}
 
 

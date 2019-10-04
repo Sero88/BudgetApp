@@ -5,8 +5,7 @@
 
 
 <div>
-    <label for="#trans-amount">Amount</label><br>
-    <input id="trans-amount" type="number" name="amount" min="0.01" step="0.01" value="<?=$transaction->amount?>" required>
+    <input aria-label="amount" id="trans-amount" placeholder="0" type="number" name="amount" min="0.01" step="0.01" value="<?=$transaction->amount?>" required>
 </div>
 
 <div>
@@ -32,8 +31,9 @@
 <div>
     <label for="description">Description</label><br>
     <textarea name="description">{{$transaction->description}}</textarea>
+
 </div>
 
-<?php print_r($errors->all()); ?>
+<?php //print_r($errors->all()); ?>
 
 

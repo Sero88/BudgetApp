@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
 {
@@ -17,10 +18,9 @@ class Transaction extends Model
         return $this->belongsTo(TransactionType::class, 'type_id');
     }
 
-    /*public function balance(){
-        return $this->hasOneThrough('\App\Balance', '\App\BudgetCategory', 'balance_id');
-
-    }*/
+    public function balance(){
+        return $this->hasOneThrough('\App\Balance', '\App\BudgetCategory', 'balance_id', 'id');
+    }
 
 
 }

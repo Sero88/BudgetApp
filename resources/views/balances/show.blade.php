@@ -2,7 +2,7 @@
 @section('title', $balance->name)
 
 @section('content')
-    @include('balances.actuals-vs-budget')
+    <p>{{$balance->amount}}</p>
 	@include('balances.balance-categories')
 	@include('transactions.list',['object' => $balance])
 @endsection

@@ -19,5 +19,23 @@ class TransactionsTableSeeder extends Seeder
             'description' => 'testing seeder transaction',
             'date_made' => now()
         ]);
+
+        DB::Table('transactions')->insert([
+            'amount' => 200,
+            'type_id' => 1,
+            'budget_cat_id' => 1,
+            'owner_id' => 1,
+            'description' => 'testing seeder transaction 2',
+            'date_made' => now()
+        ]);
+
+        DB::Table('transactions')->insert([
+            'amount' => 100,
+            'type_id' => 2,
+            'budget_cat_id' => 1,
+            'owner_id' => 1,
+            'description' => 'Debit. Testing seeder transaction 3',
+            'date_made' => now()
+        ]);
     }
 }

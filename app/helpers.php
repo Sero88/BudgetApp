@@ -16,6 +16,16 @@ function get_old_balance_data($balance){
     return $balance;
 }
 
+function get_old_recurring_trans_data($recurringTransaction){
+    $recurringTransaction->amount = !empty(old('amount')) ? old('amount') : $recurringTransaction->amount;
+    $recurringTransaction->type_id = !empty(old('type_id')) ? old('type_id') : $recurringTransaction->type_id;
+    $recurringTransaction->interval_id = !empty(old('interval_id')) ? old('interval_id') : $recurringTransaction->interval_id;
+    $recurringTransaction->budget_cat_id = !empty(old('budget_cat_id')) ? old('budget_cat_id') : $recurringTransaction->budget_cat_id;
+    $recurringTransaction->description = !empty(old('description')) ? old('description') : $recurringTransaction->description;
+    $recurringTransaction->day_of_month = !empty(old('day_of_month')) ? old('day_of_month') : $recurringTransaction->day_of_month;
+    return $recurringTransaction;
+}
+
 function get_old_budget_data($budgetCategory){
     $budgetCategory->name = !empty( old('budget_cat') ) ? $budget_cat[0] : $budgetCategory->name;
     $budgetCategory->description = !empty( old('budget_cat_description') ) ? $budget_cat_description[0] : $budgetCategory->description;

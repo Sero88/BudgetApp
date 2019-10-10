@@ -5,7 +5,7 @@
 
 
 <div>
-    <label for="#trans-amount">Amount</label><br>
+    <label for="trans-amount">Amount</label><br>
     <input id="trans-amount" type="number" name="amount" min="0.01" step="0.01" value="<?=$recurringTransaction->amount?>" required>
 </div>
 
@@ -30,10 +30,21 @@
 </div>
 
 <div>
+    <label for="day_of_month">Begin Date</label><br>
+    <input id="day_of_month" class="datepicker" type="text" name="day_of_month" value="<?=$recurringTransaction->day_of_month?>" required>
+</div>
+
+<div>
+    <label for="inverval">Interval</label><br>
+    <select id="interval" name="interval_id">
+        @foreach($intervals as $interval)
+            <?php $selected = $recurringTransaction->inverval_id == $interval->id ? ' selected' : '';?>
+            <option value="{{$interval->id}}"<?=$selected?>>{{$interval->name}}</option>
+        @endforeach()
+    </select></div>
+
+<div>
     <label for="description">Description</label><br>
     <textarea name="description">{{$recurringTransaction->description}}</textarea>
 </div>
-
-<?php print_r($errors->all()); ?>
-
 

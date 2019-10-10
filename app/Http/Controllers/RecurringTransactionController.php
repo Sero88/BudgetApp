@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\RecurringTransaction;
+use App\TransactionInterval;
+use App\TransactionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class RecurringTransactionController extends Controller
 {
@@ -27,11 +30,22 @@ class RecurringTransactionController extends Controller
     {
         $recurringTransaction = new RecurringTransaction();
         $recurringTransaction = get_old_recurring_trans_data($recurringTransaction);
-        return view('recurring-transactions.create', compact('recurringTransaction'));
+        //get transaction types
+        $types = TransactionType::all();
+
+        //get budget cats
+        $user = Auth::user();
+        $cats = $user->budget_categories;
+
+        //get intervals
+        $intervals = TransactionInterval::all();
+
+        //return view
+        return view('recurring-transactions.create', compact('recurringTransaction', 'types', 'cats', 'intervals'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage.b
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

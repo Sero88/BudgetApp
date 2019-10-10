@@ -25,7 +25,7 @@ class CreateRecurringTransactionsTable extends Migration
             $table->timestamps();
 
             $table->foreign('owner_id')->references('id')->on('users');
-            $table->foreign('interval_id')->references('id')->on('intervals');
+            $table->foreign('interval_id')->references('id')->on('transaction_intervals');
             $table->foreign('transaction_type')->references('id')->on('transaction_types');
             $table->foreign('budget_cat_id')->references('id')->on('budget_categories');
         });

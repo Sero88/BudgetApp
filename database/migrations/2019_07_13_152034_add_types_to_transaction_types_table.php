@@ -23,6 +23,26 @@ class AddTypesToTransactionTypesTable extends Migration
                 'name' => 'debit',
             ]
         );
+
+        DB::table('transaction_intervals')->insert([
+            'name' => 'daily',
+            'days_amount' => 1
+        ]);
+
+        DB::table('transaction_intervals')->insert([
+            'name' => 'weekly',
+            'days_amount' => 7
+        ]);
+
+        DB::table('transaction_intervals')->insert([
+            'name' => 'biweekly',
+            'days_amount' => 14
+        ]);
+
+        DB::table('transaction_intervals')->insert([
+            'name' => 'monthly',
+            'days_amount' => 30
+        ]);
     }
 
     /**

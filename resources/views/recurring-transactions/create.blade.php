@@ -11,13 +11,13 @@
     <form action="<?=route( 'recurring-transactions.store', compact('recurringTransaction') )?>" method="post" >
         @csrf
         @include('recurring-transactions.form')
-        <input type="submit">
+        <input type="submit" value="Save">
     </form>
 
-    @if($errors->any())
+
+    @if( $errors->any())
         @foreach($errors->all() as $error)
             {{$error}}
         @endforeach
-
     @endif
 @endsection

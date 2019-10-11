@@ -8,7 +8,7 @@
         {{ session('message') }}
     @endcomponent
 
-    <form action="<?=route( 'recurring-transactions.store', compact('recurringTransaction') )?>" method="post" >
+    <form action="<?=route( 'recurring-transactions.store' )?>" method="post" >
         @csrf
         @include('recurring-transactions.form')
         <input type="submit" value="Save">

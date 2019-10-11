@@ -38,7 +38,9 @@ window.$ = window.jQuery = $;
 import 'jquery-ui/ui/widgets/datepicker.js';
 
 $(document).ready(function(){
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({
+        minDate:'+1D'
+    });
 });
 
 

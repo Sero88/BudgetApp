@@ -11,7 +11,7 @@
 
 <div>
     <label for="type_id">Type</label><br>
-    <select id="type_id" name="type_id">
+    <select id="type_id" name="transaction_type">
         @foreach($types as $type)
             <?php  $selected = $recurringTransaction->type_id == $type->id ? ' selected' : ''; ?>
             <option value="{{$type->id}}"<?=$selected?>>{{$type->name}}</option>

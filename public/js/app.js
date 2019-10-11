@@ -39154,7 +39154,9 @@ const app = new Vue({
 window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker({
+    minDate: '+1D'
+  });
 });
 
 /***/ }),

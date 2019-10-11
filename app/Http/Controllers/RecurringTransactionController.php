@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RecurringTransactionRequest;
 use App\RecurringTransaction;
 use App\TransactionInterval;
 use App\TransactionType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,9 +52,25 @@ class RecurringTransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RecurringTransactionRequest $request)
     {
-        //
+
+        //dd(Carbon::now()->add(15, 'day'));
+        $data = $request->validated();
+
+
+        $user_id  = Auth::user()->id;
+        $data['owner_id'] = $user_id;
+
+        $data['day_of_month'] = dd(Carbon::create(Carbon::create($data['day_of_month'])->toDateString()));
+
+
+
+
+        $recurring = RecurringTransaction::create($data);
+
+        dd($recurring);
+
     }
 
     /**
@@ -63,7 +81,7 @@ class RecurringTransactionController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

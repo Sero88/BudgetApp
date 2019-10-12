@@ -25,6 +25,7 @@ class RecurringTransactionRequest extends FormRequest
     {
 
         return [
+            'name' => 'required',
             'amount' => 'required|numeric|min:0.01|',
             'transaction_type' => 'required',
             'budget_cat_id' => 'required',

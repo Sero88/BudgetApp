@@ -3,6 +3,10 @@
 @endif
 
 
+<div>
+    <label for="trans-name">Name</label><br>
+    <input id="trans-name" type="text" name="name" value="<?=$recurringTransaction->name?>" required>
+</div>
 
 <div>
     <label for="trans-amount">Amount</label><br>
@@ -31,7 +35,7 @@
 
 <div>
     <label for="day_of_month">Begin Date</label><br>
-    <input id="day_of_month" class="datepicker" type="text" name="day_of_month" value="<?=$recurringTransaction->day_of_month?>" required>
+    <input id="day_of_month" class="datepicker" readonly type="text" name="day_of_month" value="<?=$recurringTransaction->day_of_month?>" required>
 </div>
 
 <div>

@@ -15,6 +15,7 @@ class CreateRecurringTransactionsTable extends Migration
     {
         Schema::create('recurring_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
             $table->decimal('amount',8,2)->unsigned();
             $table->date('day_of_month');
             $table->unsignedBigInteger('interval_id');

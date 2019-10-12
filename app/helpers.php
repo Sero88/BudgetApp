@@ -17,6 +17,7 @@ function get_old_balance_data($balance){
 }
 
 function get_old_recurring_trans_data($recurringTransaction){
+    $recurringTransaction->name = !empty(old('name')) ? old('name') : $recurringTransaction->name;
     $recurringTransaction->amount = !empty(old('amount')) ? old('amount') : $recurringTransaction->amount;
     $recurringTransaction->type_id = !empty(old('type_id')) ? old('type_id') : $recurringTransaction->type_id;
     $recurringTransaction->interval_id = !empty(old('interval_id')) ? old('interval_id') : $recurringTransaction->interval_id;

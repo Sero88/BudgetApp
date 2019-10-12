@@ -55,21 +55,15 @@ class RecurringTransactionController extends Controller
     public function store(RecurringTransactionRequest $request)
     {
 
-        //dd(Carbon::now()->add(15, 'day'));
         $data = $request->validated();
-
 
         $user_id  = Auth::user()->id;
         $data['owner_id'] = $user_id;
-
-        $data['day_of_month'] = dd(Carbon::create(Carbon::create($data['day_of_month'])->toDateString()));
-
-
-
+        $data['day_of_month'] = Carbon::create($data['day_of_month'])->toDateString();
 
         $recurring = RecurringTransaction::create($data);
 
-        dd($recurring);
+        return redirect( route('recurring-transactions.index') );
 
     }
 

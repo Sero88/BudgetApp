@@ -67,8 +67,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ '/transactions' }}">View All</a>
-                                    <a class="dropdown-item" href="{{ '/' }}">New</a>
+                                    <a class="dropdown-item" href="{{ route('transactions.index') }}">View All</a>
+                                    <a class="dropdown-item" href="{{ route('transactions.create') }}">New</a>
+                                    <span class="dropdown-item">---</span>
+                                    <a class="dropdown-item" href="{{ route('recurring-transactions.index') }}">Recurring</a>
+
                                 </div>
 
                             </li>

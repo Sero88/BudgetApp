@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create New Budget Category')
+@section('title', 'New Recurring Transaction')
 
 @section('content')
 

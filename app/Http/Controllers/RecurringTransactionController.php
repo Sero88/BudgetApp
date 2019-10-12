@@ -7,7 +7,6 @@ use App\RecurringTransaction;
 use App\TransactionInterval;
 use App\TransactionType;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -49,7 +48,7 @@ class RecurringTransactionController extends Controller
     /**
      * Store a newly created resource in storage.b
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\RecurringTransactionRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(RecurringTransactionRequest $request)
@@ -70,45 +69,64 @@ class RecurringTransactionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  RecurringTransaction $recurringTransaction
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(RecurringTransaction $recurringTransaction)
     {
-
+        return redirect(route('recurring-transactions.index'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  RecurringTransaction $recurringTransaction
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(RecurringTransaction $recurringTransaction)
     {
-        //
+        $this->authorize('update', $recurringTransaction);
+
+        //get transaction types
+        $types = TransactionType::all();
+
+        //get budget cats
+        $user = Auth::user();
+        $cats = $user->budget_categories;
+
+        //get intervals
+        $intervals = TransactionInterval::all();
+
+        return view('recurring-transactions.edit', compact('recurringTransaction', 'types', 'cats', 'intervals'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  App\Http\Requests\RecurringTransactionRequest $request
+     * @param  RecurringTransaction $recurringTransaction
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RecurringTransactionRequest $request, RecurringTransaction $recurringTransaction)
     {
-        //
+        $this->authorize('update', $recurringTransaction);
+        $data = $request->validated();
+        $recurringTransaction->update($data);
+
+        return redirect(route('recurring-transactions.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param RecurringTransaction $recurringTransaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(RecurringTransaction $recurringTransaction)
     {
-        //
+        $this->authorize('update', $recurringTransaction);
+        $recurringTransaction->delete();
+
+        return redirect(route('recurring-transactions.index'));
     }
 }

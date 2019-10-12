@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Transaction' => 'App\Policies\TransactionPolicy',
+        'App\RecurringTransaction' => 'App\Policies\RecurringTransactionPolicy',
         'App\Balance' => 'App\Policies\BalancePolicy',
         'App\BudgetCategory' => 'App\Policies\BudgetCategoryPolicy',
     ];

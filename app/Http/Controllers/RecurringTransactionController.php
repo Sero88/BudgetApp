@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class RecurringTransactionController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('cron.key', ['only' => ['cron']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -128,5 +133,10 @@ class RecurringTransactionController extends Controller
         $recurringTransaction->delete();
 
         return redirect(route('recurring-transactions.index'));
+    }
+
+    public function cron(){
+        $this->middleware('cron.key');
+
     }
 }

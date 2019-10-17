@@ -228,4 +228,7 @@ return [
 
     ],
 
+    // Key is used to verify request can be executed
+    'recurring_trans_cron_key' => env('RECURRING_TRANS_CRON_KEY', false),
+
 ];

@@ -17,7 +17,7 @@ class VerifyCronKey extends Middleware
     public function handle($request, Closure $next)
     {
         if( !isset($request['key']) || $request['key'] != config('app.recurring_trans_cron_key') ){
-            exit;
+            abort(404);
         }
 
         return $next($request);

@@ -26,22 +26,26 @@ class AddTypesToTransactionTypesTable extends Migration
 
         DB::table('transaction_intervals')->insert([
             'name' => 'daily',
-            'days_amount' => 1
+            'amount' => 1,
+            'unit' => 'day'
         ]);
 
         DB::table('transaction_intervals')->insert([
             'name' => 'weekly',
-            'days_amount' => 7
+            'amount' => 1,
+            'unit' => 'week'
         ]);
 
         DB::table('transaction_intervals')->insert([
             'name' => 'biweekly',
-            'days_amount' => 14
+            'amount' => 2,
+            'unit' => 'week'
         ]);
 
         DB::table('transaction_intervals')->insert([
             'name' => 'monthly',
-            'days_amount' => 30
+            'amount' => 1,
+            'unit' => 'month'
         ]);
     }
 

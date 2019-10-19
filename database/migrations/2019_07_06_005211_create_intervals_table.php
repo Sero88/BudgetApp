@@ -16,7 +16,8 @@ class CreateIntervalsTable extends Migration
         Schema::create('transaction_intervals', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 25);
-            $table->unsignedBigInteger('days_amount');
+            $table->unsignedBigInteger('amount');
+            $table->string('unit', 25);
             $table->timestamps();
         });
     }

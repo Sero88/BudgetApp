@@ -21,10 +21,12 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('budget_cat_id');
             $table->text('description')->nullable();
             $table->dateTime('date_made');
+            $table->unsignedBigInteger('recurring_trans_id')->nullable();
 
             $table->foreign('owner_id')->references('id')->on('users');
             $table->foreign('type_id')->references('id')->on('transaction_types');
             $table->foreign('budget_cat_id')->references('id')->on('budget_categories');
+            $table->foreign('recurring_trans_id')->references('id')->on('recurring_transactions');
         });
     }
 

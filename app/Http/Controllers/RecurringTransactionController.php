@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RecurringTransactionRequest;
 use App\RecurringTransaction;
+use App\Services\RecurringTransactionCron;
 use App\TransactionInterval;
 use App\TransactionType;
 use Carbon\Carbon;
@@ -135,8 +136,13 @@ class RecurringTransactionController extends Controller
         return redirect(route('recurring-transactions.index'));
     }
 
-    public function cron(){
+    public function cron(RecurringTransaction $recurringTransaction){
         $this->middleware('cron.key');
+
+        //get recurring transactions
+
+        $recurringTransaction->executeUpcomingTransactions($recurringTransaction->upcomingTransactions());
+
 
     }
 }

@@ -43,7 +43,6 @@ class TransactionController extends Controller
      */
     public function store(TransactionRequest $request)
     {
-
         //get user input
         $new_transaction = $request->validated();
 
@@ -52,17 +51,7 @@ class TransactionController extends Controller
         $new_transaction['date_made'] = now();
 
         //save the transaction
-        $saved_trans = Transaction::create($new_transaction);
-
-
-        //get the transaction amount
-        $trans_amount = get_trans_amount($saved_trans);
-
-        //get its corresponding balance
-        $balance = $saved_trans->budget_category->balance;
-
-        //update balance amount
-        $balance->update(['amount' => $balance->amount + $trans_amount ]);
+        Transaction::createTransaction($new_transaction);
 
         //user feedback
         $request->session()->flash('message','Transaction created successfully.');

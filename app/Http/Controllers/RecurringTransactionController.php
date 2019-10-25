@@ -137,12 +137,23 @@ class RecurringTransactionController extends Controller
     }
 
     public function cron(RecurringTransaction $recurringTransaction){
+        //verify key is used
         $this->middleware('cron.key');
 
         //get recurring transactions
+        $upcomingTransactions = $recurringTransaction->upcomingTransactions();
 
-        $recurringTransaction->executeUpcomingTransactions($recurringTransaction->upcomingTransactions());
+        //execute any recurring transactions
+        //including past ones (meaning if the cron was missed for some reason, still executes past transactions)
+        //example - cron didn't run for 2 days. Recurring trans is set to daily, once it runs it will still increase by 1 day and run each of the two
+        while( $upcomingTransactions->isNotEmpty() ){
 
+            //execute transactions
+            $recurringTransaction->executeRecurringTransactions($upcomingTransactions);
+
+            //get upcoming transactions
+            $upcomingTransactions = $recurringTransaction->upcomingTransactions();
+        }
 
     }
 }

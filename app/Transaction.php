@@ -22,5 +22,19 @@ class Transaction extends Model
         return $this->hasOneThrough('\App\Balance', '\App\BudgetCategory', 'balance_id', 'id');
     }
 
+    public function recurringTransaction(){
+        return $this->belongsTo(RecurringTransaction::class, 'recurring_trans_id');
+    }
+
+    public static function createTransaction($transaction){
+
+        $savedTrans = Transaction::create($transaction);
+
+        //get its corresponding balance
+        $balance = $savedTrans->budget_category->balance;
+
+        //update balance with transaction
+        $balance->balanceUpdate($savedTrans);
+    }
 
 }

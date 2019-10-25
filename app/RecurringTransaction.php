@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use \App\Transaction;
 
 class RecurringTransaction extends Model
 {
@@ -30,7 +31,7 @@ class RecurringTransaction extends Model
         return $this->where('day_of_month', '<=', Carbon::now()->toDateString())->get();
     }
 
-    public function executeUpcomingTransactions($transactions) {
+    public function executeRecurringTransactions($transactions) {
 
 
         foreach($transactions as $trans){
@@ -41,15 +42,17 @@ class RecurringTransaction extends Model
                 'owner_id' => $trans->owner_id,
                 'description' => $trans->description,
                 'date_made' => now(),
-                'recurring_trans_id' => $trans->id,
+                'recurring_trans_id' => $trans->id
+
             ];
 
             //create transaction
-            $newTrans = $this->transactions()->create($data);
+            $newTrans = Transaction::create($data);
 
-            //if trans successful, change day next transaction based off of its interval
+            //if transaction was successful, change day of next transaction based off of its interval
             if( !empty($newTrans) ) {
-                echo Carbon::create($trans->day_of_month)->add($trans->transactionInterval->amount, $trans->transactionInterval->unit)->toDateString();
+                $new_date = Carbon::create($trans->day_of_month)->add($trans->transactionInterval->amount, $trans->transactionInterval->unit)->toDateString();
+                $trans->update( ['day_of_month' => $new_date] );
             }
         }
 

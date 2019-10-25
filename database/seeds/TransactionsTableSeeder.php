@@ -17,7 +17,8 @@ class TransactionsTableSeeder extends Seeder
             'budget_cat_id' => 1,
             'owner_id' => 1,
             'description' => 'testing seeder transaction',
-            'date_made' => now()
+            'date_made' => now(),
+            'recurring_trans_id' => 1
         ]);
 
         DB::Table('transactions')->insert([

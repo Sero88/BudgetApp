@@ -23,4 +23,12 @@ class Balance extends Model
         return $this->hasManyThrough(Transaction::class, BudgetCategory::class, 'balance_id', 'budget_cat_id');
     }
 
+    public function balanceUpdate($transaction){
+        //get the transaction amount
+        $trans_amount = get_trans_amount($transaction);
+
+        //update balance amount
+        $this->update(['amount' => $this->amount + $trans_amount ]);
+    }
+
 }

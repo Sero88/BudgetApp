@@ -35,6 +35,8 @@ class Transaction extends Model
 
         //update balance with transaction
         $balance->balanceUpdate($savedTrans);
+
+        return $savedTrans;
     }
 
 }

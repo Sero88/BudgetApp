@@ -33,7 +33,6 @@ class RecurringTransaction extends Model
 
     public function executeRecurringTransactions($transactions) {
 
-
         foreach($transactions as $trans){
             $data = [
                 'amount' => $trans->amount,
@@ -43,16 +42,18 @@ class RecurringTransaction extends Model
                 'description' => $trans->description,
                 'date_made' => now(),
                 'recurring_trans_id' => $trans->id
-
             ];
 
             //create transaction
-            $newTrans = Transaction::create($data);
+            $newTrans = Transaction::createTransaction($data);
 
             //if transaction was successful, change day of next transaction based off of its interval
-            if( !empty($newTrans) ) {
+            if( !empty($newTrans->date_made) ) {
                 $new_date = Carbon::create($trans->day_of_month)->add($trans->transactionInterval->amount, $trans->transactionInterval->unit)->toDateString();
                 $trans->update( ['day_of_month' => $new_date] );
+                return true;
+            } else{
+                return false;
             }
         }
 

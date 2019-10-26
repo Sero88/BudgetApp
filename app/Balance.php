@@ -25,10 +25,11 @@ class Balance extends Model
 
     public function balanceUpdate($transaction){
         //get the transaction amount
-        $trans_amount = get_trans_amount($transaction);
+        $transAmount = $transaction->transaction_type->name == 'credit' ? $transaction->amount * -1 : $transaction->amount;
 
         //update balance amount
-        $this->update(['amount' => $this->amount + $trans_amount ]);
+        $this->update(['amount' => $this->amount + $transAmount ]);
+
     }
 
 }

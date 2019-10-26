@@ -42,18 +42,3 @@ function transaction_details($transaction, $cat = false){
 
     return "$date_section: $$amount_section ({$cat_name}$description)";
 }
-
-function get_trans_amount($transaction, $currency_symbol = false){
-    $amount = $transaction->transaction_type->name == 'credit' ? $transaction->amount * -1 : $transaction->amount;
-
-    //add money format with currency symbol
-    if($currency_symbol){
-        setlocale(LC_MONETARY, 'en_US.UTF-8');
-        $amount = money_format('%.2n', $amount);
-    }
-
-    return $amount;
-
-}
-
-

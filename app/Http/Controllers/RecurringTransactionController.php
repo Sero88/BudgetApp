@@ -149,15 +149,10 @@ class RecurringTransactionController extends Controller
         while( $upcomingTransactions->isNotEmpty() ){
 
             //execute transactions
-            $success = $recurringTransaction->executeRecurringTransactions($upcomingTransactions);
+            $recurringTransaction->executeRecurringTransactions($upcomingTransactions);
 
-            if( $success == true){
-                //get upcoming transactions
-                $upcomingTransactions = $recurringTransaction->upcomingTransactions();
-            } else{
-                $upcomingTransactions = collect([]);
-            }
-
+            //get new upcoming transactions
+            $upcomingTransactions = $recurringTransaction->upcomingTransactions();
         }
 
     }

@@ -29,7 +29,6 @@ class Balance extends Model
 
         //update balance amount
         $this->update(['amount' => $this->amount + $transAmount ]);
-
     }
 
 }

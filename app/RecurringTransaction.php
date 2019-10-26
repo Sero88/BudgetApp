@@ -45,19 +45,12 @@ class RecurringTransaction extends Model
             ];
 
             //create transaction
-            $newTrans = Transaction::createTransaction($data);
+            Transaction::createTransaction($data);
 
-            //if transaction was successful, change day of next transaction based off of its interval
-            if( !empty($newTrans->date_made) ) {
-                $new_date = Carbon::create($trans->day_of_month)->add($trans->transactionInterval->amount, $trans->transactionInterval->unit)->toDateString();
-                $trans->update( ['day_of_month' => $new_date] );
-                return true;
-            } else{
-                return false;
-            }
+            //update the date of the recurring transaction
+            $new_date = Carbon::create($trans->day_of_month)->add($trans->transactionInterval->amount, $trans->transactionInterval->unit)->toDateString();
+            $trans->update( ['day_of_month' => $new_date] );
+
         }
-
-
-
     }
 }

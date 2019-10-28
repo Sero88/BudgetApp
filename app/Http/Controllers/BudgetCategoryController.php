@@ -28,14 +28,15 @@ class BudgetCategoryController extends Controller
     public function create(Balance $balance)
     {
         $this->authorize('update', $balance);
-        $budget_category = new BudgetCategory();
-        return view('budget_categories.create', compact('balance','budget_category') );
+        $budgetCategory = new BudgetCategory();
+        $budgetCategory = get_old_budget_data($budgetCategory);
+        return view('budget_categories.create', compact('balance','budgetCategory') );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\BudgetCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(BudgetCategoryRequest $request, Balance $balance)
@@ -81,7 +82,7 @@ class BudgetCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\BudgetCategoryRequest  $request
      * @param  \App\BudgetCategory  $budget_category
      * @return \Illuminate\Http\Response
      */

@@ -20,7 +20,7 @@
                 <form method="post" action="{{route('transactions.destroy', compact('trans'))}}">
                     @csrf
                     @method('DELETE')
-                    <button type="submit">Delete</button>
+                    <button type="submit" class="delete-button">Delete</button>
                 </form>
             </div>
         </div>

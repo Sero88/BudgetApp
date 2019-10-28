@@ -138,8 +138,7 @@ class TransactionController extends Controller
     {
         $this->authorize('update', $transaction);
 
-
-        $deleted = $transaction->delete();
+        $deleted = Transaction::deleteTransaction($transaction);
 
         if($deleted){
             session()->flash('message', 'You have successfully deleted the transaction');

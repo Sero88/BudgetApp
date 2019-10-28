@@ -38,9 +38,19 @@ window.$ = window.jQuery = $;
 import 'jquery-ui/ui/widgets/datepicker.js';
 
 $(document).ready(function(){
+    //datepicker fields
     $('.datepicker').datepicker({
         minDate:'+1D'
     });
+
+    //delete buttons confirmation
+    $('.delete-button').click(function(e){
+        if( !confirm('Are you sure you want to delete') ){
+            e.preventDefault();
+            return;
+        }
+    });
+
 });
 
 

@@ -33,6 +33,13 @@ class BalanceController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+
+        //todo - only 1 balance allowed now - later on version 2 will allow multiple balances
+        if( count($user->balances) >= 1 ){
+            return redirect( route('balances.index') );
+        }
+
         $balance = new Balance();
         $balance = get_old_balance_data($balance);
 
@@ -44,7 +51,7 @@ class BalanceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\BalanceRequest
      * @return redirect
      * $this->name = !empty(old('name')) ? old('name') : '';
      * $this->description = !empty(old('description')) ? old('description') : '';
@@ -108,7 +115,7 @@ class BalanceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\BalanceRequest $request
      * @param \App\Balance $balance
      * @return \Illuminate\Http\Response
      */

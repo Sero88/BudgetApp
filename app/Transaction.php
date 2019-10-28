@@ -39,4 +39,15 @@ class Transaction extends Model
         return $savedTrans;
     }
 
+    public static function deleteTransaction($transaction){
+        //get its corresponding balance
+        $balance = $transaction->budget_category->balance;
+
+        //update balance with transaction
+        $balance->balanceUpdate($transaction, 'delete');
+
+        return $transaction->delete();
+
+    }
+
 }

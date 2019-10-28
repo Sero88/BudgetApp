@@ -23,9 +23,13 @@ class Balance extends Model
         return $this->hasManyThrough(Transaction::class, BudgetCategory::class, 'balance_id', 'budget_cat_id');
     }
 
-    public function balanceUpdate($transaction){
+    public function balanceUpdate($transaction, $action = 'create'){
         //get the transaction amount
         $transAmount = $transaction->transaction_type->name == 'credit' ? $transaction->amount * -1 : $transaction->amount;
+
+        if($action == 'delete'){
+            $transAmount *= -1; //opposite since we are reverting transaction
+        }
 
         //update balance amount
         $this->update(['amount' => $this->amount + $transAmount ]);

@@ -1,7 +1,7 @@
 
 <h2>Budget Categories</h2>
 <ul>
-@foreach($balance->budget_categories as $budget_category)
+@foreach($balance->budget_categories->sortBy('name') as $budget_category)
 	<?php
 		//get cat transaction sum
 		$budget_category_sum = $budget_category->monthlyTransactions('credit')->sum('amount');

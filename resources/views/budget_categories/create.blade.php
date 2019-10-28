@@ -11,7 +11,7 @@
     <form action="<?=route( 'budget-categories.store', compact('balance') )?>" method="post" >
         @csrf
         @include('budget_categories.form')
-        <input type="submit">
+        <input type="submit" value="Save Category">
     </form>
 
     @if($errors->any())

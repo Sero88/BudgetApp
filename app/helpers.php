@@ -28,9 +28,11 @@ function get_old_recurring_trans_data($recurringTransaction){
 }
 
 function get_old_budget_data($budgetCategory){
-    $budgetCategory->name = !empty( old('budget_cat') ) ? $budget_cat[0] : $budgetCategory->name;
-    $budgetCategory->description = !empty( old('budget_cat_description') ) ? $budget_cat_description[0] : $budgetCategory->description;
-    $budgetCategory->budget = !empty( old('budget_cat_amount') ) ? $budget_cat_amount[0] : $budgetCategory->budget;
+    $budgetCategory->name = !empty( old('budget_cat')[0] ) ? old('budget_cat')[0] : $budgetCategory->name;
+    $budgetCategory->description = !empty( old('budget_cat_description')[0] ) ? old('budget_cat_description')[0] : $budgetCategory->description;
+    $budgetCategory->budget = !empty( old('budget_cat_amount')[0] ) ? old('budget_cat_amount')[0] : $budgetCategory->budget;
+
+    return $budgetCategory;
 }
 
 function transaction_details($transaction, $cat = false){

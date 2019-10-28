@@ -39,10 +39,12 @@ class HomeController extends Controller
         $user = Auth::user();
 
         //get the user balances and its budget categories
-        $cats = $user->budget_categories;
+        $cats = $user->budget_categories->sortby('name');
 
-        /*$balances = $user->balances();
-        $cats = [];
+        //todo - to begin we'll start with one balance, version 2 will allow multiple balances
+        $balance = $user->balances->first();
+
+        /*$cats = [];
         foreach($balances->get() as $balance){
             $budget_cats = $balance->budget_categories();
             foreach($budget_cats->get() as $budget_cat){
@@ -53,7 +55,6 @@ class HomeController extends Controller
         //get transaction types
         $types = TransactionType::all();
 
-
-        return view('home', compact('transaction', 'cats', 'types'));
+        return view('home', compact('transaction','balance', 'cats', 'types'));
     }
 }

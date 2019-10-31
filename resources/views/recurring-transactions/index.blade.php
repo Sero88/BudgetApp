@@ -24,7 +24,7 @@
                 <form method="post" action="{{ route('recurring-transactions.destroy', compact('trans') ) }}">
                     @csrf
                     @method('DELETE')
-                    <button type="submit">Delete</button>
+                    <button type="submit" class="delete-button">Delete</button>
                 </form>
             </div>
         </div>

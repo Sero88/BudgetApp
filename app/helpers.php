@@ -44,3 +44,12 @@ function transaction_details($transaction, $cat = false){
 
     return "$date_section: $$amount_section ({$cat_name}$description)";
 }
+
+function get_old_payment_type_data($paymentType){
+    $paymentType->name = !empty( old('name' ) ) ? old('name') : $paymentType->name;
+    $paymentType->description = !empty( old('description' ) ) ? old('description'): $paymentType->description;
+
+
+    return $paymentType;
+}
+

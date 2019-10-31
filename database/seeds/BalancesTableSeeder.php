@@ -17,5 +17,12 @@ class BalancesTableSeeder extends Seeder
             'amount' => 10000,
             'owner_id'=> 1
         ]);
+
+        DB::Table('balances')->insert([
+            'name' => 'Testing Balance',
+            'description' => 'For testing purposes only',
+            'amount' => 10000,
+            'owner_id'=> 2
+        ]);
     }
 }

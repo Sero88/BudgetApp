@@ -29,4 +29,8 @@ Route::resource('balances', 'BalanceController')->middleware('auth');
 
 Route::resource('balances/{balance}/budget-categories', 'BudgetCategoryController')->middleware('auth');
 
+Route::resource('payment-types', 'PaymentTypeController')->middleware('auth');
+
 Route::get('/recurring-transactions-cron', 'RecurringTransactionController@cron');
+
+Route::get('/settings', 'SettingsController@index');

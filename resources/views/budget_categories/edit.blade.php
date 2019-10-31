@@ -12,7 +12,7 @@
 <form action="<?=route( 'budget-categories.destroy', compact('balance', 'budget_category') )?>" method="post">
     @csrf
     @method('DELETE')
-    <input type="submit" value="Delete">
+    <input type="submit" class="delete-button" value="Delete">
 </form>
 <?php //dd($errors->all()); ?>
 @endsection

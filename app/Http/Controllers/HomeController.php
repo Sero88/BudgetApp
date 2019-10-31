@@ -44,6 +44,7 @@ class HomeController extends Controller
         //todo - to begin we'll start with one balance, version 2 will allow multiple balances
         $balance = $user->balances->first();
 
+
         /*$cats = [];
         foreach($balances->get() as $balance){
             $budget_cats = $balance->budget_categories();

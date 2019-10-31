@@ -20,6 +20,7 @@ class RecurringTransactionSeeder extends Seeder
             'budget_cat_id' => 1,
             'owner_id' => 1,
             'description' => 'testing recurring trans',
+            'payment_type_id' => 1
 
         ]);
 
@@ -32,7 +33,7 @@ class RecurringTransactionSeeder extends Seeder
             'budget_cat_id' => 1,
             'owner_id' => 1,
             'description' => 'testing debit recurring trans',
-
+            'payment_type_id' => 1
         ]);
     }
 }

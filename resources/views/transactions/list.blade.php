@@ -1,4 +1,4 @@
-<h2>Transactions</h2>
+<h2>{{Carbon\Carbon::now()->monthName}} Transactions</h2>
 <h3>Credit</h3>
 <ul>
 @forelse($object->monthlyTransactions('credit')->get()->sortByDesc('date_made') as $transaction)

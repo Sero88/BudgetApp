@@ -31,7 +31,8 @@ class RecurringTransactionRequest extends FormRequest
             'budget_cat_id' => 'required',
             'description' => 'nullable',
             'day_of_month' => 'required|date',
-            'interval_id' => 'required|numeric'
+            'interval_id' => 'required|numeric',
+            'payment_type_id' => 'required|numeric'
         ];
     }
 }

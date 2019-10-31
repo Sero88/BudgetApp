@@ -34,6 +34,16 @@
 </div>
 
 <div>
+    <label for="payment_type_id">Payment Type</label><br>
+    <select id="payment_type_id" name="payment_type_id">
+        @foreach($paymentTypes as $paymentType)
+            <?php $paymentTypeSelected = $recurringTransaction->payment_type_id == $paymentType->id ? ' selected' : '';?>
+            <option value="{{$paymentType->id}}"<?=$paymentTypeSelected?>>{{$paymentType->name}}</option>
+        @endforeach()
+    </select>
+</div>
+
+<div>
     <label for="day_of_month">Begin Date</label><br>
     <input id="day_of_month" class="datepicker" readonly type="text" name="day_of_month" value="<?=$recurringTransaction->day_of_month?>" required>
 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RecurringTransactionRequest;
+use App\PaymentType;
 use App\RecurringTransaction;
 use App\Services\RecurringTransactionCron;
 use App\TransactionInterval;
@@ -47,8 +48,11 @@ class RecurringTransactionController extends Controller
         //get intervals
         $intervals = TransactionInterval::all();
 
+        //get payment types
+        $paymentTypes = PaymentType::all()->sortBy('name');
+
         //return view
-        return view('recurring-transactions.create', compact('recurringTransaction', 'types', 'cats', 'intervals'));
+        return view('recurring-transactions.create', compact('recurringTransaction', 'types', 'cats', 'intervals', 'paymentTypes'));
     }
 
     /**
@@ -64,7 +68,7 @@ class RecurringTransactionController extends Controller
 
         $user_id  = Auth::user()->id;
         $data['owner_id'] = $user_id;
-        $data['day_of_month'] = Carbon::create($data['day_of_month'])->toDateString();
+        $data['day_of_month'] = transform_date($data['day_of_month']);
 
         $recurring = RecurringTransaction::create($data);
 
@@ -103,7 +107,10 @@ class RecurringTransactionController extends Controller
         //get intervals
         $intervals = TransactionInterval::all();
 
-        return view('recurring-transactions.edit', compact('recurringTransaction', 'types', 'cats', 'intervals'));
+        //get payment types
+        $paymentTypes = PaymentType::all()->sortBy('name');
+
+        return view('recurring-transactions.edit', compact('recurringTransaction', 'types', 'cats', 'intervals', 'paymentTypes'));
     }
 
     /**
@@ -117,6 +124,9 @@ class RecurringTransactionController extends Controller
     {
         $this->authorize('update', $recurringTransaction);
         $data = $request->validated();
+
+        $data['day_of_month'] = transform_date($data['day_of_month']);
+
         $recurringTransaction->update($data);
 
         return redirect(route('recurring-transactions.index'));
@@ -137,9 +147,6 @@ class RecurringTransactionController extends Controller
     }
 
     public function cron(RecurringTransaction $recurringTransaction){
-        //verify key is used
-        $this->middleware('cron.key');
-
         //get recurring transactions
         $upcomingTransactions = $recurringTransaction->upcomingTransactions();
 

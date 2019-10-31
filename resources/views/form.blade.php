@@ -28,7 +28,7 @@ Version 2 will allow multiple balances
 <div>
     <label for="type_id">Type</label><br>
     <select id="type_id" name="type_id">
-        @foreach($types as $type)
+        @foreach($transactionTypes as $type)
             <?php  $typeSelected = $transaction->type_id == $type->id ? ' selected' : ''; ?>
             <option value="{{$type->id}}"{{$typeSelected}}>{{$type->name}}</option>
         @endforeach()
@@ -41,6 +41,16 @@ Version 2 will allow multiple balances
         @foreach($cats as $cat)
             <?php $catSelected = $transaction->budget_cat_id == $cat->id ? ' selected' : '';?>
             <option value="{{$cat->id}}"{{$catSelected}}>{{$cat->name}}</option>
+        @endforeach()
+    </select>
+</div>
+
+<div>
+    <label for="pament_type">Payment Type</label><br>
+    <select id="payment_type" name="payment_type_id">
+        @foreach($paymentTypes as $paymentType)
+            <?php $paymentTypeSelected = $paymentType->payment_type_id == $paymentType->id ? ' selected' : '';?>
+            <option value="{{$paymentType->id}}"{{$paymentTypeSelected}}>{{$paymentType->name}}</option>
         @endforeach()
     </select>
 </div>

@@ -1,10 +1,14 @@
 <?php
 
+use Carbon\Carbon;
+
 function get_old_trans_data($transaction){
-    $transaction->amount = !empty(old('amount')) ? old('amount') : $transaction->amount;
-    $transaction->type_id = !empty(old('type_id')) ? old('type_id') : $transaction->type_id;
-    $transaction->budget_cat_id = !empty(old('budget_cat_id')) ? old('budget_cat_id') : $transaction->budget_cat_id;
-    $transaction->description = !empty(old('description')) ? old('description') : $transaction->description;
+    $transaction->amount = old('amount') ?? $transaction->amount;
+    $transaction->type_id =  old('type_id') ?? $transaction->type_id;
+    $transaction->budget_cat_id =  old('budget_cat_id') ?? $transaction->budget_cat_id;
+    $transaction->description = old('description') ?? $transaction->description;
+    $transaction->payment_type_id = old('payment_type_id') ?? $transaction->payment_type_id;
+
     return $transaction;
 }
 
@@ -42,7 +46,7 @@ function transaction_details($transaction, $cat = false){
 
     $cat_name = $cat == true ? $transaction->budget_category->name : '';
 
-    return "$date_section: $$amount_section ({$cat_name}$description)";
+    return "$date_section: $$amount_section | {$transaction->paymentType->name} | {$cat_name}$description ";
 }
 
 function get_old_payment_type_data($paymentType){
@@ -53,3 +57,6 @@ function get_old_payment_type_data($paymentType){
     return $paymentType;
 }
 
+function transform_date($date){
+    return Carbon::create($date)->toDateString();
+}

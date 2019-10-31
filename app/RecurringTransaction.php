@@ -26,6 +26,10 @@ class RecurringTransaction extends Model
         return $this->hasMany(Transaction::class, 'recurring_trans_id');
     }
 
+    public function paymentType(){
+        return $this->belongsTo(PaymentType::class, 'payment_type_id');
+    }
+
     public function upcomingTransactions(){
 
         return $this->where('day_of_month', '<=', Carbon::now()->toDateString())->get();
@@ -41,6 +45,7 @@ class RecurringTransaction extends Model
                 'owner_id' => $trans->owner_id,
                 'description' => $trans->description,
                 'date_made' => now(),
+                'payment_type_id' => $trans->payment_type_id,
                 'recurring_trans_id' => $trans->id
             ];
 

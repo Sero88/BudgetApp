@@ -26,6 +26,10 @@ class Transaction extends Model
         return $this->belongsTo(RecurringTransaction::class, 'recurring_trans_id');
     }
 
+    public function paymentType(){
+        return $this->belongsTo(PaymentType::class, 'payment_type_id');
+    }
+
     public static function createTransaction($transaction){
 
         $savedTrans = Transaction::create($transaction);

@@ -5,7 +5,8 @@
 
 
 @section('content')
-    <a href="{{route('recurring-transactions.create')}}">+NEW</a>
+    <a href="{{route('recurring-transactions.create')}}">+ New Recurring Transaction</a>
+    <hr>
     @foreach($recurringTransactions as $trans)
         @if(session('message'))
         <div>
@@ -18,7 +19,7 @@
             <p>{{$trans->transactionInterval->name}}</p>
             <p>{{$trans->description}}</p>
             <p>Next transaction day: {{ Carbon\Carbon::create($trans->day_of_month)->format('l, M. d, Y') }}</p>
-            <p>{{$trans->budgetCategory->name}} | {{$trans->transactionType->name}}: ${{$trans->amount}}</p>
+            <p>{{$trans->budgetCategory->name}} | {{$trans->transactionType->name}}: ${{$trans->amount}} | {{$trans->paymentType->name}}</p>
             <p><a href="{{ route('recurring-transactions.edit', compact('trans') ) }}">Edit</a></p>
             <div>
                 <form method="post" action="{{ route('recurring-transactions.destroy', compact('trans') ) }}">

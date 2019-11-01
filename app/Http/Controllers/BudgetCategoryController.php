@@ -28,9 +28,9 @@ class BudgetCategoryController extends Controller
     public function create(Balance $balance)
     {
         $this->authorize('update', $balance);
-        $budgetCategory = new BudgetCategory();
-        $budgetCategory = get_old_budget_data($budgetCategory);
-        return view('budget_categories.create', compact('balance','budgetCategory') );
+        $budget_category = new BudgetCategory();
+        $budget_category = get_old_budget_data($budget_category);
+        return view('budget_categories.create', compact('balance','budget_category') );
     }
 
     /**

@@ -30,22 +30,31 @@ class HomeController extends Controller
      */
     public function index()
     {
+        //get the current logged in user
+        $user = Auth::user();
+
+        //todo - to begin we'll start with one balance, version 2 will allow multiple balances
+        $balance = $user->balances->first();
+
+
+        if( empty($balance) ){
+            return redirect( route('balances.create'));
+        }
+
         //instantiate a new transaction
         $transaction= new Transaction();
 
         //get old values if they exist
         $transaction = get_old_trans_data($transaction);
 
-        //get the current logged in user
-        $user = Auth::user();
+
 
         //get the user balances and its budget categories
         $cats = $user->budget_categories->sortby('name');
 
 
 
-        //todo - to begin we'll start with one balance, version 2 will allow multiple balances
-        $balance = $user->balances->first();
+
 
 
         /*$cats = [];

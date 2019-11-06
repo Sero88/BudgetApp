@@ -231,4 +231,10 @@ return [
     // Key is used to verify request can be executed
     'recurring_trans_cron_key' => env('RECURRING_TRANS_CRON_KEY', false),
 
+    //key is used to verify view access
+    'access_key' => env('APP_ACCESS_KEY', false),
+
+    //key phrase to obtain access_key
+    'key_phrase' => env('APP_OBTAIN_KEY', false),
+
 ];

@@ -17,6 +17,8 @@
 
 Route::get('/','HomeController@index');
 
+Route::get('/obtain-access-key', 'ViewAccessController@index')->name('access.obtain_access_key');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -31,6 +33,6 @@ Route::resource('balances/{balance}/budget-categories', 'BudgetCategoryControlle
 
 Route::resource('payment-types', 'PaymentTypeController')->middleware('auth');
 
-Route::get('/recurring-transactions-cron', 'RecurringTransactionController@cron');
+Route::get('/recurring-transactions-cron', 'RecurringTransactionController@cron')->name('cron.recurring_transactions');
 
 Route::get('/settings', 'SettingsController@index');

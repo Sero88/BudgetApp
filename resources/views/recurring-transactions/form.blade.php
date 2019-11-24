@@ -17,7 +17,7 @@
     <label for="type_id">Type</label><br>
     <select id="type_id" name="transaction_type">
         @foreach($types as $type)
-            <?php  $selected = $recurringTransaction->type_id == $type->id ? ' selected' : ''; ?>
+            <?php  $selected = $recurringTransaction->transaction_type == $type->id ? ' selected' : ''; ?>
             <option value="{{$type->id}}"<?=$selected?>>{{$type->name}}</option>
         @endforeach()
     </select>
@@ -49,11 +49,11 @@
 </div>
 
 <div>
-    <label for="inverval">Interval</label><br>
+    <label for="interval">Interval</label><br>
     <select id="interval" name="interval_id">
         @foreach($intervals as $interval)
-            <?php $selected = $recurringTransaction->inverval_id == $interval->id ? ' selected' : '';?>
-            <option value="{{$interval->id}}"<?=$selected?>>{{$interval->name}}</option>
+            <?php $selected = $recurringTransaction->interval_id == $interval->id ? ' selected' : '';?>
+            <option value="{{$interval->id}}"{{$selected}}>{{$interval->name}}</option>
         @endforeach()
     </select></div>
 

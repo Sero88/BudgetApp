@@ -18,6 +18,7 @@ class Transaction extends Model
         return $this->belongsTo(TransactionType::class, 'type_id');
     }
 
+    // this method doesn't seem to be working,
     public function balance(){
         return $this->hasOneThrough('\App\Balance', '\App\BudgetCategory', 'balance_id', 'id');
     }

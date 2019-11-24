@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TransactionRequest;
+use App\PaymentType;
 use App\Transaction;
 use App\TransactionType;
 use Illuminate\Support\Facades\Auth;
@@ -89,9 +90,16 @@ class TransactionController extends Controller
 
         //get the user balances and its budget categories
         $cats = $user->budget_categories()->get();
-        $types = TransactionType::all();
+        $transactionTypes = TransactionType::all();
 
-        return view('transactions.edit', compact('transaction', 'cats','types'));
+        //get the balance
+        $balance = $transaction->budget_category->balance;
+
+        //get payment types
+        $paymentTypes =PaymentType::all()->sortBy('name');
+
+
+        return view('transactions.edit', compact('transaction', 'cats','transactionTypes','balance', 'paymentTypes'));
     }
 
     /**

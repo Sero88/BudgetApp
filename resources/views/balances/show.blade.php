@@ -9,5 +9,6 @@
 
     <p>{{$balance->amount}}</p>
 	@include('balances.balance-categories')
+    <hr>
 	@include('transactions.list',['object' => $balance])
 @endsection

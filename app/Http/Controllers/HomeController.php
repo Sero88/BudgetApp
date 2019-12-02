@@ -8,6 +8,7 @@ use App\MyItem;
 use App\PaymentType;
 use App\Transaction;
 use App\TransactionType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,6 +37,7 @@ class HomeController extends Controller
         //todo - to begin we'll start with one balance, version 2 will allow multiple balances
         $balance = $user->balances->first();
 
+        $beginning_of_month = date('Y-m-d H:i:s', strtotime('first day of ' . date('F Y')));
 
         if( empty($balance) ){
             return redirect( route('balances.create'));
@@ -47,19 +49,12 @@ class HomeController extends Controller
         //get old values if they exist
         $transaction = get_old_trans_data($transaction);
 
-
-
         //get the user balances and its budget categories
         $cats = $user->budget_categories->sortby('name');
 
-
-
-
-
-
         /*$cats = [];
         foreach($balances->get() as $balance){
-            $budget_cats = $balance->budget_categories();
+            $budget_cats = $balance->budgetCategories();
             foreach($budget_cats->get() as $budget_cat){
                 array_push($cats, $budget_cat);
             }
@@ -70,6 +65,7 @@ class HomeController extends Controller
 
         //get payment types
         $paymentTypes = PaymentType::all()->sortBy('name');
+
 
         return view('home', compact('transaction','balance', 'cats', 'transactionTypes', 'paymentTypes'));
     }

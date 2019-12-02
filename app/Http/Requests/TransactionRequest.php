@@ -17,9 +17,9 @@ class TransactionRequest extends FormRequest
     public function authorize()
     {
 
-        $budget_category = BudgetCategory::find( request('budget_cat_id') );
+        $budgetCategory = BudgetCategory::find( request('budget_cat_id') );
 
-        if( Auth::user()->id  == $budget_category->balance->owner_id ){
+        if( Auth::user()->id  == $budgetCategory->balance->owner_id ){
             return true;
         }
 

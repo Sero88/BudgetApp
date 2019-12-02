@@ -24,7 +24,7 @@ trait Monthly
         //if there is a specified type, add it
         if($type != 'all'){
             $trans_type = new TransactionType();
-            $type = $type == 'credit' ? $trans_type->where('name', '=', 'credit')->get()->first()->id  :  $trans_type->where('name', '=', 'debit')->get()->first()->id; //todo change these magic numbers - replace them with eloquent get id
+            $type = $type == 'credit' ? $trans_type->where('name', '=', 'credit')->get()->first()->id  :  $trans_type->where('name', '=', 'debit')->get()->first()->id;
             $where_clause[] = ['type_id', '=', $type];
         }
 
@@ -32,5 +32,6 @@ trait Monthly
         return $this->transactions()->where($where_clause);
 
     }
+
 
 }

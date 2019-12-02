@@ -28,9 +28,9 @@ class BudgetCategoryController extends Controller
     public function create(Balance $balance)
     {
         $this->authorize('update', $balance);
-        $budget_category = new BudgetCategory();
-        $budget_category = get_old_budget_data($budget_category);
-        return view('budget_categories.create', compact('balance','budget_category') );
+        $budgetCategory = new BudgetCategory();
+        $budgetCategory = get_old_budget_data($budgetCategory);
+        return view('budget_categories.create', compact('balance','budgetCategory') );
     }
 
     /**
@@ -58,56 +58,56 @@ class BudgetCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\BudgetCategory  $budget_category
+     * @param  \App\BudgetCategory  $budgetCategory
      * @return \Illuminate\Http\Response
      */
-    public function show(Balance $balance, BudgetCategory $budget_category)
+    public function show(Balance $balance, BudgetCategory $budgetCategory)
     {
-        $this->authorize('update', $budget_category);
-        return view('budget_categories.show', compact('balance','budget_category') );
+        $this->authorize('update', $budgetCategory);
+        return view('budget_categories.show', compact('balance','budgetCategory') );
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\BudgetCategory  $budget_category
+     * @param  \App\BudgetCategory  $budgetCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(Balance $balance, BudgetCategory $budget_category)
+    public function edit(Balance $balance, BudgetCategory $budgetCategory)
     {
-        $this->authorize('update', $budget_category);
-        return view('budget_categories.edit', compact('balance','budget_category'));
+        $this->authorize('update', $budgetCategory);
+        return view('budget_categories.edit', compact('balance','budgetCategory'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\BudgetCategoryRequest  $request
-     * @param  \App\BudgetCategory  $budget_category
+     * @param  \App\BudgetCategory  $budgetCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(BudgetCategoryRequest $request, Balance $balance, BudgetCategory $budget_category)
+    public function update(BudgetCategoryRequest $request, Balance $balance, BudgetCategory $budgetCategory)
     {
-        $this->authorize('update', $budget_category);
-        $budget_category->update( $request->conformValidatedData() );
+        $this->authorize('update', $budgetCategory);
+        $budgetCategory->update( $request->conformValidatedData() );
 
-        return redirect(route('budget-categories.show', compact('balance', 'budget_category')));
+        return redirect(route('budget-categories.show', compact('balance', 'budgetCategory')));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\BudgetCategory  $budget_category
+     * @param  \App\BudgetCategory  $budgetCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Balance $balance, BudgetCategory $budget_category)
+    public function destroy(Balance $balance, BudgetCategory $budgetCategory)
     {
-        $this->authorize('update', $budget_category);
+        $this->authorize('update', $budgetCategory);
 
         //remove all associated transactions
-        $budget_category->remove_transactions();
+        $budgetCategory->remove_transactions();
 
-        $budget_category->delete();
+        $budgetCategory->delete();
 
         return redirect(route("balances.show", compact('balance')) );
     }

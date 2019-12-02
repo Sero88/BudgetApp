@@ -15,7 +15,7 @@ class Balance extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function budget_categories(){
+    public function budgetCategories(){
         return $this->hasMany(BudgetCategory::class);
     }
 
@@ -35,4 +35,7 @@ class Balance extends Model
         $this->update(['amount' => $this->amount + $transAmount ]);
     }
 
+    public function getExpensePercentage(){
+        return round(( $this->monthlyTransactions()->sum('amount') / $this->budgetCategories->sum('budget') ) * 100, 2) . '%';
+    }
 }

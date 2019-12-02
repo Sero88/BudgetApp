@@ -43,9 +43,9 @@ class BalanceController extends Controller
         $balance = new Balance();
         $balance = get_old_balance_data($balance);
 
-        $budget_category = new BudgetCategory();
+        $budgetCategory = new BudgetCategory();
 
-        return view('balances.create', compact('balance', 'budget_category'));
+        return view('balances.create', compact('balance', 'budgetCategory'));
     }
 
     /**
@@ -95,9 +95,7 @@ class BalanceController extends Controller
     {
         $this->authorize('update', $balance);
 
-        $transactions = $balance->transactions;
-
-        return view('balances.show', compact('balance', 'transactions'));
+        return view('balances.show', compact('balance'));
     }
 
     /**
@@ -143,7 +141,7 @@ class BalanceController extends Controller
 
         //delete children relations tied to balances first then balance
         $balance->transactions()->delete();
-        $balance->budget_categories()->delete();
+        $balance->budgetCategories()->delete();
         $balance->delete();
 
         session()->flash('message', 'Balance deleted successfully');

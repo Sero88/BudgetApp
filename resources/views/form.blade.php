@@ -3,7 +3,8 @@
 @endif
 
 <div>
-    <a href="{{route('balances.show', compact('balance'))}}">{{$balance->amount}}</a>
+    <a href="{{route('balances.show', compact('balance'))}}">${{$balance->amount}}</a>
+    <p>{{$balance->monthlyTransactions()->sum('amount')}}/{{$balance->budgetCategories()->sum('budget')}} ({{$balance->getExpensePercentage()}})</p>
 </div>
 
 @php

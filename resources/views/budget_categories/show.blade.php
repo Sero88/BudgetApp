@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', $budget_category->name)
+@section('title', $budgetCategory->name)
 
 @section('content')
-    @if(!empty($budget_category->description))
-        <p>{{$budget_category->description}}</p>
+    @if(!empty($budgetCategory->description))
+        <p>{{$budgetCategory->description}}</p>
     @endif
 
 	@include('budget_categories.actuals-vs-budget')
-	@include('transactions.list', ['object' => $budget_category])
+	@include('transactions.list', ['object' => $budgetCategory])
 
 
-    <a href="<?= route( 'budget-categories.edit', compact('balance', 'budget_category') )?>">Edit</a>
+    <a href="<?= route( 'budget-categories.edit', compact('balance', 'budgetCategory') )?>">Edit</a>
 
 @endsection

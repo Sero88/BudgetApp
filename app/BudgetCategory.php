@@ -23,5 +23,9 @@ class BudgetCategory extends Model
         }
 
     }
+    public function getExpensePercentage(){
+        return round( ( $this->monthlyTransactions()->sum('amount') / $this->budget ) * 100, 2) . '%';
+    }
+
 
 }

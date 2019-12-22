@@ -36,3 +36,5 @@ Route::resource('payment-types', 'PaymentTypeController')->middleware('auth');
 Route::get('/recurring-transactions-cron', 'RecurringTransactionController@cron')->name('cron.recurring_transactions');
 
 Route::get('/settings', 'SettingsController@index');
+
+Route::get('/budget-history', 'BudgetHistoryController@cron')->name('cron.budget_history');

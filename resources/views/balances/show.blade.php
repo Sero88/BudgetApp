@@ -10,5 +10,5 @@
     <p>{{$balance->amount}}</p>
 	@include('balances.balance-categories')
     <hr>
-	@include('transactions.list',['object' => $balance])
+	@include('transactions.daily-list',['object' => $balance])
 @endsection

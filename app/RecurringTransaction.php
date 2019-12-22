@@ -5,10 +5,12 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use \App\Transaction;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RecurringTransaction extends Model
 {
     protected $guarded = [];
+    use SoftDeletes;
 
     public function transactionType(){
         return $this->belongsTo(TransactionType::class, 'transaction_type');
@@ -40,7 +42,7 @@ class RecurringTransaction extends Model
         foreach($transactions as $trans){
             $data = [
                 'amount' => $trans->amount,
-                'type_id' => $trans->transaction_type,
+                'type_id' => $trans->transactionType,
                 'budget_cat_id' => $trans->budget_cat_id,
                 'owner_id' => $trans->owner_id,
                 'description' => $trans->description,

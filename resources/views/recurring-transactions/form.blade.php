@@ -17,7 +17,7 @@
     <label for="type_id">Type</label><br>
     <select id="type_id" name="transaction_type">
         @foreach($types as $type)
-            <?php  $selected = $recurringTransaction->transaction_type == $type->id ? ' selected' : ''; ?>
+            <?php  $selected = $recurringTransaction->transactionType == $type->id ? ' selected' : ''; ?>
             <option value="{{$type->id}}"<?=$selected?>>{{$type->name}}</option>
         @endforeach()
     </select>
@@ -45,7 +45,7 @@
 
 <div>
     <label for="day_of_month">Begin Date</label><br>
-    <input id="day_of_month" class="datepicker" readonly type="text" name="day_of_month" value="<?=$recurringTransaction->day_of_month?>" required>
+    <input id="day_of_month" class="datepicker-after-today" readonly type="text" name="day_of_month" value="<?=$recurringTransaction->day_of_month?>" required>
 </div>
 
 <div>

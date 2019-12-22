@@ -3,18 +3,20 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
 {
     protected $guarded = [];
     public $timestamps = false;
+    use SoftDeletes;
 
-    public function budget_category(){
+    public function budgetCategory(){
         return $this->belongsTo(BudgetCategory::class, 'budget_cat_id');
     }
 
-    public function transaction_type(){
+    public function transactionType(){
         return $this->belongsTo(TransactionType::class, 'type_id');
     }
 
@@ -36,7 +38,7 @@ class Transaction extends Model
         $savedTrans = Transaction::create($transaction);
 
         //get its corresponding balance
-        $balance = $savedTrans->budget_category->balance;
+        $balance = $savedTrans->budgetCategory->balance;
 
         //update balance with transaction
         $balance->balanceUpdate($savedTrans);
@@ -46,13 +48,12 @@ class Transaction extends Model
 
     public static function deleteTransaction($transaction){
         //get its corresponding balance
-        $balance = $transaction->budget_category->balance;
+        $balance = $transaction->budgetCategory->balance;
 
         //update balance with transaction
         $balance->balanceUpdate($transaction, 'delete');
 
         return $transaction->delete();
-
     }
 
 }

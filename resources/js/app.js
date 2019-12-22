@@ -39,13 +39,22 @@ import 'jquery-ui/ui/widgets/datepicker.js';
 
 $(document).ready(function(){
     //datepicker fields
-    $('.datepicker').datepicker({
+    $('.datepicker-after-today').datepicker({
         minDate:'+1D'
     });
+
+    $('.datepicker').datepicker();
 
     //delete buttons confirmation
     $('.delete-button').click(function(e){
         if( !confirm('Are you sure you want to delete') ){
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('.delete-button-cat').click(function(e){
+        if( !confirm('Deleting Budget Category will remove associated recurring and regular transactions. Proceed?') ){
             e.preventDefault();
             return;
         }

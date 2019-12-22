@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Balance extends Model
 {
     use Monthly;
+    use Daily;
 
     protected $guarded = [];
     //public $timestamps = true;
@@ -25,7 +26,7 @@ class Balance extends Model
 
     public function balanceUpdate($transaction, $action = 'create'){
         //get the transaction amount
-        $transAmount = $transaction->transaction_type->name == 'credit' ? $transaction->amount * -1 : $transaction->amount;
+        $transAmount = $transaction->transactionType->name == 'credit' ? $transaction->amount * -1 : $transaction->amount;
 
         if($action == 'delete'){
             $transAmount *= -1; //opposite since we are reverting transaction
@@ -36,6 +37,6 @@ class Balance extends Model
     }
 
     public function getExpensePercentage(){
-        return round(( $this->monthlyTransactions()->sum('amount') / $this->budgetCategories->sum('budget') ) * 100, 2) . '%';
+        return round(( $this->monthlyTransactions('credit')->sum('amount') / $this->budgetCategories->sum('budget') ) * 100, 2) . '%';
     }
 }

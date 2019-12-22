@@ -6,6 +6,7 @@ use App\Http\Requests\TransactionRequest;
 use App\PaymentType;
 use App\Transaction;
 use App\TransactionType;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
@@ -44,12 +45,14 @@ class TransactionController extends Controller
      */
     public function store(TransactionRequest $request)
     {
+
+
         //get user input
         $new_transaction = $request->validated();
 
         //get user id and time
         $new_transaction['owner_id'] = Auth::user()->id;
-        $new_transaction['date_made'] = now();
+        $new_transaction['date_made'] = create_datetime($new_transaction['date_made']);
 
         //save the transaction
         Transaction::createTransaction($new_transaction);
@@ -93,7 +96,7 @@ class TransactionController extends Controller
         $transactionTypes = TransactionType::all();
 
         //get the balance
-        $balance = $transaction->budget_category->balance;
+        $balance = $transaction->budgetCategory->balance;
 
         //get payment types
         $paymentTypes =PaymentType::all()->sortBy('name');
@@ -118,6 +121,7 @@ class TransactionController extends Controller
         //get old amount and new trans data
         $old_amount = $transaction->amount;
         $data = $request->validated();
+        $data['date_made'] = create_datetime($data['date_made']);
 
         //run update
         $transaction->update($data);
@@ -125,7 +129,7 @@ class TransactionController extends Controller
         //update balance if amount is not the same
         if($old_amount != $data['amount']){
             //update balance
-            $balance = $transaction->budget_category->balance;
+            $balance = $transaction->budgetCategory->balance;
             $balance->update(['amount' => $balance->amount + ($old_amount - $data['amount'])]);
         }
 

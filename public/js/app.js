@@ -39172,12 +39172,19 @@ window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   //datepicker fields
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker({
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker-after-today').datepicker({
     minDate: '+1D'
-  }); //delete buttons confirmation
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker(); //delete buttons confirmation
 
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.delete-button').click(function (e) {
     if (!confirm('Are you sure you want to delete')) {
+      e.preventDefault();
+      return;
+    }
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.delete-button-cat').click(function (e) {
+    if (!confirm('Deleting Budget Category will remove associated recurring and regular transactions. Proceed?')) {
       e.preventDefault();
       return;
     }

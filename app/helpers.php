@@ -8,6 +8,7 @@ function get_old_trans_data($transaction){
     $transaction->budget_cat_id =  old('budget_cat_id') ?? $transaction->budget_cat_id;
     $transaction->description = old('description') ?? $transaction->description;
     $transaction->payment_type_id = old('payment_type_id') ?? $transaction->payment_type_id;
+    $transaction->date_made = old('date_made') ? $transaction->date_made : Carbon::now()->format('m/d/Y');
 
     return $transaction;
 }
@@ -39,14 +40,23 @@ function get_old_budget_data($budgetCategory){
     return $budgetCategory;
 }
 
-function transaction_details($transaction, $cat = false){
-    $date_section = date('D, M. d \a\t g:ia', strtotime($transaction->date_made) );
+function monthly_transaction_details($transaction){
+    $date_section = date('D, M. d', strtotime($transaction->date_made) );
     $amount_section =  $transaction->amount; //get_trans_amount($transaction, '$');
     $description = !empty($transaction->description) ? ' - ' . $transaction->description : '';
 
-    $cat_name = $cat == true ? $transaction->budget_category->name : '';
+    $cat_name =  $transaction->budgetCategory->name;
 
     return "$date_section: $$amount_section | {$transaction->paymentType->name} | {$cat_name}$description ";
+}
+
+function daily_transaction_details($transaction){
+    $amount_section =  $transaction->amount; //get_trans_amount($transaction, '$');
+    $description = !empty($transaction->description) ? ' - ' . $transaction->description : '';
+
+    $cat_name =  $transaction->budgetCategory->name;
+
+    return "$$amount_section | {$transaction->paymentType->name} | {$cat_name}$description ";
 }
 
 function get_old_payment_type_data($paymentType){
@@ -59,4 +69,9 @@ function get_old_payment_type_data($paymentType){
 
 function transform_date($date){
     return Carbon::create($date)->toDateString();
+}
+
+function create_datetime($date){
+    $time = Carbon::now()->isoFormat('HH:mm:ss');
+    return Carbon::create($date)->toDateString() . ' ' . $time;
 }

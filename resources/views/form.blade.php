@@ -4,7 +4,7 @@
 
 <div>
     <a href="{{route('balances.show', compact('balance'))}}">${{$balance->amount}}</a>
-    <p>{{$balance->monthlyTransactions()->sum('amount')}}/{{$balance->budgetCategories()->sum('budget')}} ({{$balance->getExpensePercentage()}})</p>
+    <p>{{$balance->monthlyTransactions('credit')->sum('amount')}}/{{$balance->budgetCategories()->sum('budget')}} ({{$balance->getExpensePercentage()}})</p>
 </div>
 
 @php
@@ -21,6 +21,8 @@ Version 2 will allow multiple balances
 </div>
 */
 @endphp
+
+
 <div>
     <label for="#trans-amount">Amount</label><br>
     <input id="trans-amount" type="number" name="amount" min="0.01" step="0.01" value="<?=$transaction->amount?>" required>
@@ -54,6 +56,12 @@ Version 2 will allow multiple balances
             <option value="{{$paymentType->id}}"{{$paymentTypeSelected}}>{{$paymentType->name}}</option>
         @endforeach()
     </select>
+</div>
+
+
+<div>
+    <label for="date_made">Date</label><br>
+    <input id="date_made" class="datepicker" readonly type="text" name="date_made" value="<?=$transaction->date_made?>" required>
 </div>
 
 <div>

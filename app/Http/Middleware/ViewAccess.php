@@ -17,7 +17,8 @@ class ViewAccess
     {
         $whitelist = [
             route('access.obtain_access_key'),
-            route('cron.recurring_transactions')
+            route('cron.recurring_transactions'),
+            route('cron.budget_history')
         ];
 
 

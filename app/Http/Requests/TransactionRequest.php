@@ -39,7 +39,8 @@ class TransactionRequest extends FormRequest
             'type_id' => 'required',
             'budget_cat_id' => 'required',
             'description' => 'nullable',
-            'payment_type_id' => 'required|numeric'
+            'payment_type_id' => 'required|numeric',
+            'date_made' => 'required|date'
         ];
     }
 }

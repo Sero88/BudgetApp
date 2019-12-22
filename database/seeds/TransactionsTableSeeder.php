@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class TransactionsTableSeeder extends Seeder
@@ -39,6 +40,16 @@ class TransactionsTableSeeder extends Seeder
             'owner_id' => 1,
             'description' => 'Debit. Testing seeder transaction 3',
             'date_made' => now(),
+            'payment_type_id' => 1
+        ]);
+
+        DB::Table('transactions')->insert([
+            'amount' => 100,
+            'type_id' => 2,
+            'budget_cat_id' => 2,
+            'owner_id' => 1,
+            'description' => 'Debit. Testing seeder transaction 3',
+            'date_made' => Carbon::create('last month')->toDateString(),
             'payment_type_id' => 1
         ]);
     }

@@ -68,7 +68,7 @@ class RecurringTransactionController extends Controller
 
         $user_id  = Auth::user()->id;
         $data['owner_id'] = $user_id;
-        $data['day_of_month'] = transform_date($data['day_of_month']);
+        $data['day_of_month'] = to_datestring($data['day_of_month']);
 
         $recurring = RecurringTransaction::create($data);
 
@@ -125,7 +125,7 @@ class RecurringTransactionController extends Controller
         $this->authorize('update', $recurringTransaction);
         $data = $request->validated();
 
-        $data['day_of_month'] = transform_date($data['day_of_month']);
+        $data['day_of_month'] = to_datestring($data['day_of_month']);
 
         $recurringTransaction->update($data);
 

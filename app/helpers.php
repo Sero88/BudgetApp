@@ -67,10 +67,12 @@ function get_old_payment_type_data($paymentType){
     return $paymentType;
 }
 
-function transform_date($date){
+//transform date to datestring
+function to_datestring($date){
     return Carbon::create($date)->toDateString();
 }
 
+//pass in date string - returns datetime
 function create_datetime($date){
     $time = Carbon::now()->isoFormat('HH:mm:ss');
     return Carbon::create($date)->toDateString() . ' ' . $time;

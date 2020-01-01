@@ -42,14 +42,15 @@ class RecurringTransaction extends Model
         foreach($transactions as $trans){
             $data = [
                 'amount' => $trans->amount,
-                'type_id' => $trans->transactionType,
+                'type_id' => $trans->transaction_type,
                 'budget_cat_id' => $trans->budget_cat_id,
                 'owner_id' => $trans->owner_id,
                 'description' => $trans->description,
-                'date_made' => now(),
+                'date_made' => create_datetime($trans->day_of_month),
                 'payment_type_id' => $trans->payment_type_id,
                 'recurring_trans_id' => $trans->id
             ];
+
 
             //create transaction
             Transaction::createTransaction($data);

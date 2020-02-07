@@ -39171,11 +39171,15 @@ const app = new Vue({
 window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-  //datepicker fields
+  var dateFormat = 'yy-mm-dd'; //datepicker fields
+
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker-after-today').datepicker({
-    minDate: '+1D'
+    minDate: '+1D',
+    dateFormat: dateFormat
   });
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker(); //delete buttons confirmation
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker({
+    dateFormat: dateFormat
+  }); //delete buttons confirmation
 
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.delete-button').click(function (e) {
     if (!confirm('Are you sure you want to delete')) {

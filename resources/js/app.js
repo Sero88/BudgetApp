@@ -38,12 +38,15 @@ window.$ = window.jQuery = $;
 import 'jquery-ui/ui/widgets/datepicker.js';
 
 $(document).ready(function(){
+    const dateFormat = 'yy-mm-dd';
+
     //datepicker fields
     $('.datepicker-after-today').datepicker({
-        minDate:'+1D'
+        minDate:'+1D',
+        dateFormat: dateFormat
     });
 
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({dateFormat: dateFormat});
 
     //delete buttons confirmation
     $('.delete-button').click(function(e){

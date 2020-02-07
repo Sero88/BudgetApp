@@ -3,12 +3,16 @@
 use Carbon\Carbon;
 
 function get_old_trans_data($transaction){
+
+
     $transaction->amount = old('amount') ?? $transaction->amount;
     $transaction->type_id =  old('type_id') ?? $transaction->type_id;
     $transaction->budget_cat_id =  old('budget_cat_id') ?? $transaction->budget_cat_id;
     $transaction->description = old('description') ?? $transaction->description;
     $transaction->payment_type_id = old('payment_type_id') ?? $transaction->payment_type_id;
-    $transaction->date_made = old('date_made') ? $transaction->date_made : Carbon::now()->format('m/d/Y');
+    $transaction->date_made = old('date_made') ?? $transaction->date_made;
+    //convert date
+    $transaction->date_made = to_datestring($transaction->date_made) ?? Carbon::now()->toDateString();
 
     return $transaction;
 }
@@ -24,11 +28,12 @@ function get_old_balance_data($balance){
 function get_old_recurring_trans_data($recurringTransaction){
     $recurringTransaction->name = !empty(old('name')) ? old('name') : $recurringTransaction->name;
     $recurringTransaction->amount = !empty(old('amount')) ? old('amount') : $recurringTransaction->amount;
-    $recurringTransaction->type_id = !empty(old('type_id')) ? old('type_id') : $recurringTransaction->type_id;
+    $recurringTransaction->transaction_type = !empty(old('type_id')) ? old('type_id') : $recurringTransaction->transaction_type;
     $recurringTransaction->interval_id = !empty(old('interval_id')) ? old('interval_id') : $recurringTransaction->interval_id;
     $recurringTransaction->budget_cat_id = !empty(old('budget_cat_id')) ? old('budget_cat_id') : $recurringTransaction->budget_cat_id;
     $recurringTransaction->description = !empty(old('description')) ? old('description') : $recurringTransaction->description;
     $recurringTransaction->day_of_month = !empty(old('day_of_month')) ? old('day_of_month') : $recurringTransaction->day_of_month;
+    $recurringTransaction->day_of_month = $recurringTransaction->day_of_month ?? Carbon::create('tomorrow')->toDateString();
     return $recurringTransaction;
 }
 
@@ -69,6 +74,8 @@ function get_old_payment_type_data($paymentType){
 
 //transform date to datestring
 function to_datestring($date){
+    if(empty($date)) return null;
+
     return Carbon::create($date)->toDateString();
 }
 

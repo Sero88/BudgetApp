@@ -13,14 +13,12 @@ class BudgetCategoriesTableSeeder extends Seeder
     {
         DB::Table('budget_categories')->insert([
             'name' => 'testCat #1',
-            'budget' => 1000,
             'description' => 'Testing cat 1',
             'balance_id' => 1
         ]);
 
         DB::Table('budget_categories')->insert([
             'name' => 'testCat #2',
-            'budget' => 200,
             'description' => 'Testing cat 2',
             'balance_id' => 1
         ]);

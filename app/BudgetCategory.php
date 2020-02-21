@@ -10,6 +10,7 @@ class BudgetCategory extends Model
     use Monthly;
     use SoftDeletes;
     protected $guarded = [];
+    public $timestamps = false;
 
     public function transactions(){
         return $this->hasMany(Transaction::class, 'budget_cat_id');

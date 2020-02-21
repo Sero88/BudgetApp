@@ -11,6 +11,7 @@ class RecurringTransaction extends Model
 {
     protected $guarded = [];
     use SoftDeletes;
+    public $timestamps = false;
 
     public function transactionType(){
         return $this->belongsTo(TransactionType::class, 'transaction_type');

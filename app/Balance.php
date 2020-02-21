@@ -9,8 +9,9 @@ class Balance extends Model
     use Monthly;
     use Daily;
 
+
     protected $guarded = [];
-    //public $timestamps = true;
+    public $timestamps = false;
 
     public function owner(){
         return $this->belongsTo(User::class, 'owner_id');

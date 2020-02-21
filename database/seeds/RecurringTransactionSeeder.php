@@ -20,6 +20,7 @@ class RecurringTransactionSeeder extends Seeder
             'interval_id' => 1, //daily
             'transaction_type' => 1,
             'budget_cat_id' => 1,
+            'sub_budget_category_id' => 1,
             'owner_id' => 1,
             'description' => 'past recurring transactions',
             'payment_type_id' => 1

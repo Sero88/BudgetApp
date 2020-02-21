@@ -37,6 +37,7 @@ class TransactionsTableSeeder extends Seeder
             'amount' => 100,
             'type_id' => 2,
             'budget_cat_id' => 1,
+            'sub_budget_category_id' => 1,
             'owner_id' => 1,
             'description' => 'Debit. Testing seeder transaction 3',
             'date_made' => now(),

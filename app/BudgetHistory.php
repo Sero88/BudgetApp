@@ -29,7 +29,7 @@ class BudgetHistory extends Model
                 'budget_cat_id' => $budgetCat->id,
                 'month' => $lastMonth,
                 'year' => $year,
-                'budget' => $budgetCat->budget,
+                'budget' => $budgetCat->budget(),
             ];
 
             BudgetHistory::create($budgetHistoryEntry);

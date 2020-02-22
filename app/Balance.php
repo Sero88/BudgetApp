@@ -13,31 +13,47 @@ class Balance extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public function owner(){
+    public function owner()
+    {
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function budgetCategories(){
+    public function budgetCategories()
+    {
         return $this->hasMany(BudgetCategory::class);
     }
 
-    public function transactions(){
+    public function transactions()
+    {
         return $this->hasManyThrough(Transaction::class, BudgetCategory::class, 'balance_id', 'budget_cat_id');
     }
 
-    public function balanceUpdate($transaction, $action = 'create'){
+    public function balanceUpdate($transaction, $action = 'create')
+    {
         //get the transaction amount
         $transAmount = $transaction->transactionType->name == 'credit' ? $transaction->amount * -1 : $transaction->amount;
 
-        if($action == 'delete'){
+        if ($action == 'delete') {
             $transAmount *= -1; //opposite since we are reverting transaction
         }
 
         //update balance amount
-        $this->update(['amount' => $this->amount + $transAmount ]);
+        $this->update(['amount' => $this->amount + $transAmount]);
     }
 
-    public function getExpensePercentage(){
-        return round(( $this->monthlyTransactions('credit')->sum('amount') / $this->budgetCategories->sum('budget') ) * 100, 2) . '%';
+    public function getExpensePercentage()
+    {
+        return round(($this->monthlyTransactions('credit')->sum('amount') / $this->balanceBudget()) * 100, 2) . '%';
     }
+
+    public function balanceBudget(){
+        $budgetSum = 0;
+        foreach($this->budgetCategories as $budgetCategory) {
+            $budgetSum += $budgetCategory->budget();
+
+        }
+        return $budgetSum;
+    }
+
+
 }

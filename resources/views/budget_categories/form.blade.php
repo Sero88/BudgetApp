@@ -8,7 +8,7 @@
 
         <div>
             <label for="budget_cat_quantity_1">Budget Amount</label> <br />
-            <input id="budget_cat_quantity_1" name="budget_cat_amount[]" value="<?=$budgetCategory->budget?>">
+            <input id="budget_cat_quantity_1" name="budget_cat_amount[]" value="<?=$budgetCategory->budget()?>">
         </div>
 
         <div>

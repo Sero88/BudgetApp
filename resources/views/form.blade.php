@@ -4,7 +4,7 @@
 
 <div>
     <a href="{{route('balances.show', compact('balance'))}}">${{$balance->amount}}</a>
-    <p>{{$balance->monthlyTransactions('credit')->sum('amount')}}/{{$balance->budgetCategories()->sum('budget')}} ({{$balance->getExpensePercentage()}})</p>
+    <p>{{$balance->monthlyTransactions('credit')->sum('amount')}}/{{$balance->balanceBudget()}} ({{$balance->getExpensePercentage()}})</p>
 </div>
 
 @php

@@ -36,7 +36,7 @@ class BudgetCategory extends Model
     }
 
     public function getExpensePercentage(){
-        return round( ( $this->monthlyTransactions('credit')->sum('amount') / $this->budget ) * 100, 2) . '%';
+        return round( ( $this->monthlyTransactions('credit')->sum('amount') / $this->budget() ) * 100, 2) . '%';
     }
 
     public function getActual($year, $month){
@@ -52,4 +52,13 @@ class BudgetCategory extends Model
         return $actuals;
 
     }
+
+    public function subCategories(){
+        return $this->hasMany(SubBudgetCategory::class, 'budget_category_id');
+    }
+
+    public function budget(){
+        return $this->subCategories->sum('budget');
+    }
+
 }

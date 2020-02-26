@@ -40,9 +40,17 @@ function get_old_recurring_trans_data($recurringTransaction){
 function get_old_budget_data($budgetCategory){
     $budgetCategory->name = !empty( old('budget_cat')[0] ) ? old('budget_cat')[0] : $budgetCategory->name;
     $budgetCategory->description = !empty( old('budget_cat_description')[0] ) ? old('budget_cat_description')[0] : $budgetCategory->description;
-    $budgetCategory->budget = !empty( old('budget_cat_amount')[0] ) ? old('budget_cat_amount')[0] : $budgetCategory->budget();
+   // $budgetCategory->budget = !empty( old('budget_cat_amount')[0] ) ? old('budget_cat_amount')[0] : $budgetCategory->budget();
 
     return $budgetCategory;
+}
+
+function get_old_sub_budget_category_data($subBudgetCategory){
+    $subBudgetCategory->name =  old('name') ?? $subBudgetCategory->name;
+    $subBudgetCategory->description =  old('description') ??  $subBudgetCategory->description;
+    $subBudgetCategory->budget = old('budget') ?? $subBudgetCategory->budget;
+
+    return $subBudgetCategory;
 }
 
 function monthly_transaction_details($transaction){

@@ -53,5 +53,16 @@ class TransactionsTableSeeder extends Seeder
             'date_made' => Carbon::create('last month')->toDateString(),
             'payment_type_id' => 1
         ]);
+
+        DB::Table('transactions')->insert([
+            'amount' => 150,
+            'type_id' => 1,
+            'budget_cat_id' => 1,
+            'sub_budget_category_id' => 1,
+            'owner_id' => 1,
+            'description' => 'Debit. Testing seeder transaction 3',
+            'date_made' => now(),
+            'payment_type_id' => 1
+        ]);
     }
 }

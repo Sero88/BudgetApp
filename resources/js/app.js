@@ -50,7 +50,7 @@ $(document).ready(function(){
 
     //delete buttons confirmation
     $('.delete-button').click(function(e){
-        if( !confirm('Are you sure you want to delete') ){
+        if( !confirm('Are you sure you want to delete?') ){
             e.preventDefault();
             return;
         }

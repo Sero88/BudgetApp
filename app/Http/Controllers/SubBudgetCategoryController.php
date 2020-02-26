@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Balance;
+use App\BudgetCategory;
+use App\Http\Requests\SubBudgetCategoryRequest;
 use App\SubBudgetCategory;
 use Illuminate\Http\Request;
 
@@ -22,9 +25,12 @@ class SubBudgetCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Balance $balance, BudgetCategory $budgetCategory)
     {
-        //
+           $this->authorize('update', $budgetCategory);
+           $subBudgetCategory = new SubBudgetCategory();
+           $subBudgetCategory = get_old_sub_budget_category_data($subBudgetCategory);
+           return view('sub_budget_categories.create', compact('balance', 'budgetCategory', 'subBudgetCategory'));
     }
 
     /**
@@ -33,9 +39,18 @@ class SubBudgetCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SubBudgetCategoryRequest $request, Balance $balance, BudgetCategory $budgetCategory)
     {
-        //
+        $this->authorize('update', $budgetCategory);
+
+
+        $validated_data = $request->validated();
+        $validated_data['budget_category_id'] = $budgetCategory->id;
+
+        SubBudgetCategory::create($validated_data);
+
+        //return user to balance page
+        return redirect(route("budget-categories.show", compact('balance', 'budgetCategory')) );
     }
 
     /**
@@ -44,9 +59,9 @@ class SubBudgetCategoryController extends Controller
      * @param  \App\SubBudgetCategory  $subBudgetCategory
      * @return \Illuminate\Http\Response
      */
-    public function show(SubBudgetCategory $subBudgetCategory)
+    public function show(Balance $balance, BudgetCategory $budgetCategory, SubBudgetCategory $subBudgetCategory)
     {
-        //
+        return view('sub_budget_categories.show', compact('balance', 'budgetCategory', 'subBudgetCategory'));
     }
 
     /**
@@ -55,9 +70,9 @@ class SubBudgetCategoryController extends Controller
      * @param  \App\SubBudgetCategory  $subBudgetCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(SubBudgetCategory $subBudgetCategory)
+    public function edit(Balance $balance, BudgetCategory $budgetCategory, SubBudgetCategory $subBudgetCategory)
     {
-        //
+        return view('sub_budget_categories.edit', compact('balance', 'budgetCategory', 'subBudgetCategory'));
     }
 
     /**
@@ -67,9 +82,12 @@ class SubBudgetCategoryController extends Controller
      * @param  \App\SubBudgetCategory  $subBudgetCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SubBudgetCategory $subBudgetCategory)
+    public function update(SubBudgetCategoryRequest $request, Balance $balance, BudgetCategory $budgetCategory, SubBudgetCategory $subBudgetCategory)
     {
-        //
+        $this->authorize('update', $budgetCategory);
+        $subBudgetCategory->update( $request->validated() );
+
+        return redirect(route("budget-categories.show", compact('balance', 'budgetCategory')) );
     }
 
     /**
@@ -78,8 +96,14 @@ class SubBudgetCategoryController extends Controller
      * @param  \App\SubBudgetCategory  $subBudgetCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SubBudgetCategory $subBudgetCategory)
+    public function destroy(Balance $balance, BudgetCategory $budgetCategory, SubBudgetCategory $subBudgetCategory)
     {
-        //
+        $this->authorize('update', $budgetCategory);
+
+        //remove all associated transactions
+
+        $subBudgetCategory->delete();
+
+        return redirect(route("budget-categories.show", compact('balance', 'budgetCategory')) );
     }
 }

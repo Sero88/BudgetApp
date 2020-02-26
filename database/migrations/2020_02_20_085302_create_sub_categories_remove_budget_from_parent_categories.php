@@ -19,6 +19,7 @@ class CreateSubCategoriesRemoveBudgetFromParentCategories extends Migration
             $table->text('description')->nullable();
             $table->decimal('budget',8,2);
             $table->unsignedBigInteger('budget_category_id');
+            $table->softDeletes();
 
             $table->foreign('budget_category_id')->references('id')->on('budget_categories');
         });

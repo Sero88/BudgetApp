@@ -1,14 +1,19 @@
 <section>
-    <h2>Budget Categories</h2>
+    <h2>Budget Subcategories</h2>
     <div class="budget-cat-container">
         <div>
-            <label for="budget_cat_1">Category Name</label> <br />
-            <input id="budget_cat_1" name="budget_cat[]" value="<?=$budgetCategory->name?>">
+            <label for="name">Category Name</label> <br />
+            <input id="name" name="name" value="<?=$subBudgetCategory->name?>">
         </div>
 
         <div>
-            <label for="budget_cat_description_1">Description</label> <br />
-            <textarea id="budget_cat_description_1" name="budget_cat_description[]"><?=$budgetCategory->description?></textarea>
+            <label for="budget">Budget Amount</label> <br />
+            <input id="budget" name="budget" value="<?=$subBudgetCategory->budget?>">
+        </div>
+
+        <div>
+            <label for="description">Description</label> <br />
+            <textarea id="description" name="description"><?=$subBudgetCategory->description?></textarea>
         </div>
     </div>
 

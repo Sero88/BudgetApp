@@ -16,6 +16,10 @@ class Transaction extends Model
         return $this->belongsTo(BudgetCategory::class, 'budget_cat_id');
     }
 
+    public function subBudgetCategory(){
+        return $this->belongsTo(SubBudgetCategory::class, 'sub_budget_category_id');
+    }
+
     public function transactionType(){
         return $this->belongsTo(TransactionType::class, 'type_id');
     }

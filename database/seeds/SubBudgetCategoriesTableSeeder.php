@@ -14,7 +14,7 @@ class SubBudgetCategoriesTableSeeder extends Seeder
         DB::Table('sub_budget_categories')->insert([
             'name' => 'sub cat testCat #1',
             'description' => 'sub cat of Testing cat 1',
-            'budget' => 100,
+            'budget' => 350,
             'budget_category_id' => 1
         ]);
 

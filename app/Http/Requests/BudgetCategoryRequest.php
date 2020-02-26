@@ -25,7 +25,6 @@ class BudgetCategoryRequest extends FormRequest
     {
         return [
             'budget_cat.*' => 'required',
-            'budget_cat_amount.*' => 'required|numeric|min:0.01',
             'budget_cat_description.*' => 'nullable'
         ];
     }
@@ -33,7 +32,6 @@ class BudgetCategoryRequest extends FormRequest
     public function messages(){
         return [
             'budget_cat.*' => 'Category name is required.',
-            'budget_cat_amount.*' => 'A minimum amount of 0.01 is required.',
         ];
     }
 
@@ -45,7 +43,6 @@ class BudgetCategoryRequest extends FormRequest
         $validated_data = $this->validated();
         $budget_cat = [];
         $budget_cat['name'] = $validated_data['budget_cat'][0];
-        $budget_cat['budget'] = $validated_data['budget_cat_amount'][0];
         $budget_cat['description'] = $validated_data['budget_cat_description'][0];
 
         return $budget_cat;

@@ -11,7 +11,11 @@
         </div>
         @endif
         <div class="transaction-block">
-            <p>{{$trans->budgetCategory->balance->name}}: {{$trans->budgetCategory->name}}</p>
+            @if($trans->sub_budget_category_id)
+                <p>{{$trans->budgetCategory->balance->name}}: {{$trans->subBudgetCategory->name}}</p>
+            @else
+                <p>{{$trans->budgetCategory->balance->name}}: {{$trans->budgetCategory->name}}</p>
+            @endif
             <p>{{$trans->description}}</p>
             <p>{{ date('D, M. d @ h:ia', strtotime($trans->date_made) ) }}</p>
             <p>{{$trans->transactionType->name}}: ${{$trans->amount}} ({{$trans->paymentType->name}})</p>

@@ -13,4 +13,6 @@
             @csrf
             <button type="submit">Make Transaction</button>
         </form>
+
+
 @endsection

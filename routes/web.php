@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function (){
     Route::resource('transactions', 'TransactionController');
 });
 
+Route::get('selector/budget-categories/{budget_category}/sub-budget-categories', 'BudgetCategoryController@subBudgetCategorySelector')->name('selector.sub-budget-categories');
 
 
 

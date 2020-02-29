@@ -34,9 +34,12 @@ const app = new Vue({
 
 import $ from 'jquery';
 window.$ = window.jQuery = $;
-
 import 'jquery-ui/ui/widgets/datepicker.js';
+import {elements} from './views/base';
+import budgetApp from './views/budgetApp';
 
+
+var app = {};
 $(document).ready(function(){
     const dateFormat = 'yy-mm-dd';
 
@@ -64,5 +67,23 @@ $(document).ready(function(){
     });
 
 });
+
+window.addEventListener('load', () => {
+    //get elements
+    app.elements = elements.getElements();
+
+    //get the subcategories for the current selected category
+    getSubCategories();
+
+    //add listener to budget categories select
+    app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
+});
+
+
+async function getSubCategories(){
+    const subBudgetCategoriesSelector = await budgetApp.getSubCategories(app.elements.budgetCategoryField.value);
+    console.dir(subBudgetCategoriesSelector);
+    app.elements.categoriesContainer.insertAdjacentHTML('beforeend', subBudgetCategoriesSelector);
+}
 
 

@@ -111,8 +111,4 @@ class BudgetCategoryController extends Controller
 
         return redirect(route("balances.show", compact('balance')) );
     }
-
-    public function subBudgetCategorySelector(Balance $balance, BudgetCategory $budgetCategory){
-        return view('budget_categories.sub-budget-categories-selector', compact('balance', 'budgetCategory'));
-    }
 }

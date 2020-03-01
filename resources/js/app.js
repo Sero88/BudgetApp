@@ -35,9 +35,8 @@ const app = new Vue({
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 import 'jquery-ui/ui/widgets/datepicker.js';
-import {elements} from './views/base';
+import {elements,loader} from './views/base';
 import budgetApp from './views/budgetApp';
-
 
 var app = {};
 $(document).ready(function(){
@@ -81,9 +80,25 @@ window.addEventListener('load', () => {
 
 
 async function getSubCategories(){
+    //remove any subcategories that currently exist
+    const currentSubBudgetCatElement = document.getElementById(app.elements.dynamicElementNames.subBudgetCategoriesContainerId);
+    if(currentSubBudgetCatElement){
+        currentSubBudgetCatElement.remove();
+    }
+
+    //show the loader
+    const loaderId = loader.addLoader(app.elements.mainCategoriesContainer, 'beforeend');
+
+    //get the new category
     const subBudgetCategoriesSelector = await budgetApp.getSubCategories(app.elements.budgetCategoryField.value);
-    console.dir(subBudgetCategoriesSelector);
+
     app.elements.categoriesContainer.insertAdjacentHTML('beforeend', subBudgetCategoriesSelector);
+
+    //remove the loader if it exists
+    if(loaderId){
+        loader.removeLoader(loaderId);
+    }
+
 }
 
 

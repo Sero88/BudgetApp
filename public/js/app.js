@@ -39973,20 +39973,33 @@ function _getSubCategories() {
   _getSubCategories = _asyncToGenerator(
   /*#__PURE__*/
   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-    var subBudgetCategoriesSelector;
+    var currentSubBudgetCatElement, loaderId, subBudgetCategoriesSelector;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
+            //remove any subcategories that currently exist
+            currentSubBudgetCatElement = document.getElementById(app.elements.dynamicElementNames.subBudgetCategoriesContainerId);
+
+            if (currentSubBudgetCatElement) {
+              currentSubBudgetCatElement.remove();
+            } //show the loader
+
+
+            loaderId = _views_base__WEBPACK_IMPORTED_MODULE_3__["loader"].addLoader(app.elements.mainCategoriesContainer, 'beforeend'); //get the new category
+
+            _context.next = 5;
             return _views_budgetApp__WEBPACK_IMPORTED_MODULE_4__["default"].getSubCategories(app.elements.budgetCategoryField.value);
 
-          case 2:
-            subBudgetCategoriesSelector = _context.sent;
-            console.dir(subBudgetCategoriesSelector);
-            app.elements.categoriesContainer.insertAdjacentHTML('beforeend', subBudgetCategoriesSelector);
-
           case 5:
+            subBudgetCategoriesSelector = _context.sent;
+            app.elements.categoriesContainer.insertAdjacentHTML('beforeend', subBudgetCategoriesSelector); //remove the loader if it exists
+
+            if (loaderId) {
+              _views_base__WEBPACK_IMPORTED_MODULE_3__["loader"].removeLoader(loaderId);
+            }
+
+          case 8:
           case "end":
             return _context.stop();
         }
@@ -40060,18 +40073,54 @@ if (token) {
 /*!************************************!*\
   !*** ./resources/js/views/base.js ***!
   \************************************/
-/*! exports provided: elements */
+/*! exports provided: elements, loader */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "elements", function() { return elements; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loader", function() { return loader; });
 var elements = {
   getElements: function getElements() {
     return {
       budgetCategoryField: document.getElementById('budget_cat_id'),
-      categoriesContainer: document.querySelector('.categories-container')
+      categoriesContainer: document.querySelector('.categories-container'),
+      mainCategoriesContainer: document.querySelector('.main-categories'),
+      dynamicElementNames: {
+        subBudgetCategoriesContainerId: 'sub-budget-categories-container',
+        loader: 'loader'
+      }
     };
+  }
+};
+var loader = {
+  addLoader: function addLoader(parentElement, position) {
+    //make sure the position is valid
+    var validPositions = ['beforebegin', 'afterbegin', 'beforeend', 'afterend'];
+    var isValidPosition = validPositions.find(function (element) {
+      return element == position;
+    });
+
+    if (!isValidPosition) {
+      console.error("\"".concat(position, "\" is not a valid loader position"));
+      return false;
+    } //create a loader id and loader html
+
+
+    var loaderId = "loader-".concat(Date.now());
+    var loader = "<div id=\"".concat(loaderId, "\" class=\"loader-element\"></div>"); //add loader to parent using position
+
+    parentElement.insertAdjacentHTML(position, loader);
+    return loaderId;
+  },
+  removeLoader: function removeLoader(id) {
+    var loader = document.getElementById(id);
+
+    try {
+      loader.remove();
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 
@@ -40106,7 +40155,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return axios("/selector/budget-categories/".concat(budgetCategory, "/sub-budget-categories"));
+              return axios("html/budget-categories/".concat(budgetCategory, "/sub-budget-categories"));
 
             case 3:
               result = _context.sent;

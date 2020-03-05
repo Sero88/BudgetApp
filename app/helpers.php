@@ -8,6 +8,7 @@ function get_old_trans_data($transaction){
     $transaction->amount = old('amount') ?? $transaction->amount;
     $transaction->type_id =  old('type_id') ?? $transaction->type_id;
     $transaction->budget_cat_id =  old('budget_cat_id') ?? $transaction->budget_cat_id;
+    $transaction->sub_budget_category_id = old('sub_budget_category_id') ?? $transaction->sub_budget_category_id;
     $transaction->description = old('description') ?? $transaction->description;
     $transaction->payment_type_id = old('payment_type_id') ?? $transaction->payment_type_id;
     $transaction->date_made = old('date_made') ?? $transaction->date_made;

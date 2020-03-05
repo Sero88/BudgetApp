@@ -47,11 +47,14 @@ Version 2 will allow multiple balances
                 <option value="{{$cat->id}}"{{$catSelected}}>{{$cat->name}}</option>
             @endforeach()
         </select>
+        <data id="selected-sub-category" value="{{$subBudgetCategoryId}}"></data>
+
+
     </div>
 </div>
 
 <div>
-    <label for="pament_type">Payment Type</label><br>
+    <label for="payment_type">Payment Type</label><br>
     <select id="payment_type" name="payment_type_id">
         @foreach($paymentTypes as $paymentType)
             <?php $paymentTypeSelected = $paymentType->payment_type_id == $paymentType->id ? ' selected' : '';?>

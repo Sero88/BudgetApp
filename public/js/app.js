@@ -39958,11 +39958,13 @@ jquery__WEBPACK_IMPORTED_MODULE_1___default()(document).ready(function () {
 });
 window.addEventListener('load', function () {
   //get elements
-  app.elements = _views_base__WEBPACK_IMPORTED_MODULE_3__["elements"].getElements(); //get the subcategories for the current selected category
+  app.elements = _views_base__WEBPACK_IMPORTED_MODULE_3__["elements"].getElements(); //add listener to budget categories select
 
-  getSubCategories(); //add listener to budget categories select
-
-  app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
+  if (app.elements.budgetCategoryField) {
+    //get the subcategories for the current selected category
+    getSubCategories();
+    app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
+  }
 });
 
 function getSubCategories() {
@@ -39989,7 +39991,7 @@ function _getSubCategories() {
             loaderId = _views_base__WEBPACK_IMPORTED_MODULE_3__["loader"].addLoader(app.elements.mainCategoriesContainer, 'beforeend'); //get the new category
 
             _context.next = 5;
-            return _views_budgetApp__WEBPACK_IMPORTED_MODULE_4__["default"].getSubCategories(app.elements.budgetCategoryField.value);
+            return _views_budgetApp__WEBPACK_IMPORTED_MODULE_4__["default"].getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
 
           case 5:
             subBudgetCategoriesSelector = _context.sent;
@@ -40086,6 +40088,7 @@ var elements = {
       budgetCategoryField: document.getElementById('budget_cat_id'),
       categoriesContainer: document.querySelector('.categories-container'),
       mainCategoriesContainer: document.querySelector('.main-categories'),
+      selectedSubCategory: document.getElementById('selected-sub-category'),
       dynamicElementNames: {
         subBudgetCategoriesContainerId: 'sub-budget-categories-container',
         loader: 'loader'
@@ -40147,34 +40150,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   getSubCategories: function () {
     var _getSubCategories = _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(budgetCategory) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(budgetCategory, subBudgetCategory) {
       var result;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
-              _context.next = 3;
-              return axios("html/budget-categories/".concat(budgetCategory, "/sub-budget-categories"));
+              subBudgetCategory = subBudgetCategory ? subBudgetCategory : '';
+              _context.prev = 1;
+              console.log("/html/budget-categories/".concat(budgetCategory, "/sub-budget-categories/").concat(subBudgetCategory));
+              _context.next = 5;
+              return axios("/html/budget-categories/".concat(budgetCategory, "/sub-budget-categories/").concat(subBudgetCategory));
 
-            case 3:
+            case 5:
               result = _context.sent;
               return _context.abrupt("return", result.data);
 
-            case 7:
-              _context.prev = 7;
-              _context.t0 = _context["catch"](0);
-              console.error(_context.t0);
+            case 9:
+              _context.prev = 9;
+              _context.t0 = _context["catch"](1);
+              console.error('axios', _context.t0);
 
-            case 10:
+            case 12:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[0, 7]]);
+      }, _callee, null, [[1, 9]]);
     }));
 
-    function getSubCategories(_x) {
+    function getSubCategories(_x, _x2) {
       return _getSubCategories.apply(this, arguments);
     }
 

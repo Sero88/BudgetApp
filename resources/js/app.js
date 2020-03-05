@@ -71,11 +71,14 @@ window.addEventListener('load', () => {
     //get elements
     app.elements = elements.getElements();
 
-    //get the subcategories for the current selected category
-    getSubCategories();
-
     //add listener to budget categories select
-    app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
+    if(app.elements.budgetCategoryField){
+        //get the subcategories for the current selected category
+        getSubCategories();
+
+        app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
+    }
+
 });
 
 
@@ -90,7 +93,7 @@ async function getSubCategories(){
     const loaderId = loader.addLoader(app.elements.mainCategoriesContainer, 'beforeend');
 
     //get the new category
-    const subBudgetCategoriesSelector = await budgetApp.getSubCategories(app.elements.budgetCategoryField.value);
+    const subBudgetCategoriesSelector = await budgetApp.getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
 
     app.elements.categoriesContainer.insertAdjacentHTML('beforeend', subBudgetCategoriesSelector);
 

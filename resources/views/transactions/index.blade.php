@@ -11,7 +11,7 @@
         </div>
         @endif
         <div class="transaction-block">
-            @if($trans->sub_budget_category_id)
+            @if(!empty($trans->subBudgetCategory->name))
                 <p>{{$trans->budgetCategory->balance->name}}: {{$trans->subBudgetCategory->name}}</p>
             @else
                 <p>{{$trans->budgetCategory->balance->name}}: {{$trans->budgetCategory->name}}</p>

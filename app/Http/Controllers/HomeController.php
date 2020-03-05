@@ -66,7 +66,9 @@ class HomeController extends Controller
         //get payment types
         $paymentTypes = PaymentType::all()->sortBy('name');
 
+        //get subcategory
+        $subBudgetCategoryId = $transaction->subBudgetCategory->id ?? '';
 
-        return view('home', compact('transaction','balance', 'cats', 'transactionTypes', 'paymentTypes'));
+        return view('home', compact('transaction','balance', 'cats', 'transactionTypes', 'paymentTypes', 'subBudgetCategoryId'));
     }
 }

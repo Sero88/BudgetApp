@@ -26,9 +26,10 @@ class TransactionsTest extends TestCase
             'amount' => 999.01,
             'type_id' => 1,
             'budget_cat_id' => 1,
+            'sub_budget_category_id' => 2,
             'owner_id' => 1,
             'description' => 'testing database transaction',
-            'date_made' => '2020-02-15',
+            'date_made' =>'2020-02-15',
             'payment_type_id' => 1
         ];
 
@@ -38,9 +39,10 @@ class TransactionsTest extends TestCase
 
         $this->call('POST','/transactions',$attributes, ['access_key' => config('app.access_key')] );
 
-        unset($attributes['date_made']); //because store creates its own date
+        unset($attributes['date_made']); //because store converts this into timedate so this field no longer matches
         //unset($attributes['description']); //bug? not matching for some reason
 
+        //dd($attributes['date_made'] . '===' . create_datetime($attributes['date_made']));
 
 
         $this->assertDatabaseHas('transactions', $attributes);

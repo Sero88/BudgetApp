@@ -101,8 +101,11 @@ class TransactionController extends Controller
         //get payment types
         $paymentTypes =PaymentType::all()->sortBy('name');
 
+        //get sub category
+        $subBudgetCategoryId = $transaction->subBudgetCategory->id ?? '';
 
-        return view('transactions.edit', compact('transaction', 'cats','transactionTypes','balance', 'paymentTypes'));
+
+        return view('transactions.edit', compact('transaction', 'cats','transactionTypes','balance', 'paymentTypes', 'subBudgetCategoryId'));
     }
 
     /**

@@ -4,6 +4,7 @@ export const elements = {
             budgetCategoryField: document.getElementById('budget_cat_id'),
             categoriesContainer: document.querySelector('.categories-container'),
             mainCategoriesContainer: document.querySelector('.main-categories'),
+            selectedSubCategory: document.getElementById('selected-sub-category'),
             dynamicElementNames:{
                 subBudgetCategoriesContainerId: 'sub-budget-categories-container',
                 loader:'loader'

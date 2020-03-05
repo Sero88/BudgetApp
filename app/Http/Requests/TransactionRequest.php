@@ -40,7 +40,8 @@ class TransactionRequest extends FormRequest
             'budget_cat_id' => 'required',
             'description' => 'nullable',
             'payment_type_id' => 'required|numeric',
-            'date_made' => 'required|date'
+            'date_made' => 'required|date',
+            'sub_budget_category_id' => 'nullable|numeric'
         ];
     }
 }

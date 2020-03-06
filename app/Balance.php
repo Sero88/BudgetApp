@@ -43,7 +43,12 @@ class Balance extends Model
 
     public function getExpensePercentage()
     {
-        return round(($this->monthlyTransactions('credit')->sum('amount') / $this->balanceBudget()) * 100, 2) . '%';
+        $balanceBudget = $this->balanceBudget();
+        if($balanceBudget > 0){
+            return round(($this->monthlyTransactions('credit')->sum('amount') / $balanceBudget) * 100, 2) . '%';
+        } else{
+            return "No Budget Found";
+        }
     }
 
     public function balanceBudget(){

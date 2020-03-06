@@ -29,6 +29,7 @@ class RecurringTransactionRequest extends FormRequest
             'amount' => 'required|numeric|min:0.01|',
             'transaction_type' => 'required',
             'budget_cat_id' => 'required',
+            'sub_budget_category_id' => 'nullable|numeric',
             'description' => 'nullable',
             'day_of_month' => 'required|date',
             'interval_id' => 'required|numeric',

@@ -29,6 +29,10 @@ class RecurringTransaction extends Model
         return $this->hasMany(Transaction::class, 'recurring_trans_id');
     }
 
+    public function subBudgetCategory(){
+        return $this->belongsTo(SubBudgetCategory::class, 'sub_budget_category_id');
+    }
+
     public function paymentType(){
         return $this->belongsTo(PaymentType::class, 'payment_type_id');
     }
@@ -45,6 +49,7 @@ class RecurringTransaction extends Model
                 'amount' => $trans->amount,
                 'type_id' => $trans->transaction_type,
                 'budget_cat_id' => $trans->budget_cat_id,
+                'sub_budget_category_id' => $trans->sub_budget_category_id,
                 'owner_id' => $trans->owner_id,
                 'description' => $trans->description,
                 'date_made' => create_datetime($trans->day_of_month),

@@ -32,6 +32,7 @@ function get_old_recurring_trans_data($recurringTransaction){
     $recurringTransaction->transaction_type = !empty(old('type_id')) ? old('type_id') : $recurringTransaction->transaction_type;
     $recurringTransaction->interval_id = !empty(old('interval_id')) ? old('interval_id') : $recurringTransaction->interval_id;
     $recurringTransaction->budget_cat_id = !empty(old('budget_cat_id')) ? old('budget_cat_id') : $recurringTransaction->budget_cat_id;
+    $recurringTransaction->sub_budget_category_id = old('sub_budget_category_id') ?? $recurringTransaction->sub_budget_category_id;
     $recurringTransaction->description = !empty(old('description')) ? old('description') : $recurringTransaction->description;
     $recurringTransaction->day_of_month = !empty(old('day_of_month')) ? old('day_of_month') : $recurringTransaction->day_of_month;
     $recurringTransaction->day_of_month = $recurringTransaction->day_of_month ?? Carbon::create('tomorrow')->toDateString();

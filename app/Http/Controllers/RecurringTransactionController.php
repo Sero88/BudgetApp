@@ -51,8 +51,11 @@ class RecurringTransactionController extends Controller
         //get payment types
         $paymentTypes = PaymentType::all()->sortBy('name');
 
+        //get subcategory
+        $subBudgetCategoryId = $recurringTransaction->subBudgetCategory->id ?? '';
+
         //return view
-        return view('recurring-transactions.create', compact('recurringTransaction', 'types', 'cats', 'intervals', 'paymentTypes'));
+        return view('recurring-transactions.create', compact('recurringTransaction', 'types', 'cats', 'intervals', 'paymentTypes', 'subBudgetCategoryId'));
     }
 
     /**
@@ -109,7 +112,10 @@ class RecurringTransactionController extends Controller
         //get payment types
         $paymentTypes = PaymentType::all()->sortBy('name');
 
-        return view('recurring-transactions.edit', compact('recurringTransaction', 'types', 'cats', 'intervals', 'paymentTypes'));
+        //get subcategory
+        $subBudgetCategoryId = $recurringTransaction->subBudgetCategory->id ?? '';
+
+        return view('recurring-transactions.edit', compact('recurringTransaction', 'types', 'cats', 'intervals', 'paymentTypes', 'subBudgetCategoryId'));
     }
 
     /**

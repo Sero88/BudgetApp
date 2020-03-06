@@ -23,14 +23,20 @@
     </select>
 </div>
 
-<div>
-    <label for="budget_cat_id">Category</label><br>
-    <select id="budget_cat_id" name="budget_cat_id">
-        @foreach($cats as $cat)
-            <?php $selected = $recurringTransaction->budget_cat_id == $cat->id ? ' selected' : '';?>
-            <option value="{{$cat->id}}"<?=$selected?>>{{$cat->name}}</option>
-        @endforeach()
-    </select>
+
+<div class="categories-container">
+    <div class="main-categories">
+        <label for="budget_cat_id">Category</label><br>
+        <select id="budget_cat_id" name="budget_cat_id">
+            @foreach($cats as $cat)
+                <?php $catSelected = $recurringTransaction->budget_cat_id == $cat->id ? ' selected' : '';?>
+                <option value="{{$cat->id}}"{{$catSelected}}>{{$cat->name}}</option>
+            @endforeach()
+        </select>
+        <data id="selected-sub-category" value="{{$subBudgetCategoryId}}"></data>
+
+
+    </div>
 </div>
 
 <div>

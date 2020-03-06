@@ -48,8 +48,6 @@ Version 2 will allow multiple balances
             @endforeach()
         </select>
         <data id="selected-sub-category" value="{{$subBudgetCategoryId}}"></data>
-
-
     </div>
 </div>
 

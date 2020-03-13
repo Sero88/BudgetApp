@@ -21,6 +21,10 @@ class SubBudgetCategory extends Model
         return $this->hasMany(RecurringTransaction::class, 'sub_budget_category_id');
     }
 
+    public function budgetCategory(){
+        return $this->belongsTo(BudgetCategory::class, 'budget_category_id');
+    }
+
     public function getExpensePercentage(){
         return round( ( $this->monthlyTransactions('credit')->sum('amount') / $this->budget ) * 100, 2) . '%';
     }

@@ -24,12 +24,13 @@ class BudgetHistory extends Model
 
         // get each category transaction actuals sum
         //dd(BudgetCategory::all()->sum('budget'));
-        foreach(BudgetCategory::all() as $budgetCat){
+        foreach(SubBudgetCategory::all() as $subBudgetCategory){
             $budgetHistoryEntry = [
-                'budget_cat_id' => $budgetCat->id,
+                'budget_cat_id' => $subBudgetCategory->budgetCategory->id,
+                'sub_budget_category_id' => $subBudgetCategory->id,
                 'month' => $lastMonth,
                 'year' => $year,
-                'budget' => $budgetCat->budget(),
+                'budget' => $subBudgetCategory->budget,
             ];
 
             BudgetHistory::create($budgetHistoryEntry);

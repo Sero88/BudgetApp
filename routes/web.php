@@ -47,6 +47,10 @@ Route::middleware(['auth'])->group(function (){
     Route::resource('transactions', 'TransactionController');
 
     Route::get('/api/reports/annual/{year?}', 'ReportController@annualReport')->name('api.annual_report');
+
+    Route::get('/api/reports/monthly/{year}/{month}', 'ReportController@monthlyReport')->name('api.monthly_report');
+
+
 });
 
 Route::get('html/budget-categories/{budget_category}/sub-budget-categories/{sub_budget_category?}', 'APIController@subBudgetCategorySelector')->name('selector.sub-budget-categories');

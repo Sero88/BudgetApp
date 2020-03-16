@@ -47,6 +47,28 @@ class Report
 
         }
 
-        echo json_encode($data);
+        return json_encode($data);
+    }
+
+    public static function monthly($year, $month){
+        //get monthly budget data
+        $monthlyBudgets = BudgetHistory::select(['budget_cat_id','budget'])
+            ->where([
+                ['year', '=', $year],
+                ['month', '=', $month]
+            ])
+            ->orderBy('month')
+            ->get();
+
+        //build data array
+        foreach($monthlyBudgets as $monthlyBudget){
+            $budgetCategory = BudgetCategory::find($monthlyBudget->budget_cat_id);
+            $data[$year][$month][$budgetCategory->name] = [
+                'actuals' => $budgetCategory->monthlyTransactions('credit', $year, Carbon::create($year, $month)->format('F') )->sum('amount'),
+                'budget' => $monthlyBudget->budget
+            ];
+        }
+
+        return json_encode($data);
     }
 }

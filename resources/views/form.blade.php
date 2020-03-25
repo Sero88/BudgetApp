@@ -55,7 +55,7 @@ Version 2 will allow multiple balances
     <label for="payment_type">Payment Type</label><br>
     <select id="payment_type" name="payment_type_id">
         @foreach($paymentTypes as $paymentType)
-            <?php $paymentTypeSelected = $paymentType->payment_type_id == $paymentType->id ? ' selected' : '';?>
+            <?php $paymentTypeSelected = $transaction->payment_type_id == $paymentType->id ? ' selected' : '';?>
             <option value="{{$paymentType->id}}"{{$paymentTypeSelected}}>{{$paymentType->name}}</option>
         @endforeach()
     </select>

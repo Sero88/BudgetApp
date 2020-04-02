@@ -22,5 +22,11 @@ class BudgetCategoriesTableSeeder extends Seeder
             'description' => 'Testing cat 2',
             'balance_id' => 1
         ]);
+
+        DB::Table('budget_categories')->insert([
+            'name' => 'testCat #3',
+            'description' => 'No sub budget categories',
+            'balance_id' => 1
+        ]);
     }
 }

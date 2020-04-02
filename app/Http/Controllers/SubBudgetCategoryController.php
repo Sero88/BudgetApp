@@ -100,8 +100,6 @@ class SubBudgetCategoryController extends Controller
     {
         $this->authorize('update', $budgetCategory);
 
-        //remove all associated transactions
-
         $subBudgetCategory->delete();
 
         return redirect(route("budget-categories.show", compact('balance', 'budgetCategory')) );

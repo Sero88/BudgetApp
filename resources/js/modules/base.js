@@ -5,9 +5,13 @@ export const elements = {
             categoriesContainer: document.querySelector('.categories-container'),
             mainCategoriesContainer: document.querySelector('.main-categories'),
             selectedSubCategory: document.getElementById('selected-sub-category'),
+            reportYearSelector: document.getElementById('report-year-selector'),
+            reportAnnualContainerId: document.getElementById('annual-report-container'),
             dynamicElementNames:{
                 subBudgetCategoriesContainerId: 'sub-budget-categories-container',
-                loader:'loader'
+                loader:'loader',
+                annualWrapperId: 'annual-report-wrapper',
+                monthDataClassSelector: '.monthly-data'
             }
         }
     },

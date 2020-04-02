@@ -99,7 +99,7 @@ class TransactionController extends Controller
         $balance = $transaction->budgetCategory->balance;
 
         //get payment types
-        $paymentTypes =PaymentType::all()->sortBy('name');
+        $paymentTypes = PaymentType::all()->sortBy('name');
 
         //get sub category
         $subBudgetCategoryId = $transaction->subBudgetCategory->id ?? '';

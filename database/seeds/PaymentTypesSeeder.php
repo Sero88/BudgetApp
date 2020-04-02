@@ -16,5 +16,11 @@ class PaymentTypesSeeder extends Seeder
             'description' => 'Great Western Bank Checking account',
             'owner_id' => 1
         ]);
+
+        DB::Table('payment_types')->insert([
+            'name' => 'Credit Card',
+            'description' => 'Credit card account',
+            'owner_id' => 1
+        ]);
     }
 }

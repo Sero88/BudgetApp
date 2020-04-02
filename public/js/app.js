@@ -39887,8 +39887,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var jquery_ui_ui_widgets_datepicker_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery-ui/ui/widgets/datepicker.js */ "./node_modules/jquery-ui/ui/widgets/datepicker.js");
 /* harmony import */ var jquery_ui_ui_widgets_datepicker_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery_ui_ui_widgets_datepicker_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _views_base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/base */ "./resources/js/views/base.js");
-/* harmony import */ var _views_budgetApp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/budgetApp */ "./resources/js/views/budgetApp.js");
+/* harmony import */ var _modules_base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/base */ "./resources/js/modules/base.js");
+/* harmony import */ var _modules_budgetApp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/budgetApp */ "./resources/js/modules/budgetApp.js");
+/* harmony import */ var _modules_reports__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/reports */ "./resources/js/modules/reports.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -39931,6 +39932,7 @@ window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_1___default.a;
 
 
 
+
 var app = {};
 jquery__WEBPACK_IMPORTED_MODULE_1___default()(document).ready(function () {
   var dateFormat = 'yy-mm-dd'; //datepicker fields
@@ -39958,57 +39960,209 @@ jquery__WEBPACK_IMPORTED_MODULE_1___default()(document).ready(function () {
 });
 window.addEventListener('load', function () {
   //get elements
-  app.elements = _views_base__WEBPACK_IMPORTED_MODULE_3__["elements"].getElements(); //add listener to budget categories select
+  app.elements = _modules_base__WEBPACK_IMPORTED_MODULE_3__["elements"].getElements(); //add listener to budget categories select
 
   if (app.elements.budgetCategoryField) {
     //get the subcategories for the current selected category
-    getSubCategories();
-    app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
+    //getSubCategories();
+    //app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
+    displayFetchedData(app.elements.mainCategoriesContainer, app.elements.dynamicElementNames.subBudgetCategoriesContainerId,
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var data;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return _modules_budgetApp__WEBPACK_IMPORTED_MODULE_4__["default"].getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
+
+            case 2:
+              data = _context.sent;
+              return _context.abrupt("return", data);
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    })));
+    app.elements.budgetCategoryField.addEventListener('change', function () {
+      displayFetchedData(app.elements.mainCategoriesContainer, app.elements.dynamicElementNames.subBudgetCategoriesContainerId,
+      /*#__PURE__*/
+      _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _modules_budgetApp__WEBPACK_IMPORTED_MODULE_4__["default"].getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
+
+              case 2:
+                data = _context2.sent;
+                return _context2.abrupt("return", data);
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      })));
+    });
+  } //add listener to year selector
+
+
+  if (app.elements.reportYearSelector) {
+    app.elements.reportYearSelector.addEventListener('change', function () {
+      displayFetchedData(app.elements.reportAnnualContainerId, app.elements.dynamicElementNames.annualWrapperId,
+      /*#__PURE__*/
+      _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getAnnualReport(app.elements.reportYearSelector.value);
+
+              case 2:
+                data = _context3.sent;
+                return _context3.abrupt("return", data);
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      })));
+    });
+
+    if (app.elements.reportYearSelector.value) {
+      displayFetchedData(app.elements.reportAnnualContainerId, app.elements.dynamicElementNames.annualWrapperId,
+      /*#__PURE__*/
+      _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getAnnualReport(app.elements.reportYearSelector.value);
+
+              case 2:
+                data = _context4.sent;
+                return _context4.abrupt("return", data);
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      })));
+    }
+  } //add listener to month clicked
+
+
+  if (app.elements.reportAnnualContainerId) {
+    app.elements.reportAnnualContainerId.addEventListener('click', function (e) {
+      var clickedMonth = e.target.closest('.month-link');
+      var month = clickedMonth.dataset.month;
+      var year = clickedMonth.dataset.year;
+      console.log(clickedMonth.parentNode);
+      displayFetchedData(clickedMonth.parentNode, _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getMonthlyID(year, month),
+      /*#__PURE__*/
+      _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getMonthlyReport(year, month);
+
+              case 2:
+                data = _context5.sent;
+                return _context5.abrupt("return", data);
+
+              case 4:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      })));
+    });
+    /* if(app.elements.reportYearSelector.value){
+         displayFetchedData(
+             app.elements.reportAnnualContainerId,
+             app.elements.dynamicElementNames.annualWrapperId,
+             async () => {
+                 const data = await report.getAnnualReport(app.elements.reportYearSelector.value);
+                 return data;
+             }
+         );
+     }*/
   }
 });
 
-function getSubCategories() {
-  return _getSubCategories.apply(this, arguments);
+function displayFetchedData(_x, _x2, _x3) {
+  return _displayFetchedData.apply(this, arguments);
 }
 
-function _getSubCategories() {
-  _getSubCategories = _asyncToGenerator(
+function _displayFetchedData() {
+  _displayFetchedData = _asyncToGenerator(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-    var currentSubBudgetCatElement, loaderId, subBudgetCategoriesSelector;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(parentContainer, containerId, dataFetch) {
+    var displayContainerElement, loaderId, dataContainer;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context.prev = _context.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
             //remove any subcategories that currently exist
-            currentSubBudgetCatElement = document.getElementById(app.elements.dynamicElementNames.subBudgetCategoriesContainerId);
+            displayContainerElement = document.getElementById(containerId);
 
-            if (currentSubBudgetCatElement) {
-              currentSubBudgetCatElement.remove();
+            if (displayContainerElement) {
+              displayContainerElement.remove();
             } //show the loader
 
 
-            loaderId = _views_base__WEBPACK_IMPORTED_MODULE_3__["loader"].addLoader(app.elements.mainCategoriesContainer, 'beforeend'); //get the new category
+            loaderId = _modules_base__WEBPACK_IMPORTED_MODULE_3__["loader"].addLoader(parentContainer, 'beforeend'); //get the new category
 
-            _context.next = 5;
-            return _views_budgetApp__WEBPACK_IMPORTED_MODULE_4__["default"].getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
+            _context6.next = 5;
+            return dataFetch();
 
           case 5:
-            subBudgetCategoriesSelector = _context.sent;
-            app.elements.categoriesContainer.insertAdjacentHTML('beforeend', subBudgetCategoriesSelector); //remove the loader if it exists
+            dataContainer = _context6.sent;
+            console.log(dataContainer);
+            parentContainer.insertAdjacentHTML('beforeend', dataContainer); //remove the loader if it exists
 
             if (loaderId) {
-              _views_base__WEBPACK_IMPORTED_MODULE_3__["loader"].removeLoader(loaderId);
+              _modules_base__WEBPACK_IMPORTED_MODULE_3__["loader"].removeLoader(loaderId);
             }
 
-          case 8:
+          case 9:
           case "end":
-            return _context.stop();
+            return _context6.stop();
         }
       }
-    }, _callee);
+    }, _callee6);
   }));
-  return _getSubCategories.apply(this, arguments);
+  return _displayFetchedData.apply(this, arguments);
 }
 
 /***/ }),
@@ -40071,10 +40225,10 @@ if (token) {
 
 /***/ }),
 
-/***/ "./resources/js/views/base.js":
-/*!************************************!*\
-  !*** ./resources/js/views/base.js ***!
-  \************************************/
+/***/ "./resources/js/modules/base.js":
+/*!**************************************!*\
+  !*** ./resources/js/modules/base.js ***!
+  \**************************************/
 /*! exports provided: elements, loader */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -40089,9 +40243,13 @@ var elements = {
       categoriesContainer: document.querySelector('.categories-container'),
       mainCategoriesContainer: document.querySelector('.main-categories'),
       selectedSubCategory: document.getElementById('selected-sub-category'),
+      reportYearSelector: document.getElementById('report-year-selector'),
+      reportAnnualContainerId: document.getElementById('annual-report-container'),
       dynamicElementNames: {
         subBudgetCategoriesContainerId: 'sub-budget-categories-container',
-        loader: 'loader'
+        loader: 'loader',
+        annualWrapperId: 'annual-report-wrapper',
+        monthDataClassSelector: '.monthly-data'
       }
     };
   }
@@ -40129,10 +40287,10 @@ var loader = {
 
 /***/ }),
 
-/***/ "./resources/js/views/budgetApp.js":
-/*!*****************************************!*\
-  !*** ./resources/js/views/budgetApp.js ***!
-  \*****************************************/
+/***/ "./resources/js/modules/budgetApp.js":
+/*!*******************************************!*\
+  !*** ./resources/js/modules/budgetApp.js ***!
+  \*******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -40158,25 +40316,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               subBudgetCategory = subBudgetCategory ? subBudgetCategory : '';
               _context.prev = 1;
-              console.log("/html/budget-categories/".concat(budgetCategory, "/sub-budget-categories/").concat(subBudgetCategory));
-              _context.next = 5;
+              _context.next = 4;
               return axios("/html/budget-categories/".concat(budgetCategory, "/sub-budget-categories/").concat(subBudgetCategory));
 
-            case 5:
+            case 4:
               result = _context.sent;
               return _context.abrupt("return", result.data);
 
-            case 9:
-              _context.prev = 9;
+            case 8:
+              _context.prev = 8;
               _context.t0 = _context["catch"](1);
               console.error('axios', _context.t0);
 
-            case 12:
+            case 11:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[1, 9]]);
+      }, _callee, null, [[1, 8]]);
     }));
 
     function getSubCategories(_x, _x2) {
@@ -40185,6 +40342,249 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     return getSubCategories;
   }()
+});
+
+/***/ }),
+
+/***/ "./resources/js/modules/reports.js":
+/*!*****************************************!*\
+  !*** ./resources/js/modules/reports.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./base */ "./resources/js/modules/base.js");
+
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _wrapRegExp(re, groups) { _wrapRegExp = function _wrapRegExp(re, groups) { return new BabelRegExp(re, undefined, groups); }; var _RegExp = _wrapNativeSuper(RegExp); var _super = RegExp.prototype; var _groups = new WeakMap(); function BabelRegExp(re, flags, groups) { var _this = _RegExp.call(this, re, flags); _groups.set(_this, groups || _groups.get(re)); return _this; } _inherits(BabelRegExp, _RegExp); BabelRegExp.prototype.exec = function (str) { var result = _super.exec.call(this, str); if (result) result.groups = buildGroups(result, this); return result; }; BabelRegExp.prototype[Symbol.replace] = function (str, substitution) { if (typeof substitution === "string") { var groups = _groups.get(this); return _super[Symbol.replace].call(this, str, substitution.replace(/\$<([^>]+)>/g, function (_, name) { return "$" + groups[name]; })); } else if (typeof substitution === "function") { var _this = this; return _super[Symbol.replace].call(this, str, function () { var args = []; args.push.apply(args, arguments); if (_typeof(args[args.length - 1]) !== "object") { args.push(buildGroups(args, _this)); } return substitution.apply(this, args); }); } else { return _super[Symbol.replace].call(this, str, substitution); } }; function buildGroups(result, re) { var g = _groups.get(re); return Object.keys(g).reduce(function (groups, name) { groups[name] = result[g[name]]; return groups; }, Object.create(null)); } return _wrapRegExp.apply(this, arguments); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
+
+function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+
+function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+function getAnnualData(_x) {
+  return _getAnnualData.apply(this, arguments);
+}
+
+function _getAnnualData() {
+  _getAnnualData = _asyncToGenerator(
+  /*#__PURE__*/
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(year) {
+    var result;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return axios("/api/reports/annual/".concat(year));
+
+          case 3:
+            result = _context3.sent;
+            return _context3.abrupt("return", result.data);
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3["catch"](0);
+            console.error('axios', _context3.t0);
+
+          case 10:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 7]]);
+  }));
+  return _getAnnualData.apply(this, arguments);
+}
+
+function getMonthlyData(_x2, _x3) {
+  return _getMonthlyData.apply(this, arguments);
+}
+
+function _getMonthlyData() {
+  _getMonthlyData = _asyncToGenerator(
+  /*#__PURE__*/
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(year, month) {
+    var result;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _context4.next = 3;
+            return axios("/api/reports/monthly/".concat(year, "/").concat(month));
+
+          case 3:
+            result = _context4.sent;
+            return _context4.abrupt("return", result.data);
+
+          case 7:
+            _context4.prev = 7;
+            _context4.t0 = _context4["catch"](0);
+            console.error('axios', _context4.t0);
+
+          case 10:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[0, 7]]);
+  }));
+  return _getMonthlyData.apply(this, arguments);
+}
+
+function annualReportView(year, data) {
+  function breakDownMonths(monthlyData) {
+    var monthData = '';
+    console.log('monthly is not empty');
+
+    for (var month in data[year].monthly) {
+      //get date
+      var date = new Date(year, month - 1);
+
+      var dateRegex = _wrapRegExp(/([0-9A-Z_a-z]+) ([0-9A-Z_a-z]+) ([0-9]+)/g, {
+        month: 2,
+        day: 3
+      });
+
+      var monthName = dateRegex.exec(date.toDateString()).groups.month; //get expense percentage
+
+      var expensePercentage = data[year].monthly[month].budget ? (parseInt(data[year].monthly[month].actuals, 10) / parseInt(data[year].monthly[month].budget, 10) * 100).toFixed(2) : 'No budget set'; //add the month data to var
+
+      monthData += "<div class=\"month-data\"><a class=\"month-link\" href=\"#\" title=\"retrieve ".concat(monthName, " data\" data-month=\"").concat(month, "\" data-year=\"").concat(year, "\">").concat(monthName, " ").concat(data[year].monthly[month].actuals, "/").concat(data[year].monthly[month].budget, " (").concat(expensePercentage, "%)</a></div>");
+    }
+
+    return monthData;
+  }
+
+  if ('monthly' in data[year]) {
+    return "<div id=\"annual-report-wrapper\">".concat(breakDownMonths(data[year].monthly), "</div>");
+  } else {
+    return "<div id=\"annual-report-wrapper\">No budget data found. Year actuals: ".concat(data[year].actualsTotal, "</div>");
+  }
+}
+
+function createReportId(year, month) {
+  return "monthly-report-".concat(year, "-").concat(month);
+}
+
+function monthlyReportView(year, month, data) {
+  console.log(data);
+  var id = createReportId(year, month);
+  var categoryData = '';
+
+  for (var category in data[year][month]) {
+    console.log(data[year][month][category].actuals);
+    var expensePercentage = data[year][month][category].budget ? data[year][month][category].actuals / data[year][month][category].budget + "%" : 'No budget set';
+    categoryData += "<div class=\"category-data\"><a class=\"category-link\" href=\"#\" title=\"retrieve ".concat(category, " data\" data-category=\"").concat(category, "\">").concat(category, " ").concat(data[year][month][category].actuals, "/").concat(data[year][month][category].budget, " (").concat(expensePercentage, ")</a></div>");
+  }
+
+  return "<div class=\"monthly-report\" id=\"".concat(id, "\">").concat(categoryData, "</div>"); //todo next  - build this report
+}
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getAnnualReport: function () {
+    var _getAnnualReport = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(year) {
+      var data;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return getAnnualData(year);
+
+            case 3:
+              data = _context.sent;
+              return _context.abrupt("return", annualReportView(year, data));
+
+            case 7:
+              _context.prev = 7;
+              _context.t0 = _context["catch"](0);
+              console.error('fetch', _context.t0);
+
+            case 10:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 7]]);
+    }));
+
+    function getAnnualReport(_x4) {
+      return _getAnnualReport.apply(this, arguments);
+    }
+
+    return getAnnualReport;
+  }(),
+  getMonthlyReport: function () {
+    var _getMonthlyReport = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(year, month) {
+      var data;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return getMonthlyData(year, month);
+
+            case 3:
+              data = _context2.sent;
+              return _context2.abrupt("return", monthlyReportView(year, month, data));
+
+            case 7:
+              _context2.prev = 7;
+              _context2.t0 = _context2["catch"](0);
+              console.error('fetch', _context2.t0);
+
+            case 10:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[0, 7]]);
+    }));
+
+    function getMonthlyReport(_x5, _x6) {
+      return _getMonthlyReport.apply(this, arguments);
+    }
+
+    return getMonthlyReport;
+  }(),
+  getMonthlyID: function getMonthlyID(year, month) {
+    return createReportId(year, month);
+  }
 });
 
 /***/ }),

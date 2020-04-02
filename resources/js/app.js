@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
+
 require('./bootstrap');
 
 //window.Vue = require('vue');
@@ -35,8 +37,10 @@ const app = new Vue({
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 import 'jquery-ui/ui/widgets/datepicker.js';
-import {elements,loader} from './views/base';
-import budgetApp from './views/budgetApp';
+import {elements, loader} from "./modules/base";
+import budgetApp from "./modules/budgetApp";
+import report from "./modules/reports";
+
 
 var app = {};
 $(document).ready(function(){
@@ -74,28 +78,108 @@ window.addEventListener('load', () => {
     //add listener to budget categories select
     if(app.elements.budgetCategoryField){
         //get the subcategories for the current selected category
-        getSubCategories();
+        //getSubCategories();
+        //app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
 
-        app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
+        displayFetchedData(
+            app.elements.mainCategoriesContainer,
+            app.elements.dynamicElementNames.subBudgetCategoriesContainerId,
+            async () =>{
+                const data = await budgetApp.getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
+                return data;
+            }
+        );
+
+        app.elements.budgetCategoryField.addEventListener('change', () => {
+            displayFetchedData(
+                app.elements.mainCategoriesContainer,
+                app.elements.dynamicElementNames.subBudgetCategoriesContainerId,
+                async () =>{
+                    const data = await budgetApp.getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
+                    return data;
+                }
+            );
+        });
     }
+
+
+
+    //add listener to year selector
+    if(app.elements.reportYearSelector){
+        app.elements.reportYearSelector.addEventListener('change', () => {
+            displayFetchedData(
+                app.elements.reportAnnualContainerId,
+                app.elements.dynamicElementNames.annualWrapperId,
+                async () => {
+                    const data = await report.getAnnualReport(app.elements.reportYearSelector.value);
+                    return data;
+                }
+            );
+        });
+
+        if(app.elements.reportYearSelector.value){
+            displayFetchedData(
+                app.elements.reportAnnualContainerId,
+                app.elements.dynamicElementNames.annualWrapperId,
+                async () => {
+                    const data = await report.getAnnualReport(app.elements.reportYearSelector.value);
+                    return data;
+                }
+            );
+        }
+    }
+
+
+    //add listener to month clicked
+    if(app.elements.reportAnnualContainerId){
+        app.elements.reportAnnualContainerId.addEventListener('click', (e) => {
+            const clickedMonth = e.target.closest('.month-link');
+            const month = clickedMonth.dataset.month;
+            const year = clickedMonth.dataset.year;
+
+
+            console.log(clickedMonth.parentNode);
+
+            displayFetchedData(
+                clickedMonth.parentNode,
+                report.getMonthlyID(year, month),
+                async () => {
+                    const data = await report.getMonthlyReport(year, month);
+                    return data;
+                }
+            );
+        });
+
+       /* if(app.elements.reportYearSelector.value){
+            displayFetchedData(
+                app.elements.reportAnnualContainerId,
+                app.elements.dynamicElementNames.annualWrapperId,
+                async () => {
+                    const data = await report.getAnnualReport(app.elements.reportYearSelector.value);
+                    return data;
+                }
+            );
+        }*/
+    }
+
 
 });
 
-
-async function getSubCategories(){
+async function displayFetchedData(parentContainer, containerId, dataFetch ){
     //remove any subcategories that currently exist
-    const currentSubBudgetCatElement = document.getElementById(app.elements.dynamicElementNames.subBudgetCategoriesContainerId);
-    if(currentSubBudgetCatElement){
-        currentSubBudgetCatElement.remove();
+    const displayContainerElement = document.getElementById(containerId);
+    if(displayContainerElement){
+        displayContainerElement.remove();
     }
 
     //show the loader
-    const loaderId = loader.addLoader(app.elements.mainCategoriesContainer, 'beforeend');
+    const loaderId = loader.addLoader(parentContainer, 'beforeend');
 
     //get the new category
-    const subBudgetCategoriesSelector = await budgetApp.getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
+    const dataContainer = await dataFetch();
 
-    app.elements.categoriesContainer.insertAdjacentHTML('beforeend', subBudgetCategoriesSelector);
+    console.log(dataContainer);
+    parentContainer.insertAdjacentHTML('beforeend', dataContainer);
 
     //remove the loader if it exists
     if(loaderId){
@@ -103,5 +187,3 @@ async function getSubCategories(){
     }
 
 }
-
-

@@ -13,8 +13,9 @@ class BudgetHistory extends Model
 
     public static function storePreviousMonth(){
         //get last month and year
-        $lastMonth = Carbon::create('last month')->format('m');
-        $year = Carbon::create('last month')->format('Y');
+        $lastMonth = Carbon::now()->firstOfMonth()->subMonth(1)->format('m');
+        $year = Carbon::now()->firstOfMonth()->subMonth(1)->format('Y');
+
 
         //verify data hasn't been entered already, if so return
         if( BudgetHistory::verifyPreviousData($lastMonth, $year) ){

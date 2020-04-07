@@ -92,7 +92,6 @@ class TransactionsTableSeeder extends Seeder
             'type_id' => 1,
             'budget_cat_id' => 3,
             'owner_id' => 1,
-            'sub_budget_category_id' => 1,
             'description' => 'Transaction two months back',
             'date_made' => Carbon::now()->firstOfMonth()->subMonth(2)->toDateString(),
             'payment_type_id' => 1

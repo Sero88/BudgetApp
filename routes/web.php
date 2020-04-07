@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function (){
 
     Route::get('/api/reports/annual/{year?}', 'APIController@annualReport')->name('api.annual_report');
 
-    Route::get('/api/reports/monthly/{year}/{month}', 'APIController@monthlyReport')->name('api.monthly_report');
+    Route::get('/api/reports/monthly/{year}/{month}/{budget_category?}', 'APIController@monthlyReport')->name('api.monthly_report');
 
     Route::get('html/budget-categories/{budget_category}/sub-budget-categories/{sub_budget_category?}', 'APIController@subBudgetCategorySelector')->name('selector.sub-budget-categories');
 

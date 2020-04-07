@@ -31,11 +31,20 @@ class APIController extends Controller
         return $year ? Report::annual($year) : Error::showError(400, 'Invalid input. Year must be a number');
     }
 
-    public function  monthlyReport($year = null, $month = null){
+    public function  monthlyReport($year = null, $month = null, $budgetCategoryId = null){
         $year = Validator::validateNumber($year);
         $month = Validator::validateNumber($month);
+        $budgetCategory = Validator::validateNumber($budgetCategoryId) ? BudgetCategory::withTrashed()->find($budgetCategoryId) : false;
 
-        return $month && $year ? Report::monthly($year, $month) : Error::showError(400, 'Invalid input. Year and month must be a number.');
+        if( !($month && $year) ){
+            return Error::showError(400, 'Invalid input. Year and month must be a number.');
+        } elseif($budgetCategoryId && !$budgetCategory){
+            return Error::showError(404, "Unable to find the specified budget category.");
+        } elseif($budgetCategory){
+            return Report::monthlySubCategories($year, $month, $budgetCategoryId);
+        } else{
+            return Report::monthlyCategories($year, $month);
+        }
     }
 
 }

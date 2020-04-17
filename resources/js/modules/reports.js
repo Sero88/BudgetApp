@@ -1,6 +1,12 @@
 import {elements} from './base';
 
+function createReportId(year, month){
+    return `monthly-report-${year}-${month}`;
+}
 
+function createCategoryReportId(year, month, category){
+    return `monthly-category-report-${year}-${month}-${category}`;
+}
 
 async function getAnnualData(year){
     try{
@@ -11,10 +17,9 @@ async function getAnnualData(year){
     }
 }
 
-
-async function getMonthlyData(year, month){
+async function getMonthlyData(year, month, category = ''){
     try{
-        const result = await axios(`/api/reports/monthly/${year}/${month}`);
+        const result = await axios(`/api/reports/monthly/${year}/${month}/${category}`);
         return result.data;
     } catch (e){
         console.error('axios', e);
@@ -24,7 +29,6 @@ async function getMonthlyData(year, month){
 function annualReportView(year,data){
     function breakDownMonths(monthlyData){
         let monthData = '';
-        console.log('monthly is not empty');
 
         for(let month in data[year].monthly){
             //get date
@@ -33,13 +37,13 @@ function annualReportView(year,data){
             const monthName = dateRegex.exec(date.toDateString()).groups.month;
 
             //get expense percentage
-            const expensePercentage = data[year].monthly[month].budget  ? (parseInt(data[year].monthly[month].actuals, 10)/parseInt(data[year].monthly[month].budget, 10) * 100).toFixed(2): 'No budget set';
+            const expensePercentage = data[year].monthly[month].budget  ? ( (parseFloat(data[year].monthly[month].actuals)/parseFloat(data[year].monthly[month].budget)) * 100).toFixed(2): 'No budget set';
 
             //add the month data to var
-            monthData += `<div class="month-data"><a class="month-link" href="#" title="retrieve ${monthName} data" data-month="${month}" data-year="${year}">${monthName} ${data[year].monthly[month].actuals}/${data[year].monthly[month].budget} (${expensePercentage}%)</a></div>`;
+            monthData += `<li class="month-data"><a class="month-link" href="#" title="retrieve ${monthName} data" data-month="${month}" data-year="${year}">${monthName} ${data[year].monthly[month].actuals}/${data[year].monthly[month].budget} (${expensePercentage}%)</a></li>`;
         }
 
-        return monthData;
+        return `<ul class="monthly-list">${monthData}</ul>`;
 
     }
 
@@ -50,23 +54,36 @@ function annualReportView(year,data){
     }
 }
 
-function createReportId(year, month){
-    return `monthly-report-${year}-${month}`;
-}
-
-
 function monthlyReportView(year, month, data){
-    console.log(data);
     const id = createReportId(year, month);
     let categoryData = '';
     for(let category in data[year][month]){
-        console.log(data[year][month][category].actuals);
-        const expensePercentage = data[year][month][category].budget ? data[year][month][category].actuals/data[year][month][category].budget + "%" : 'No budget set'
-        categoryData += `<div class="category-data"><a class="category-link" href="#" title="retrieve ${category} data" data-category="${category}">${category} ${data[year][month][category].actuals}/${data[year][month][category].budget} (${expensePercentage})</a></div>`;
+        const expensePercentage = data[year][month][category].budget ? (parseFloat(data[year][month][category].actuals)/parseFloat(data[year][month][category].budget) * 100).toFixed(2) + "%" : 'No budget set'
+
+        if(data[year][month][category].budget){
+            categoryData += `<li class="category-data"><a class="category-link" href="#" title="retrieve ${data[year][month][category].name} data" data-category="${category}" data-year="${year}" data-month="${month}">${data[year][month][category].name} ${data[year][month][category].actuals}/${data[year][month][category].budget} (${expensePercentage})</a></li>`;
+        } else{
+            categoryData += `<li class="category-data">${data[year][month][category].name} ${data[year][month][category].actuals}/${data[year][month][category].budget} (${expensePercentage})</li>`;
+        }
+
     }
 
 
-    return `<div class="monthly-report" id="${id}">${categoryData}</div>`; //todo next  - build this report
+    return `<div class="monthly-report" id="${id}"><ul>${categoryData}</ul></div>`;
+}
+
+function monthlyCategoryReportView(year, month, category, data){
+    const id = createCategoryReportId(year, month, category);
+    let categoryData = '';
+
+    for(let subCategory in data[year][month][category]){
+        const expensePercentage = data[year][month][category][subCategory].budget ? (parseFloat(data[year][month][category][subCategory].actuals)/parseFloat(data[year][month][category][subCategory].budget) * 100).toFixed(2) + "%" : 'No budget set'
+
+        categoryData += `<div class="sub-category-data">${data[year][month][category][subCategory].name} ${data[year][month][category][subCategory].actuals}/${data[year][month][category][subCategory].budget} (${expensePercentage})</div>`;
+    }
+
+    return `<div class="monthly-category-report" id="${id}">${categoryData}</div>`;
+
 }
 
 export default {
@@ -88,8 +105,21 @@ export default {
         }
     },
 
+    async getMonthlyCategoryReport(year, month, category){
+        try{
+            const data = await getMonthlyData(year, month, category);
+            return monthlyCategoryReportView(year, month, category, data);
+        } catch (e){
+            console.error('fetch', e);
+        }
+    },
+
     getMonthlyID(year, month){
        return createReportId(year,month);
+    },
+
+    getMonthlyCategoryReportID(year, month, category){
+        return createCategoryReportId(year, month, category);
     }
 }
 

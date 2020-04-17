@@ -39920,12 +39920,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //window.
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-/*
-const app = new Vue({
-    el: '#app',
-});
-*/
-
 
 
 window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_1___default.a;
@@ -39951,21 +39945,12 @@ jquery__WEBPACK_IMPORTED_MODULE_1___default()(document).ready(function () {
       return;
     }
   });
-  jquery__WEBPACK_IMPORTED_MODULE_1___default()('.delete-button-cat').click(function (e) {
-    if (!confirm('Deleting Budget Category will remove associated recurring and regular transactions. Proceed?')) {
-      e.preventDefault();
-      return;
-    }
-  });
 });
 window.addEventListener('load', function () {
   //get elements
   app.elements = _modules_base__WEBPACK_IMPORTED_MODULE_3__["elements"].getElements(); //add listener to budget categories select
 
   if (app.elements.budgetCategoryField) {
-    //get the subcategories for the current selected category
-    //getSubCategories();
-    //app.elements.budgetCategoryField.addEventListener('change', getSubCategories);
     displayFetchedData(app.elements.mainCategoriesContainer, app.elements.dynamicElementNames.subBudgetCategoriesContainerId,
     /*#__PURE__*/
     _asyncToGenerator(
@@ -40078,47 +40063,74 @@ window.addEventListener('load', function () {
 
   if (app.elements.reportAnnualContainerId) {
     app.elements.reportAnnualContainerId.addEventListener('click', function (e) {
-      var clickedMonth = e.target.closest('.month-link');
-      var month = clickedMonth.dataset.month;
-      var year = clickedMonth.dataset.year;
-      console.log(clickedMonth.parentNode);
-      displayFetchedData(clickedMonth.parentNode, _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getMonthlyID(year, month),
-      /*#__PURE__*/
-      _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getMonthlyReport(year, month);
+      e.preventDefault(); //check if use clicked on the month or category
 
-              case 2:
-                data = _context5.sent;
-                return _context5.abrupt("return", data);
+      if (e.target.matches('.month-link')) {
+        var month = e.target.dataset.month;
+        var year = e.target.dataset.year;
+        displayFetchedData(e.target.parentNode, _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getMonthlyID(year, month),
+        /*#__PURE__*/
+        _asyncToGenerator(
+        /*#__PURE__*/
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+          var data;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+            while (1) {
+              switch (_context5.prev = _context5.next) {
+                case 0:
+                  _context5.next = 2;
+                  return _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getMonthlyReport(year, month);
 
-              case 4:
-              case "end":
-                return _context5.stop();
+                case 2:
+                  data = _context5.sent;
+                  return _context5.abrupt("return", data);
+
+                case 4:
+                case "end":
+                  return _context5.stop();
+              }
             }
-          }
-        }, _callee5);
-      })));
+          }, _callee5);
+        })));
+      } else if (e.target.matches('.category-link')) {
+        var _month = e.target.dataset.month;
+        var _year = e.target.dataset.year;
+        var category = e.target.dataset.category;
+        displayFetchedData(e.target.parentNode, _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getMonthlyCategoryReportID(_year, _month, category),
+        /*#__PURE__*/
+        _asyncToGenerator(
+        /*#__PURE__*/
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+          var data;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+            while (1) {
+              switch (_context6.prev = _context6.next) {
+                case 0:
+                  _context6.next = 2;
+                  return _modules_reports__WEBPACK_IMPORTED_MODULE_5__["default"].getMonthlyCategoryReport(_year, _month, category);
+
+                case 2:
+                  data = _context6.sent;
+                  return _context6.abrupt("return", data);
+
+                case 4:
+                case "end":
+                  return _context6.stop();
+              }
+            }
+          }, _callee6);
+        })));
+      }
     });
-    /* if(app.elements.reportYearSelector.value){
-         displayFetchedData(
-             app.elements.reportAnnualContainerId,
-             app.elements.dynamicElementNames.annualWrapperId,
-             async () => {
-                 const data = await report.getAnnualReport(app.elements.reportYearSelector.value);
-                 return data;
-             }
-         );
-     }*/
   }
 });
+/**
+ * Displays the fetched data from the API
+ * @param parentContainer
+ * @param containerId
+ * @param dataFetch
+ * @returns {Promise<void>}
+ */
 
 function displayFetchedData(_x, _x2, _x3) {
   return _displayFetchedData.apply(this, arguments);
@@ -40127,11 +40139,11 @@ function displayFetchedData(_x, _x2, _x3) {
 function _displayFetchedData() {
   _displayFetchedData = _asyncToGenerator(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(parentContainer, containerId, dataFetch) {
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(parentContainer, containerId, dataFetch) {
     var displayContainerElement, loaderId, dataContainer;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
             //remove any subcategories that currently exist
             displayContainerElement = document.getElementById(containerId);
@@ -40143,24 +40155,23 @@ function _displayFetchedData() {
 
             loaderId = _modules_base__WEBPACK_IMPORTED_MODULE_3__["loader"].addLoader(parentContainer, 'beforeend'); //get the new category
 
-            _context6.next = 5;
+            _context7.next = 5;
             return dataFetch();
 
           case 5:
-            dataContainer = _context6.sent;
-            console.log(dataContainer);
+            dataContainer = _context7.sent;
             parentContainer.insertAdjacentHTML('beforeend', dataContainer); //remove the loader if it exists
 
             if (loaderId) {
               _modules_base__WEBPACK_IMPORTED_MODULE_3__["loader"].removeLoader(loaderId);
             }
 
-          case 9:
+          case 8:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6);
+    }, _callee7);
   }));
   return _displayFetchedData.apply(this, arguments);
 }
@@ -40388,6 +40399,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+function createReportId(year, month) {
+  return "monthly-report-".concat(year, "-").concat(month);
+}
+
+function createCategoryReportId(year, month, category) {
+  return "monthly-category-report-".concat(year, "-").concat(month, "-").concat(category);
+}
+
 function getAnnualData(_x) {
   return _getAnnualData.apply(this, arguments);
 }
@@ -40395,43 +40414,7 @@ function getAnnualData(_x) {
 function _getAnnualData() {
   _getAnnualData = _asyncToGenerator(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(year) {
-    var result;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.prev = 0;
-            _context3.next = 3;
-            return axios("/api/reports/annual/".concat(year));
-
-          case 3:
-            result = _context3.sent;
-            return _context3.abrupt("return", result.data);
-
-          case 7:
-            _context3.prev = 7;
-            _context3.t0 = _context3["catch"](0);
-            console.error('axios', _context3.t0);
-
-          case 10:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3, null, [[0, 7]]);
-  }));
-  return _getAnnualData.apply(this, arguments);
-}
-
-function getMonthlyData(_x2, _x3) {
-  return _getMonthlyData.apply(this, arguments);
-}
-
-function _getMonthlyData() {
-  _getMonthlyData = _asyncToGenerator(
-  /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(year, month) {
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(year) {
     var result;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
       while (1) {
@@ -40439,7 +40422,7 @@ function _getMonthlyData() {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return axios("/api/reports/monthly/".concat(year, "/").concat(month));
+            return axios("/api/reports/annual/".concat(year));
 
           case 3:
             result = _context4.sent;
@@ -40457,13 +40440,51 @@ function _getMonthlyData() {
       }
     }, _callee4, null, [[0, 7]]);
   }));
+  return _getAnnualData.apply(this, arguments);
+}
+
+function getMonthlyData(_x2, _x3) {
+  return _getMonthlyData.apply(this, arguments);
+}
+
+function _getMonthlyData() {
+  _getMonthlyData = _asyncToGenerator(
+  /*#__PURE__*/
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(year, month) {
+    var category,
+        result,
+        _args5 = arguments;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            category = _args5.length > 2 && _args5[2] !== undefined ? _args5[2] : '';
+            _context5.prev = 1;
+            _context5.next = 4;
+            return axios("/api/reports/monthly/".concat(year, "/").concat(month, "/").concat(category));
+
+          case 4:
+            result = _context5.sent;
+            return _context5.abrupt("return", result.data);
+
+          case 8:
+            _context5.prev = 8;
+            _context5.t0 = _context5["catch"](1);
+            console.error('axios', _context5.t0);
+
+          case 11:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5, null, [[1, 8]]);
+  }));
   return _getMonthlyData.apply(this, arguments);
 }
 
 function annualReportView(year, data) {
   function breakDownMonths(monthlyData) {
     var monthData = '';
-    console.log('monthly is not empty');
 
     for (var month in data[year].monthly) {
       //get date
@@ -40476,12 +40497,12 @@ function annualReportView(year, data) {
 
       var monthName = dateRegex.exec(date.toDateString()).groups.month; //get expense percentage
 
-      var expensePercentage = data[year].monthly[month].budget ? (parseInt(data[year].monthly[month].actuals, 10) / parseInt(data[year].monthly[month].budget, 10) * 100).toFixed(2) : 'No budget set'; //add the month data to var
+      var expensePercentage = data[year].monthly[month].budget ? (parseFloat(data[year].monthly[month].actuals) / parseFloat(data[year].monthly[month].budget) * 100).toFixed(2) : 'No budget set'; //add the month data to var
 
-      monthData += "<div class=\"month-data\"><a class=\"month-link\" href=\"#\" title=\"retrieve ".concat(monthName, " data\" data-month=\"").concat(month, "\" data-year=\"").concat(year, "\">").concat(monthName, " ").concat(data[year].monthly[month].actuals, "/").concat(data[year].monthly[month].budget, " (").concat(expensePercentage, "%)</a></div>");
+      monthData += "<li class=\"month-data\"><a class=\"month-link\" href=\"#\" title=\"retrieve ".concat(monthName, " data\" data-month=\"").concat(month, "\" data-year=\"").concat(year, "\">").concat(monthName, " ").concat(data[year].monthly[month].actuals, "/").concat(data[year].monthly[month].budget, " (").concat(expensePercentage, "%)</a></li>");
     }
 
-    return monthData;
+    return "<ul class=\"monthly-list\">".concat(monthData, "</ul>");
   }
 
   if ('monthly' in data[year]) {
@@ -40491,22 +40512,33 @@ function annualReportView(year, data) {
   }
 }
 
-function createReportId(year, month) {
-  return "monthly-report-".concat(year, "-").concat(month);
-}
-
 function monthlyReportView(year, month, data) {
-  console.log(data);
   var id = createReportId(year, month);
   var categoryData = '';
 
   for (var category in data[year][month]) {
-    console.log(data[year][month][category].actuals);
-    var expensePercentage = data[year][month][category].budget ? data[year][month][category].actuals / data[year][month][category].budget + "%" : 'No budget set';
-    categoryData += "<div class=\"category-data\"><a class=\"category-link\" href=\"#\" title=\"retrieve ".concat(category, " data\" data-category=\"").concat(category, "\">").concat(category, " ").concat(data[year][month][category].actuals, "/").concat(data[year][month][category].budget, " (").concat(expensePercentage, ")</a></div>");
+    var expensePercentage = data[year][month][category].budget ? (parseFloat(data[year][month][category].actuals) / parseFloat(data[year][month][category].budget) * 100).toFixed(2) + "%" : 'No budget set';
+
+    if (data[year][month][category].budget) {
+      categoryData += "<li class=\"category-data\"><a class=\"category-link\" href=\"#\" title=\"retrieve ".concat(data[year][month][category].name, " data\" data-category=\"").concat(category, "\" data-year=\"").concat(year, "\" data-month=\"").concat(month, "\">").concat(data[year][month][category].name, " ").concat(data[year][month][category].actuals, "/").concat(data[year][month][category].budget, " (").concat(expensePercentage, ")</a></li>");
+    } else {
+      categoryData += "<li class=\"category-data\">".concat(data[year][month][category].name, " ").concat(data[year][month][category].actuals, "/").concat(data[year][month][category].budget, " (").concat(expensePercentage, ")</li>");
+    }
   }
 
-  return "<div class=\"monthly-report\" id=\"".concat(id, "\">").concat(categoryData, "</div>"); //todo next  - build this report
+  return "<div class=\"monthly-report\" id=\"".concat(id, "\"><ul>").concat(categoryData, "</ul></div>");
+}
+
+function monthlyCategoryReportView(year, month, category, data) {
+  var id = createCategoryReportId(year, month, category);
+  var categoryData = '';
+
+  for (var subCategory in data[year][month][category]) {
+    var expensePercentage = data[year][month][category][subCategory].budget ? (parseFloat(data[year][month][category][subCategory].actuals) / parseFloat(data[year][month][category][subCategory].budget) * 100).toFixed(2) + "%" : 'No budget set';
+    categoryData += "<div class=\"sub-category-data\">".concat(data[year][month][category][subCategory].name, " ").concat(data[year][month][category][subCategory].actuals, "/").concat(data[year][month][category][subCategory].budget, " (").concat(expensePercentage, ")</div>");
+  }
+
+  return "<div class=\"monthly-category-report\" id=\"".concat(id, "\">").concat(categoryData, "</div>");
 }
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -40582,8 +40614,47 @@ function monthlyReportView(year, month, data) {
 
     return getMonthlyReport;
   }(),
+  getMonthlyCategoryReport: function () {
+    var _getMonthlyCategoryReport = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(year, month, category) {
+      var data;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.prev = 0;
+              _context3.next = 3;
+              return getMonthlyData(year, month, category);
+
+            case 3:
+              data = _context3.sent;
+              return _context3.abrupt("return", monthlyCategoryReportView(year, month, category, data));
+
+            case 7:
+              _context3.prev = 7;
+              _context3.t0 = _context3["catch"](0);
+              console.error('fetch', _context3.t0);
+
+            case 10:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, null, [[0, 7]]);
+    }));
+
+    function getMonthlyCategoryReport(_x7, _x8, _x9) {
+      return _getMonthlyCategoryReport.apply(this, arguments);
+    }
+
+    return getMonthlyCategoryReport;
+  }(),
   getMonthlyID: function getMonthlyID(year, month) {
     return createReportId(year, month);
+  },
+  getMonthlyCategoryReportID: function getMonthlyCategoryReportID(year, month, category) {
+    return createCategoryReportId(year, month, category);
   }
 });
 

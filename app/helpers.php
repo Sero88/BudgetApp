@@ -94,3 +94,8 @@ function create_datetime($date){
     $time = Carbon::now()->isoFormat('HH:mm:ss');
     return Carbon::create($date)->toDateString() . ' ' . $time;
 }
+
+
+function format_number($number){
+    return number_format($number, 2, '.', '');
+}

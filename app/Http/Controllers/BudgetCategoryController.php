@@ -104,9 +104,6 @@ class BudgetCategoryController extends Controller
     {
         $this->authorize('update', $budgetCategory);
 
-        //remove all associated transactions
-        $budgetCategory->remove_transactions();
-
         $budgetCategory->delete();
 
         return redirect(route("balances.show", compact('balance')) );

@@ -11,13 +11,13 @@ class Report
         $data = [];
 
         //get monthly totals - exclude current month
-        $monthlyTotals = Transaction::select(DB::raw('SUM(amount) as total, date_format(cast(date_made as DATE), \'%c\') as month'))
+        $monthlyTotals = Transaction::select(DB::raw('SUM(amount) as total, date_made'))
             ->where([
                 ['date_made', 'like', $year . '-%'],
-                ['date_made', '<', Carbon::now()->format('Y-m')],
+                ['date_made', '<', Carbon::now()->format('Y-m-01')],
                 ['type_id', '=', TransactionType::getId('credit') ]
             ])
-            ->groupBy('month')
+            ->groupBy('date_made')
             ->get();
 
         //get monthly budgets
@@ -37,14 +37,15 @@ class Report
         //build data array
         foreach($budgetTotals as $budgetTotal){
             $actuals = $monthlyTotals->filter(function($value, $key) use ($budgetTotal){
-                return $value->month == $budgetTotal->month;
+                return Carbon::create($value->date_made)->format('n') == $budgetTotal->month;
             });
 
-            if($actuals->isNotEmpty()){
-                $data[$year]['monthly'][$budgetTotal->month] = ['actuals' => $actuals->first()->total, 'budget' => $budgetTotal->total];
-            }
 
+            if($actuals->isNotEmpty()) {
+                $data[$year]['monthly'][$budgetTotal->month] = ['actuals' => format_number($actuals->sum('total')), 'budget' => $budgetTotal->total];
+            }
         }
+
 
         return json_encode($data);
     }
@@ -84,7 +85,8 @@ class Report
             ->where([
                 ['budget_cat_id', '=', $budgetCategoryId],
                 ['sub_budget_category_id', '=' , NULL],
-                ['date_made', 'like', Carbon::create($year, $month)->format('Y-m-%')]
+                ['date_made', 'like', Carbon::create($year, $month)->format('Y-m-%')],
+                ['type_id', '=', TransactionType::getId('credit') ]
             ])->get()->first()->total;
 
         if($actualsTotalWithNoSubCategories){

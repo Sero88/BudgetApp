@@ -18,8 +18,8 @@ class PaymentTypesSeeder extends Seeder
         ]);
 
         DB::Table('payment_types')->insert([
-            'name' => 'Credit Card',
-            'description' => 'Credit card account',
+            'name' => 'Expense Card',
+            'description' => 'Expense card account',
             'owner_id' => 1
         ]);
     }

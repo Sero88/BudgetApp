@@ -15,12 +15,12 @@ class AddTypesToTransactionTypesTable extends Migration
     {
 
         DB::table('transaction_types')->insert([
-                'name' => 'credit',
+                'name' => 'expense',
             ]
         );
 
         DB::table('transaction_types')->insert([
-                'name' => 'debit',
+                'name' => 'income',
             ]
         );
 
@@ -56,6 +56,6 @@ class AddTypesToTransactionTypesTable extends Migration
      */
     public function down()
     {
-        DB::table('transaction_types')->where(['name'=>'credit'])->orWhere(['name' => 'debit'])->delete();
+        DB::table('transaction_types')->where(['name'=>'expense'])->orWhere(['name' => 'income'])->delete();
     }
 }

@@ -23,7 +23,7 @@ trait Monthly
 
         //if there is a specified type, add it
         if($type != 'all'){
-            $type = $type == 'credit' ? TransactionType::getId('credit')  :  TransactionType::getId('debit');
+            $type = $type == 'expense' ? TransactionType::getId('expense')  :  TransactionType::getId('income');
             $where_clause[] = ['type_id', '=', $type];
         }
 

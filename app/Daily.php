@@ -19,7 +19,7 @@ trait Daily
         //if there is a specified type, add it
         if($type != 'all'){
             $trans_type = new TransactionType();
-            $type = $type == 'credit' ? TransactionType::getId('credit')  :  TransactionType::getId('debit') ;
+            $type = $type == 'expense' ? TransactionType::getId('expense')  :  TransactionType::getId('income') ;
             $where_clause[] = ['type_id', '=', $type];
         }
 
@@ -43,7 +43,7 @@ trait Daily
         //if there is a specified type, add it
         if($type != 'all'){
             $trans_type = new TransactionType();
-            $type = $type == 'credit' ? $trans_type->where('name', '=', 'credit')->get()->first()->id  :  $trans_type->where('name', '=', 'debit')->get()->first()->id;
+            $type = $type == 'expense' ? $trans_type->where('name', '=', 'expense')->get()->first()->id  :  $trans_type->where('name', '=', 'income')->get()->first()->id;
             $where_clause[] = ['type_id', '=', $type];
         }
 

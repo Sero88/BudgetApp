@@ -26,6 +26,6 @@ class SubBudgetCategory extends Model
     }
 
     public function getExpensePercentage(){
-        return round( ( $this->monthlyTransactions('credit')->sum('amount') / $this->budget ) * 100, 2) . '%';
+        return round( ( $this->monthlyTransactions('expense')->sum('amount') / $this->budget ) * 100, 2) . '%';
     }
 }

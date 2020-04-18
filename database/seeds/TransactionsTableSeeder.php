@@ -41,7 +41,7 @@ class TransactionsTableSeeder extends Seeder
             'budget_cat_id' => 1,
             'sub_budget_category_id' => 1,
             'owner_id' => 1,
-            'description' => 'Debit. Testing seeder transaction 3',
+            'description' => 'Income. Testing seeder transaction 3',
             'date_made' => now(),
             'payment_type_id' => 1
         ]);
@@ -51,7 +51,7 @@ class TransactionsTableSeeder extends Seeder
             'type_id' => 2,
             'budget_cat_id' => 2,
             'owner_id' => 1,
-            'description' => 'Debit - last month',
+            'description' => 'Income - last month',
             'date_made' => Carbon::now()->firstOfMonth()->subMonth(1)->toDateString(),
             'payment_type_id' => 1
         ]);
@@ -61,7 +61,7 @@ class TransactionsTableSeeder extends Seeder
             'type_id' => 1,
             'budget_cat_id' => 2,
             'owner_id' => 1,
-            'description' => 'Credit. Last month transaction',
+            'description' => 'Expense. Last month transaction',
             'date_made' => Carbon::now()->firstOfMonth()->subMonth(1)->toDateString(),
             'payment_type_id' => 1
         ]);
@@ -72,7 +72,7 @@ class TransactionsTableSeeder extends Seeder
             'budget_cat_id' => 1,
             'sub_budget_category_id' => 1,
             'owner_id' => 1,
-            'description' => 'Debit. Testing seeder transaction 3',
+            'description' => 'Income. Testing seeder transaction 3',
             'date_made' => now(),
             'payment_type_id' => 1
         ]);

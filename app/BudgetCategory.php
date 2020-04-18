@@ -38,7 +38,7 @@ class BudgetCategory extends Model
     public function getExpensePercentage(){
         $budget = $this->budget();
         if($budget > 0){
-            return round( ( $this->monthlyTransactions('credit')->sum('amount') / $this->budget() ) * 100, 2) . '%';
+            return round( ( $this->monthlyTransactions('expense')->sum('amount') / $this->budget() ) * 100, 2) . '%';
         } else{
             return "No Budget Found";
         }
@@ -51,7 +51,7 @@ class BudgetCategory extends Model
         $actuals = $this->transactions()->where([
             ['budget_cat_id', '=', $this->id],
             ['date_made', 'like', $year. '-'.$month.'%'],
-            ['type_id', TransactionType::getId('credit')]
+            ['type_id', TransactionType::getId('expense')]
         ])->get()->sum('amount');
 
         return $actuals;

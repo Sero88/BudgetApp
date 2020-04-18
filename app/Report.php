@@ -15,7 +15,7 @@ class Report
             ->where([
                 ['date_made', 'like', $year . '-%'],
                 ['date_made', '<', Carbon::now()->format('Y-m-01')],
-                ['type_id', '=', TransactionType::getId('credit') ]
+                ['type_id', '=', TransactionType::getId('expense') ]
             ])
             ->groupBy('date_made')
             ->get();
@@ -28,11 +28,6 @@ class Report
             ->orderBy('month', 'asc')
             ->get();
 
-        //get year's actuals sum
-        $data[$year]['actualsTotal'] = $monthlyTotals->sum('total');
-
-        //get year's average spending
-        $data[$year]['monthlyAverage'] = $monthlyTotals->avg('total');
 
         //build data array
         foreach($budgetTotals as $budgetTotal){
@@ -40,11 +35,16 @@ class Report
                 return Carbon::create($value->date_made)->format('n') == $budgetTotal->month;
             });
 
-
             if($actuals->isNotEmpty()) {
                 $data[$year]['monthly'][$budgetTotal->month] = ['actuals' => format_number($actuals->sum('total')), 'budget' => $budgetTotal->total];
             }
         }
+
+        //get year's actuals sum
+        $data[$year]['actualsTotal'] = $monthlyTotals->sum('total');
+
+        //get year's average spending
+        $data[$year]['monthlyAverage'] = format_number($data[$year]['actualsTotal'] / count($data[$year]['monthly']));
 
 
         return json_encode($data);
@@ -56,7 +56,7 @@ class Report
 
         //build data array
         foreach(BudgetCategory::withTrashed()->get() as $budgetCategory){
-            $actuals = $budgetCategory->monthlyTransactions('credit', $year, Carbon::create($year, $month)->format('F') )->sum('amount');
+            $actuals = $budgetCategory->monthlyTransactions('expense', $year, Carbon::create($year, $month)->format('F') )->sum('amount');
 
             $budget = $budgetHistory = BudgetHistory::where([
                 ['budget_cat_id', '=', $budgetCategory->id],
@@ -78,7 +78,6 @@ class Report
     }
 
 
-    //todo - think in terms of api and in terms of reports. When api is requested data, what do we show. When report is requested data what do we show?
     public static function monthlySubCategories($year, $month, $budgetCategoryId){
         $data = [];
         $actualsTotalWithNoSubCategories = Transaction::select(DB::raw('sum(amount) as total'))
@@ -86,7 +85,7 @@ class Report
                 ['budget_cat_id', '=', $budgetCategoryId],
                 ['sub_budget_category_id', '=' , NULL],
                 ['date_made', 'like', Carbon::create($year, $month)->format('Y-m-%')],
-                ['type_id', '=', TransactionType::getId('credit') ]
+                ['type_id', '=', TransactionType::getId('expense') ]
             ])->get()->first()->total;
 
         if($actualsTotalWithNoSubCategories){
@@ -97,7 +96,7 @@ class Report
         $subBudgetCategories = SubBudgetCategory::withTrashed()->where('budget_category_id', '=', $budgetCategoryId)->get();
 
         foreach( $subBudgetCategories as $subBudgetCategory){
-                $actuals = $subBudgetCategory->monthlyTransactions('credit', $year, Carbon::create($year, $month)->format('F') )->sum('amount');
+                $actuals = $subBudgetCategory->monthlyTransactions('expense', $year, Carbon::create($year, $month)->format('F') )->sum('amount');
 
                 $budgetHistory = BudgetHistory::where([
                     ['sub_budget_category_id', '=', $subBudgetCategory->id],

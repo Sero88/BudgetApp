@@ -31,7 +31,7 @@ class Balance extends Model
     public function balanceUpdate($transaction, $action = 'create')
     {
         //get the transaction amount
-        $transAmount = $transaction->transactionType->name == 'credit' ? $transaction->amount * -1 : $transaction->amount;
+        $transAmount = $transaction->transactionType->name == 'expense' ? $transaction->amount * -1 : $transaction->amount;
 
         if ($action == 'delete') {
             $transAmount *= -1; //opposite since we are reverting transaction
@@ -45,7 +45,7 @@ class Balance extends Model
     {
         $balanceBudget = $this->balanceBudget();
         if($balanceBudget > 0){
-            return round(($this->monthlyTransactions('credit')->sum('amount') / $balanceBudget) * 100, 2) . '%';
+            return round(($this->monthlyTransactions('expense')->sum('amount') / $balanceBudget) * 100, 2) . '%';
         } else{
             return "No Budget Found";
         }

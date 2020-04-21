@@ -15,7 +15,10 @@ class Report
             ->where([
                 ['date_made', 'like', $year . '-%'],
                 ['date_made', '<', Carbon::now()->format('Y-m-01')],
-                ['type_id', '=', TransactionType::getId('credit') ]
+                ['type_id', '=', TransactionType::getId('credit') ],
+                ['budget_cat_id', '<>', 9],
+                ['budget_cat_id', '<>', 8],
+
             ])
             ->groupBy('date_made')
             ->get();
@@ -23,16 +26,16 @@ class Report
         //get monthly budgets
         //select SUM(budget) as total, month from budget_history where year = 2020 group by month order by month asc;
         $budgetTotals = BudgetHistory::select(DB::raw('SUM(budget) as total, month'))
-            ->where('year', '=', $year)
+            ->where([
+                ['year', '=', $year],
+                ['budget_cat_id', '<>', 9],
+                ['budget_cat_id', '<>', 8],
+            ])
             ->groupBy('month')
             ->orderBy('month', 'asc')
             ->get();
 
-        //get year's actuals sum
-        $data[$year]['actualsTotal'] = $monthlyTotals->sum('total');
 
-        //get year's average spending
-        $data[$year]['monthlyAverage'] = $monthlyTotals->avg('total');
 
         //build data array
         foreach($budgetTotals as $budgetTotal){
@@ -45,6 +48,12 @@ class Report
                 $data[$year]['monthly'][$budgetTotal->month] = ['actuals' => format_number($actuals->sum('total')), 'budget' => $budgetTotal->total];
             }
         }
+
+        //get year's actuals sum
+        $data[$year]['actualsTotal'] = $monthlyTotals->sum('total');
+
+        //get year's average spending
+        $data[$year]['monthlyAverage'] = format_number($data[$year]['actualsTotal'] / count($data[$year]['monthly']));
 
 
         return json_encode($data);
@@ -78,7 +87,6 @@ class Report
     }
 
 
-    //todo - think in terms of api and in terms of reports. When api is requested data, what do we show. When report is requested data what do we show?
     public static function monthlySubCategories($year, $month, $budgetCategoryId){
         $data = [];
         $actualsTotalWithNoSubCategories = Transaction::select(DB::raw('sum(amount) as total'))

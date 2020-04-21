@@ -43,7 +43,12 @@ function annualReportView(year,data){
             monthData += `<li class="month-data"><a class="month-link" href="#" title="retrieve ${monthName} data" data-month="${month}" data-year="${year}">${monthName} ${data[year].monthly[month].actuals}/${data[year].monthly[month].budget} (${expensePercentage}%)</a></li>`;
         }
 
-        return `<ul class="monthly-list">${monthData}</ul>`;
+        return `<div class="reports-annual-data">
+                    <p>Year Total: $${data[year].actualsTotal} <br/>
+                     Monthly Average: $${data[year].monthlyAverage}</p>
+                    <ul class="monthly-list">${monthData}</ul>
+
+                </div>`;
 
     }
 

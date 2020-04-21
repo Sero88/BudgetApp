@@ -40502,7 +40502,7 @@ function annualReportView(year, data) {
       monthData += "<li class=\"month-data\"><a class=\"month-link\" href=\"#\" title=\"retrieve ".concat(monthName, " data\" data-month=\"").concat(month, "\" data-year=\"").concat(year, "\">").concat(monthName, " ").concat(data[year].monthly[month].actuals, "/").concat(data[year].monthly[month].budget, " (").concat(expensePercentage, "%)</a></li>");
     }
 
-    return "<ul class=\"monthly-list\">".concat(monthData, "</ul>");
+    return "<div class=\"reports-annual-data\">\n                    <p>Year Total: $".concat(data[year].actualsTotal, " <br/>\n                     Monthly Average: $").concat(data[year].monthlyAverage, "</p>\n                    <ul class=\"monthly-list\">").concat(monthData, "</ul>\n\n                </div>");
   }
 
   if ('monthly' in data[year]) {

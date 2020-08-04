@@ -33,18 +33,25 @@ class BalanceController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+
+        //todo - only 1 balance allowed now - later on version 2 will allow multiple balances
+        if( count($user->balances) >= 1 ){
+            return redirect( route('balances.index') );
+        }
+
         $balance = new Balance();
         $balance = get_old_balance_data($balance);
 
-        $budget_category = new BudgetCategory();
+        $budgetCategory = new BudgetCategory();
 
-        return view('balances.create', compact('balance', 'budget_category'));
+        return view('balances.create', compact('balance', 'budgetCategory'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\BalanceRequest
      * @return redirect
      * $this->name = !empty(old('name')) ? old('name') : '';
      * $this->description = !empty(old('description')) ? old('description') : '';
@@ -88,9 +95,7 @@ class BalanceController extends Controller
     {
         $this->authorize('update', $balance);
 
-        $transactions = $balance->transactions;
-
-        return view('balances.show', compact('balance', 'transactions'));
+        return view('balances.show', compact('balance'));
     }
 
     /**
@@ -108,7 +113,7 @@ class BalanceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\BalanceRequest $request
      * @param \App\Balance $balance
      * @return \Illuminate\Http\Response
      */
@@ -136,7 +141,7 @@ class BalanceController extends Controller
 
         //delete children relations tied to balances first then balance
         $balance->transactions()->delete();
-        $balance->budget_categories()->delete();
+        $balance->budgetCategories()->delete();
         $balance->delete();
 
         session()->flash('message', 'Balance deleted successfully');

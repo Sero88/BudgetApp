@@ -17,9 +17,9 @@ class TransactionRequest extends FormRequest
     public function authorize()
     {
 
-        $budget_category = BudgetCategory::find( request('budget_cat_id') );
+        $budgetCategory = BudgetCategory::find( request('budget_cat_id') );
 
-        if( Auth::user()->id  == $budget_category->balance->owner_id ){
+        if( Auth::user()->id  == $budgetCategory->balance->owner_id ){
             return true;
         }
 
@@ -38,7 +38,10 @@ class TransactionRequest extends FormRequest
             'amount' => 'required|numeric|min:0.01|',
             'type_id' => 'required',
             'budget_cat_id' => 'required',
-            'description' => 'nullable'
+            'description' => 'nullable',
+            'payment_type_id' => 'required|numeric',
+            'date_made' => 'required|date',
+            'sub_budget_category_id' => 'nullable|numeric'
         ];
     }
 }

@@ -67,10 +67,43 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ '/transactions' }}">View All</a>
-                                    <a class="dropdown-item" href="{{ '/' }}">New</a>
+                                    <a class="dropdown-item" href="{{ route('transactions.index') }}">View All</a>
+                                    <a class="dropdown-item" href="{{ route('transactions.create') }}">New</a>
+                                    <span class="dropdown-item">---</span>
+                                    <a class="dropdown-item" href="{{ route('recurring-transactions.index') }}">Recurring</a>
+
                                 </div>
 
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdownReports" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Reports <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('reports.annual') }}">Annual</a>
+                                </div>
+
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a  class="nav-link" href="/settings" role="button">
+                                    Settings
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
                             </li>
 
                             <li class="nav-item dropdown">
@@ -91,6 +124,8 @@
                                     </form>
                                 </div>
                             </li>
+
+
 
                         @endguest
                     </ul>

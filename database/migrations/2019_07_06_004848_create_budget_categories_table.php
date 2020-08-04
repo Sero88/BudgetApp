@@ -16,7 +16,7 @@ class CreateBudgetCategoriesTable extends Migration
         Schema::create('budget_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name',25);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->decimal('budget',8,2);
             $table->unsignedBigInteger('balance_id');
             $table->timestamps();

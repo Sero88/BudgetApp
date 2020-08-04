@@ -1,10 +1,20 @@
 <?php
 
+use Carbon\Carbon;
+
 function get_old_trans_data($transaction){
-    $transaction->amount = !empty(old('amount')) ? old('amount') : $transaction->amount;
-    $transaction->type_id = !empty(old('type_id')) ? old('type_id') : $transaction->type_id;
-    $transaction->budget_cat_id = !empty(old('budget_cat_id')) ? old('budget_cat_id') : $transaction->budget_cat_id;
-    $transaction->description = !empty(old('description')) ? old('description') : $transaction->description;
+
+
+    $transaction->amount = old('amount') ?? $transaction->amount;
+    $transaction->type_id =  old('type_id') ?? $transaction->type_id;
+    $transaction->budget_cat_id =  old('budget_cat_id') ?? $transaction->budget_cat_id;
+    $transaction->sub_budget_category_id = old('sub_budget_category_id') ?? $transaction->sub_budget_category_id;
+    $transaction->description = old('description') ?? $transaction->description;
+    $transaction->payment_type_id = old('payment_type_id') ?? $transaction->payment_type_id;
+    $transaction->date_made = old('date_made') ?? $transaction->date_made;
+    //convert date
+    $transaction->date_made = to_datestring($transaction->date_made) ?? Carbon::now()->toDateString();
+
     return $transaction;
 }
 
@@ -16,33 +26,76 @@ function get_old_balance_data($balance){
     return $balance;
 }
 
-function get_old_budget_data($budgetCategory){
-    $budgetCategory->name = !empty( old('budget_cat') ) ? $budget_cat[0] : $budgetCategory->name;
-    $budgetCategory->description = !empty( old('budget_cat_description') ) ? $budget_cat_description[0] : $budgetCategory->description;
-    $budgetCategory->budget = !empty( old('budget_cat_amount') ) ? $budget_cat_amount[0] : $budgetCategory->budget;
+function get_old_recurring_trans_data($recurringTransaction){
+    $recurringTransaction->name = !empty(old('name')) ? old('name') : $recurringTransaction->name;
+    $recurringTransaction->amount = !empty(old('amount')) ? old('amount') : $recurringTransaction->amount;
+    $recurringTransaction->transaction_type = !empty(old('type_id')) ? old('type_id') : $recurringTransaction->transaction_type;
+    $recurringTransaction->interval_id = !empty(old('interval_id')) ? old('interval_id') : $recurringTransaction->interval_id;
+    $recurringTransaction->budget_cat_id = !empty(old('budget_cat_id')) ? old('budget_cat_id') : $recurringTransaction->budget_cat_id;
+    $recurringTransaction->sub_budget_category_id = old('sub_budget_category_id') ?? $recurringTransaction->sub_budget_category_id;
+    $recurringTransaction->description = !empty(old('description')) ? old('description') : $recurringTransaction->description;
+    $recurringTransaction->day_of_month = !empty(old('day_of_month')) ? old('day_of_month') : $recurringTransaction->day_of_month;
+    $recurringTransaction->day_of_month = $recurringTransaction->day_of_month ?? Carbon::create('tomorrow')->toDateString();
+    return $recurringTransaction;
 }
 
-function transaction_details($transaction, $cat = false){
-    $date_section = date('D, M. d \a\t g:ia', strtotime($transaction->date_made) );
+function get_old_budget_data($budgetCategory){
+    $budgetCategory->name = !empty( old('budget_cat')[0] ) ? old('budget_cat')[0] : $budgetCategory->name;
+    $budgetCategory->description = !empty( old('budget_cat_description')[0] ) ? old('budget_cat_description')[0] : $budgetCategory->description;
+   // $budgetCategory->budget = !empty( old('budget_cat_amount')[0] ) ? old('budget_cat_amount')[0] : $budgetCategory->budget();
+
+    return $budgetCategory;
+}
+
+function get_old_sub_budget_category_data($subBudgetCategory){
+    $subBudgetCategory->name =  old('name') ?? $subBudgetCategory->name;
+    $subBudgetCategory->description =  old('description') ??  $subBudgetCategory->description;
+    $subBudgetCategory->budget = old('budget') ?? $subBudgetCategory->budget;
+
+    return $subBudgetCategory;
+}
+
+function monthly_transaction_details($transaction){
+    $date_section = date('D, M. d', strtotime($transaction->date_made) );
     $amount_section =  $transaction->amount; //get_trans_amount($transaction, '$');
     $description = !empty($transaction->description) ? ' - ' . $transaction->description : '';
 
-    $cat_name = $cat == true ? $transaction->budget_category->name : '';
+    $cat_name =  $transaction->budgetCategory->name;
 
-    return "$date_section: $$amount_section ({$cat_name}$description)";
+    return "$date_section: $$amount_section | {$transaction->paymentType->name} | {$cat_name}$description ";
 }
 
-function get_trans_amount($transaction, $currency_symbol = false){
-    $amount = $transaction->transaction_type->name == 'credit' ? $transaction->amount * -1 : $transaction->amount;
+function daily_transaction_details($transaction){
+    $amount_section =  $transaction->amount; //get_trans_amount($transaction, '$');
+    $description = !empty($transaction->description) ? ' - ' . $transaction->description : '';
 
-    //add money format with currency symbol
-    if($currency_symbol){
-        setlocale(LC_MONETARY, 'en_US.UTF-8');
-        $amount = money_format('%.2n', $amount);
-    }
+    $cat_name =  $transaction->budgetCategory->name;
 
-    return $amount;
+    return "$$amount_section | {$transaction->paymentType->name} | {$cat_name}$description ";
+}
 
+function get_old_payment_type_data($paymentType){
+    $paymentType->name = !empty( old('name' ) ) ? old('name') : $paymentType->name;
+    $paymentType->description = !empty( old('description' ) ) ? old('description'): $paymentType->description;
+
+
+    return $paymentType;
+}
+
+//transform date to datestring
+function to_datestring($date){
+    if(empty($date)) return null;
+
+    return Carbon::create($date)->toDateString();
+}
+
+//pass in date string - returns datetime
+function create_datetime($date){
+    $time = Carbon::now()->isoFormat('HH:mm:ss');
+    return Carbon::create($date)->toDateString() . ' ' . $time;
 }
 
 
+function format_number($number){
+    return number_format($number, 2, '.', '');
+}

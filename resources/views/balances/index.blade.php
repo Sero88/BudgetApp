@@ -23,7 +23,7 @@
 					<form method="post" action="/balances/{{$balance->id}}">
 						@csrf
 						@method('DELETE')
-						<button type="submit">Delete</button>
+						<button class="delete-button" type="submit">Delete</button>
 					</form>
 				</div>
 			</div>

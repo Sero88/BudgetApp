@@ -129,4 +129,24 @@
     }
 }
 
+//jquery datepicker
+@import '~jquery-ui/themes/base/all.css';
+
+
+.loader-element{
+    width: 20px;
+    height: 20px;
+    border: 5px solid #CCC;
+    border-top: 5px solid #FA9000;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+
 

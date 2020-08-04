@@ -15,5 +15,3 @@
         <label for="amount">Amount: </label> <br />
         <input id="amount" type="number" name="amount" min="0.01" step="0.01" value="{{$balance->amount}}" required>
     </div>
-
-    <?php print_r($errors->all()); ?>

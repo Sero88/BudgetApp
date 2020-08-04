@@ -25,7 +25,7 @@ class BalanceRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'description' => 'required',
+            'description' => 'nullable',
             'amount' => 'required|numeric|min:0.01',
         ];
     }

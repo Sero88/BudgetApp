@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TransactionRequest;
+use App\PaymentType;
 use App\Transaction;
 use App\TransactionType;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
@@ -32,7 +34,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        return redirect('/');
     }
 
     /**
@@ -44,25 +46,16 @@ class TransactionController extends Controller
     public function store(TransactionRequest $request)
     {
 
+
         //get user input
         $new_transaction = $request->validated();
 
         //get user id and time
         $new_transaction['owner_id'] = Auth::user()->id;
-        $new_transaction['date_made'] = now();
+        $new_transaction['date_made'] = create_datetime($new_transaction['date_made']);
 
         //save the transaction
-        $saved_trans = Transaction::create($new_transaction);
-
-
-        //get the transaction amount
-        $trans_amount = get_trans_amount($saved_trans);
-
-        //get its corresponding balance
-        $balance = $saved_trans->budget_category->balance;
-
-        //update balance amount
-        $balance->update(['amount' => $balance->amount + $trans_amount ]);
+        Transaction::createTransaction($new_transaction);
 
         //user feedback
         $request->session()->flash('message','Transaction created successfully.');
@@ -100,9 +93,19 @@ class TransactionController extends Controller
 
         //get the user balances and its budget categories
         $cats = $user->budget_categories()->get();
-        $types = TransactionType::all();
+        $transactionTypes = TransactionType::all();
 
-        return view('transactions.edit', compact('transaction', 'cats','types'));
+        //get the balance
+        $balance = $transaction->budgetCategory->balance;
+
+        //get payment types
+        $paymentTypes = PaymentType::all()->sortBy('name');
+
+        //get sub category
+        $subBudgetCategoryId = $transaction->subBudgetCategory->id ?? '';
+
+
+        return view('transactions.edit', compact('transaction', 'cats','transactionTypes','balance', 'paymentTypes', 'subBudgetCategoryId'));
     }
 
     /**
@@ -121,6 +124,7 @@ class TransactionController extends Controller
         //get old amount and new trans data
         $old_amount = $transaction->amount;
         $data = $request->validated();
+        $data['date_made'] = create_datetime($data['date_made']);
 
         //run update
         $transaction->update($data);
@@ -128,7 +132,7 @@ class TransactionController extends Controller
         //update balance if amount is not the same
         if($old_amount != $data['amount']){
             //update balance
-            $balance = $transaction->budget_category->balance;
+            $balance = $transaction->budgetCategory->balance;
             $balance->update(['amount' => $balance->amount + ($old_amount - $data['amount'])]);
         }
 
@@ -149,8 +153,7 @@ class TransactionController extends Controller
     {
         $this->authorize('update', $transaction);
 
-
-        $deleted = $transaction->delete();
+        $deleted = Transaction::deleteTransaction($transaction);
 
         if($deleted){
             session()->flash('message', 'You have successfully deleted the transaction');

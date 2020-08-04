@@ -1,15 +1,38 @@
 @extends('layouts.app')
-@section('title', $budget_category->name)
+@section('title', $budgetCategory->name)
 
 @section('content')
+<<<<<<< HEAD
     <p class="mt-5 mb-5">{{$budget_category->description}}</p>
+=======
+>>>>>>> master
 
-	@include('budget_categories.actuals-vs-budget')
-	@include('transactions.list', ['object' => $budget_category])
+    @include('budget_categories.actuals-vs-budget')
 
-    @if(!empty($budget_category->description))
-
+    @if(!empty($budgetCategory->description))
+        <p>{{$budgetCategory->description}}</p>
     @endif
-    <a href="<?= route( 'budget-categories.edit', compact('balance', 'budget_category') )?>">Edit</a>
+
+    <div>
+         @if($budgetCategory->subBudgetCategories->isNotEmpty())
+            <h3>List of Subcategories</h3>
+            <ul>
+                @foreach($budgetCategory->subBudgetCategories as $subBudgetCategory)
+                    <li><a href="{{route('sub-budget-categories.show', compact('balance', 'budgetCategory', 'subBudgetCategory'))}}">{{$subBudgetCategory->name}}</a> @include('sub_budget_categories.actuals-vs-budget') <a href="{{route('sub-budget-categories.edit', compact('balance','budgetCategory','subBudgetCategory'))}}">Edit</a></li>
+                @endforeach
+            </ul>
+        @endif
+        <a href="{{route('sub-budget-categories.create', compact('balance', 'budgetCategory'))}}">+ New SubCategory</a>
+    </div>
+
+
+
+	@include('transactions.list', ['object' => $budgetCategory])
+
+    <a href="<?= route( 'budget-categories.edit', compact('balance', 'budgetCategory') )?>">Edit</a>
+
+
+
+
 
 @endsection

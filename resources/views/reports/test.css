@@ -1,0 +1,47 @@
+/espacio antes barras menu*/
+#header-widget-area {
+    width: auto;
+    float: right;
+    margin-top: 1em;
+}
+/*elimina header description */
+header .description{
+    padding-bottom: 0;
+}
+/* elimina espacio entre logo y menu*/
+/*for desktop*/
+.main_menu{
+    padding-bottom: 15px; /*modify to your liking */
+}
+/*for mobile*/
+@media (max-width: 551px){
+    .content_bg header{
+        padding-bottom: 0px; /*modify to your liking */
+    }
+}
+
+#Content {
+    width: 100%;
+    padding-top: 0px;
+}
+/* sidebar. centra contenidos*/
+.sidebar {
+    text-align: center;
+}
+/* Elimina espacio en blanco cabecera paginas */
+h1.page-title{
+    padding: 0;
+    margin: 0;
+}
+/* quitar espacio en blanco titulo y texto */
+h1.page-title {
+    margin-bottom: 0;
+    margin-top: 15px;
+    padding-bottom: 15px;
+}
+/
+/* para no superponer share boton face y twitter en gallery */
+.shara_opt { margin: 0 10px 0 0; }
+
+/*elimina pading ancho pagina */
+.entry-content { padding: 0; } 

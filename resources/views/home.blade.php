@@ -8,11 +8,9 @@
             {{$error}}
         @endforeach
     @endif
-        <form method="POST" action="/transactions">
+        <form class="form-budget" method="POST" action="/transactions">
             @include('form')
             @csrf
-            <button type="submit">Make Transaction</button>
+            <button class="btn" type="submit">Make Transaction</button>
         </form>
-
-
 @endsection

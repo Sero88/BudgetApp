@@ -53,10 +53,16 @@ Route::middleware(['auth'])->group(function (){
     Route::get('html/budget-categories/{budget_category}/sub-budget-categories/{sub_budget_category?}', 'APIController@subBudgetCategorySelector')->name('selector.sub-budget-categories');
 
     Route::get('reports/annual', 'ReportController@annual')->name('reports.annual');
+    
+    Route::get('favorite-stocks', 'FavoriteStockController@webIndex');
+
+    Route::resource('/api/favorite-stocks', 'FavoriteStockController');
+
+    Route::get('/api/getStock', 'FavoriteStockController@getStock');
+
+
 
 });
-
-
 
 
 

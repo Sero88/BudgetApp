@@ -44,5 +44,9 @@ class User extends Authenticatable
     public function budget_categories(){
         return $this->hasManyThrough(BudgetCategory::class, Balance::class, 'owner_id', 'balance_id');
     }
+
+    public function favorite_stocks(){
+        return $this->hasMany(FavoriteStock::class, 'user_id');
+    }
 }
 

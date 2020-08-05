@@ -1,6 +1,6 @@
 
 
-<div id="sub-budget-categories-container">
+<div id="sub-budget-categories-container" class="form-section">
     <label for="sub-budget-category-selector">Sub Category</label> <br />
     <select id="sub-budget-category-selector" name="sub_budget_category_id">
         <option value="">None</option>

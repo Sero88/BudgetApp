@@ -7,6 +7,8 @@ export const elements = {
             selectedSubCategory: document.getElementById('selected-sub-category'),
             reportYearSelector: document.getElementById('report-year-selector'),
             reportAnnualContainerId: document.getElementById('annual-report-container'),
+            subCategoryContainer: document.getElementById('sub-categories'),
+            favoriteStocksContainer:document.getElementById('favorite-stocks-container'),
             dynamicElementNames:{
                 subBudgetCategoriesContainerId: 'sub-budget-categories-container',
                 loader:'loader',

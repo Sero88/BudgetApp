@@ -3,6 +3,7 @@
 @section('title', 'Transactions')
 
 @section('content')
+
     @foreach($transactions as $trans)
         @if(session('message'))
         <div>

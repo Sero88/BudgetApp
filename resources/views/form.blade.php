@@ -2,9 +2,9 @@
     <div>{{session('message')}}</div>
 @endif
 
-<div>
-    <a href="{{route('balances.show', compact('balance'))}}">${{$balance->amount}}</a>
-    <p>{{$balance->monthlyTransactions('credit')->sum('amount')}}/{{$balance->balanceBudget()}} ({{$balance->getExpensePercentage()}})</p>
+<div class="form-header">
+    <p>Account Balance: <a href="{{route('balances.show', compact('balance'))}}">${{$balance->amount}}</a></p>
+    <p>Monthly Budget: {{$balance->monthlyTransactions('credit')->sum('amount')}}/{{$balance->balanceBudget()}} ({{$balance->getExpensePercentage()}})</p>
 </div>
 
 @php
@@ -23,12 +23,12 @@ Version 2 will allow multiple balances
 @endphp
 
 
-<div>
+<div class="form-section">
     <label for="#trans-amount">Amount</label><br>
-    <input id="trans-amount" type="number" name="amount" min="0.01" step="0.01" value="<?=$transaction->amount?>" required>
+    <input id="trans-amount" class="amount" placeholder="$0" type="number" name="amount" min="0.01" step="0.01" value="<?=$transaction->amount?>" required>
 </div>
 
-<div>
+<div class="form-section">
     <label for="type_id">Type</label><br>
     <select id="type_id" name="type_id">
         @foreach($transactionTypes as $type)
@@ -39,19 +39,23 @@ Version 2 will allow multiple balances
 </div>
 
 <div class="categories-container">
-    <div class="main-categories">
+    <div class="main-categories form-section">
         <label for="budget_cat_id">Category</label><br>
         <select id="budget_cat_id" name="budget_cat_id">
             @foreach($cats as $cat)
                 <?php $catSelected = $transaction->budget_cat_id == $cat->id ? ' selected' : '';?>
                 <option value="{{$cat->id}}"{{$catSelected}}>{{$cat->name}}</option>
             @endforeach()
-        </select>
-        <data id="selected-sub-category" value="{{$subBudgetCategoryId}}"></data>
+        </select>        
     </div>
 </div>
 
-<div>
+
+<div id="sub-categories" class="sub-categories-container form-section">
+    <data id="selected-sub-category" value="{{$subBudgetCategoryId}}"></data>
+</div>
+
+<div class="form-section">
     <label for="payment_type">Payment Type</label><br>
     <select id="payment_type" name="payment_type_id">
         @foreach($paymentTypes as $paymentType)
@@ -62,12 +66,12 @@ Version 2 will allow multiple balances
 </div>
 
 
-<div>
+<div class="form-section">
     <label for="date_made">Date</label><br>
     <input id="date_made" class="datepicker" readonly type="text" name="date_made" value="<?=$transaction->date_made?>" required>
 </div>
 
-<div>
+<div class="form-section">
     <label for="description">Description</label><br>
     <textarea name="description">{{$transaction->description}}</textarea>
 </div>

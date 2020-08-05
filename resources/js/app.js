@@ -36,6 +36,10 @@ import 'jquery-ui/ui/widgets/datepicker.js';
 import {elements, loader} from "./modules/base";
 import budgetApp from "./modules/budgetApp";
 import report from "./modules/reports";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import FavoriteStocks from './components/favorite-stocks.js';
+
 
 
 var app = {};
@@ -67,7 +71,7 @@ window.addEventListener('load', () => {
     //add listener to budget categories select
     if(app.elements.budgetCategoryField){
         displayFetchedData(
-            app.elements.mainCategoriesContainer,
+            app.elements.subCategoryContainer,
             app.elements.dynamicElementNames.subBudgetCategoriesContainerId,
             async () =>{
                 const data = await budgetApp.getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
@@ -77,7 +81,7 @@ window.addEventListener('load', () => {
 
         app.elements.budgetCategoryField.addEventListener('change', () => {
             displayFetchedData(
-                app.elements.mainCategoriesContainer,
+                app.elements.subCategoryContainer,
                 app.elements.dynamicElementNames.subBudgetCategoriesContainerId,
                 async () =>{
                     const data = await budgetApp.getSubCategories(app.elements.budgetCategoryField.value, app.elements.selectedSubCategory.value);
@@ -151,6 +155,19 @@ window.addEventListener('load', () => {
     }
 
 
+    if(app.elements.favoriteStocksContainer){
+        ReactDOM.render(
+            <FavoriteStocks />,
+            app.elements.favoriteStocksContainer
+          );
+    }
+    
+    /*
+    fetch('https://repeated-alpaca.glitch.me/v1/stock/vti/quote')
+        .then( response => response.json() )
+        .then( data => console.log(data) )
+        .catch( (error) => console.log())
+*/
 });
 
 /**
@@ -181,3 +198,5 @@ async function displayFetchedData(parentContainer, containerId, dataFetch ){
     }
 
 }
+
+

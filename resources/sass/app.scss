@@ -1,5 +1,5 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Cabin:wght@400;600;700');
 
 // Variables
 @import 'variables';
@@ -9,6 +9,11 @@
 
 //jquery datepicker
 @import '~jquery-ui/themes/base/all.css';
+
+//resets
+@import 'resets';
+
+
 
 
 .loader-element{
@@ -26,4 +31,164 @@
     0% { transform: rotate(0deg);}
     100% { transform: rotate(360deg);}
 }
+
+
+.navbar{
+    background-color: $main-bg-darker;
+
+    .navbar-brand{
+        color: #fff;
+        font-weight: bold;
+
+        &:link, 
+        &:visited,
+        &:active{
+            color: #fff;
+        }
+        
+        &:hover{
+            color: $primary-color;
+        }    
+    }
+
+    .navbar-toggler{
+        background-color: transparent;
+        border: none;
+        color: $primary-color;
+    }
+
+    .navbar-nav{
+        .nav-link{
+            color: #dfdfdf;
+
+            &:hover{
+                color: #fff;
+            }
+        }
+    
+    }
+}
+
+    .card{
+        .card-header{
+            background-color: $main-bg;
+        }
+    }
+
+   /* .card-budget {
+    background-color: $main-bg;
+    border: none;
+    border-radius: 0;
+    padding: 50px 45px 45px 45px;
+    @include bx-shadow();
+
+    .card-header {
+        background-color: transparent;
+        border: 0;
+        padding: 0;
+        margin-bottom: 30px;
+    }
+
+    .card-body{
+        padding: 0;
+        
+        
+    }
+}*/
+
+.form-budget{
+
+    padding: 30px;
+
+    .form-section{
+        margin-bottom: 30px;
+    }
+
+    label{
+        color: $label-color;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    #trans-amount{
+        color: $primary-color;
+    }
+
+    input, select, textarea{
+        width: 100%;
+        border: 0;
+        margin: 0;
+        background-color: transparent;
+        color: #939191;
+        border-bottom: 1px solid #cecece;
+        font-size: 1.5rem;
+        -webkit-appearance: none;
+        box-shadow: none;
+        outline: none;
+    }
+
+    input.amount{
+        font-size: 4.50rem;
+        text-align: center;
+        border-bottom: 0;
+    }
+
+    textarea{
+        resize: none;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance:textfield;
+    }
+
+    textarea, select{
+        font-size: 1.25rem;
+    }
+}
+
+.card-login{
+    box-shadow: none;
+    border: none;
+}
+
+.button{
+    color: $body-bg;
+    padding: 5px 20px;
+    width: 100%;
+    background-color: $main-bg;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 1s all;
+    border-top: 2px solid $body-bg;
+    border-left: 2px solid $body-bg;
+    border-right: 2px solid #a0a0a0;
+    border-bottom: 2px solid #a0a0a0;
+    margin-top: 25px;
+
+    &:hover{
+        color: $primary-color;
+        border: 2px solid $main-bg;
+        border-bottom: 2px solid $primary-color;
+        background-color: #fff;
+    }
+}
+
+.btn, button{
+    background-color: $main-bg;
+    border: none;
+    color: $body-bg;
+
+    &:hover{
+        background-color: $main-bg-darker;
+        color: #fff;
+    }
+}
+
 

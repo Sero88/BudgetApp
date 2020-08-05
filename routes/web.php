@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function (){
 
     Route::resource('/api/favorite-stocks', 'FavoriteStockController');
 
-    Route::get('/api/getStock', 'FavoriteStockController@getStock');
+    Route::get('/api/getStock/{symbol}', 'FavoriteStockController@getStock');
 
 
 

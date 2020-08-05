@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\FavoriteStock;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
 
@@ -25,7 +24,18 @@ class FavoriteStockController extends Controller
 
         $stocks = FavoriteStock::where('user_id', $user_id)->get();
 
-        return json_encode($stocks);                
+        $client = new \GuzzleHttp\Client();
+
+        $stockData = [];
+
+        foreach($stocks as $stock){            
+            $content = $client->get("https://cloud.iexapis.com/stable/tops?token=pk_e07e24a396204a49a73ee863c7c60e61&symbols=" . $stock->symbol) ;
+            $response = $content->getBody();
+            $dataArray = json_decode($response);
+            $stockData[] = $this->prepareStock($dataArray, $stock->id);
+        }
+
+        return $stockData;
     }
 
     /**
@@ -91,11 +101,44 @@ class FavoriteStockController extends Controller
      */
     public function destroy(FavoriteStock $favoriteStock)
     {
-        //
+        $this->authorize('update', $favoriteStock);
+
+        $favoriteStock->delete();
+
+        return json_encode('success');
+
     }
 
-    public function getStock(){
-        $content = Http::GET("https://cloud.iexapis.com/stable/tops?token=pk_e07e24a396204a49a73ee863c7c60e61&symbols=vti") ;
-        return $content;
+    public function getStock($symbol){
+
+        $client = new \GuzzleHttp\Client();
+        $content = $client->get("https://cloud.iexapis.com/stable/tops?token=pk_e07e24a396204a49a73ee863c7c60e61&symbols=" . $symbol) ;
+        $response = $content->getBody();
+        $dataArray = json_decode($response);
+
+        if(empty($dataArray)){
+            return json_encode([ 'error' => 'Unable to find symbol!']);            
+        }
+
+        //get the stock data
+        
+        $symbol = $dataArray[0]->symbol;
+        
+        //save as a favorite
+        $user_id = Auth::user()->id;        
+        $newSymbol = FavoriteStock::create([
+            'user_id'=>$user_id,
+            'symbol'=>$symbol           
+        ]);
+        
+        return json_encode($this->prepareStock($dataArray, $newSymbol->id));
+    }
+
+    private function prepareStock($dataArray, $id){
+        return [
+            'symbol'=>$dataArray[0]->symbol, 
+            'price' => $dataArray[0]->lastSalePrice,
+            'id' => $id
+        ];
     }
 }

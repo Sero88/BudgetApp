@@ -16,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Transaction' => 'App\Policies\TransactionPolicy',
         'App\RecurringTransaction' => 'App\Policies\RecurringTransactionPolicy',
         'App\Balance' => 'App\Policies\BalancePolicy',
+        'App\FavoriteStock' => 'App\Policies\FavoriteStockPolicy',
         'App\BudgetCategory' => 'App\Policies\BudgetCategoryPolicy',
         'App\SubBudgetCategory' => 'App\Policies\BudgetCategoryPolicy',
         //'App\PaymentType' => 'App\Policies\PaymentTypePolicy', //don't need to add this, laravel knows by the name of Policy (tested)

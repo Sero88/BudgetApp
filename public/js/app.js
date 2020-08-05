@@ -69131,11 +69131,19 @@ if (token) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -69176,9 +69184,10 @@ var AddFavoriteStock = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.stockSymbolState = 'stockSymbol';
-    _this.state = (_this$state = {}, _defineProperty(_this$state, _this.stockSymbolState, ''), _defineProperty(_this$state, "canSubmit", true), _defineProperty(_this$state, "error", ''), _this$state);
-    _this.apiURL = "https://cloud.iexapis.com/stable/tops?token=" + "pk_e07e24a396204a49a73ee863c7c60e61" + "&symbols="; //this.apiURL = 'https://repeated-alpaca.glitch.me/v1/stock/vti/quote';
+    _this.state = (_this$state = {}, _defineProperty(_this$state, _this.stockSymbolState, ''), _defineProperty(_this$state, "canSubmit", true), _defineProperty(_this$state, "error", ''), _this$state); //this.apiURL = "https://cloud.iexapis.com/stable/tops?token=" + process.env.MIX_IEX_TOKEN + "&symbols=";
+    //this.apiURL = 'https://crossorigin.me/https://finnhub.io/api/v1/quote?symbol=';
 
+    _this.apiURL = '/api/getStock/';
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
@@ -69186,18 +69195,43 @@ var AddFavoriteStock = /*#__PURE__*/function (_React$Component) {
 
   _createClass(AddFavoriteStock, [{
     key: "saveStock",
-    value: function saveStock(name) {
-      try {
-        var response = axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(this.apiURL + name);
-        console.log(response.data);
-        return response.data;
-      } catch (e) {
-        console.error(e);
-        return {
-          error: 'Something went wrong.'
-        };
+    value: function () {
+      var _saveStock = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(name) {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(this.apiURL + name);
+
+              case 3:
+                response = _context.sent;
+                return _context.abrupt("return", response.data);
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                console.error(_context.t0);
+                return _context.abrupt("return", {
+                  error: 'Something went wrong.'
+                });
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 7]]);
+      }));
+
+      function saveStock(_x) {
+        return _saveStock.apply(this, arguments);
       }
-    }
+
+      return saveStock;
+    }()
   }, {
     key: "handleChange",
     value: function handleChange(event) {
@@ -69208,6 +69242,8 @@ var AddFavoriteStock = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(event) {
+      var _this2 = this;
+
       event.preventDefault();
 
       if (!this.state.canSubmit) {
@@ -69226,50 +69262,87 @@ var AddFavoriteStock = /*#__PURE__*/function (_React$Component) {
         canSubmit: false,
         error: ''
       });
-      this.saveStock(this.state[this.stockSymbolState]);
-      console.log(this.state[this.stockSymbolState]);
+      this.saveStock(this.state[this.stockSymbolState]).then( /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(newStock) {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  if ('symbol' in newStock) {
+                    _this2.props.addStock(newStock);
+                  } else if ('error' in newStock) {
+                    _this2.setState({
+                      error: newStock.error
+                    });
+                  }
+
+                  _this2.setState({
+                    canSubmit: true
+                  });
+
+                case 2:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2);
+        }));
+
+        return function (_x2) {
+          return _ref.apply(this, arguments);
+        };
+      }());
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "favorite-stocks-form"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
         onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Symbol:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Symbol:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "text",
         value: this.state[this.stockSymbolState],
         name: this.stockSymbolState,
         onChange: this.handleChange
-      }), this.state.canSubmit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), this.state.canSubmit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         className: "btn",
         disabled: !this.state.canSubmit
-      }, "Add Stock") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Retrieving stock ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }, "Add Stock") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, "Retrieving stock ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "loader-element"
-      })))), this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.state.error) : '');
+      })))), this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.error) : '');
     }
   }]);
 
   return AddFavoriteStock;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (AddFavoriteStock);
 
 /***/ }),
 
-/***/ "./resources/js/components/favorite-stocks.js":
-/*!****************************************************!*\
-  !*** ./resources/js/components/favorite-stocks.js ***!
-  \****************************************************/
+/***/ "./resources/js/components/display-favorite-stocks.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/display-favorite-stocks.js ***!
+  \************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _add_favorite_stock_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./add-favorite-stock.js */ "./resources/js/components/add-favorite-stock.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -69294,6 +69367,201 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+function SortSettings(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "sort-settings-container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    name: "name",
+    onClick: props.handleChange
+  }, "Name", props.sorting.active == 'name' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    "class": "active-setting"
+  }) : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    name: "price",
+    onClick: props.handleChange
+  }, "Price", props.sorting.active == 'price' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    "class": "active-setting"
+  }) : ''));
+}
+
+function Favorite(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "favorite"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "stock-card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "stock-card-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, props.symbol), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    "data-stockid": props.stockId,
+    onClick: props.removeFavorite
+  }, "x")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "stock-card-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, props.price))));
+}
+
+var DisplayFavorites = /*#__PURE__*/function (_React$Component) {
+  _inherits(DisplayFavorites, _React$Component);
+
+  var _super = _createSuper(DisplayFavorites);
+
+  function DisplayFavorites(props) {
+    var _this;
+
+    _classCallCheck(this, DisplayFavorites);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      sorting: {
+        active: '',
+        order: ''
+      }
+    };
+    _this.apiURL = '/api/favorite-stocks/';
+    _this.handleRemove = _this.handleRemove.bind(_assertThisInitialized(_this));
+    _this.sortSettingChange = _this.sortSettingChange.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(DisplayFavorites, [{
+    key: "removeFavorite",
+    value: function () {
+      var _removeFavorite = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(stockId) {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](this.apiURL + stockId);
+
+              case 3:
+                response = _context.sent;
+                console.log('after delete: ', response.data);
+                return _context.abrupt("return", response.data);
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](0);
+                console.error(_context.t0);
+                return _context.abrupt("return", 'Error deleting favorite stock');
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 8]]);
+      }));
+
+      function removeFavorite(_x) {
+        return _removeFavorite.apply(this, arguments);
+      }
+
+      return removeFavorite;
+    }()
+  }, {
+    key: "sortSettingChange",
+    value: function sortSettingChange(event) {
+      event.preventDefault();
+      console.log(event.target.name);
+    }
+  }, {
+    key: "handleRemove",
+    value: function handleRemove(event) {
+      var _this2 = this;
+
+      var stockId = event.target.dataset.stockid;
+      this.removeFavorite(stockId).then(function (response) {
+        _this2.props.removeStock(stockId);
+      })["catch"](function (e) {
+        return console.error(e);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var favorites;
+
+      if (this.props.stocks.length > 0) {
+        favorites = this.props.stocks.map(function (stock, index) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Favorite, {
+            key: index,
+            price: stock.price,
+            symbol: stock.symbol,
+            stockId: stock.id,
+            removeFavorite: _this3.handleRemove
+          });
+        });
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "stock-favorites-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(SortSettings, {
+        handleChange: this.sortSettingChange,
+        sorting: this.state.sorting
+      }), favorites);
+    }
+  }]);
+
+  return DisplayFavorites;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (DisplayFavorites);
+
+/***/ }),
+
+/***/ "./resources/js/components/favorite-stocks.js":
+/*!****************************************************!*\
+  !*** ./resources/js/components/favorite-stocks.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _add_favorite_stock__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./add-favorite-stock */ "./resources/js/components/add-favorite-stock.js");
+/* harmony import */ var _display_favorite_stocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./display-favorite-stocks */ "./resources/js/components/display-favorite-stocks.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
 var FavoriteStocks = /*#__PURE__*/function (_React$Component) {
   _inherits(FavoriteStocks, _React$Component);
 
@@ -69308,26 +69576,110 @@ var FavoriteStocks = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       stocks: []
     };
+    _this.stocksAPI = '/api/favorite-stocks';
+    _this.addStock = _this.addStock.bind(_assertThisInitialized(_this));
+    _this.removeStock = _this.removeStock.bind(_assertThisInitialized(_this));
     _this.updateStocks = _this.updateStocks.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(FavoriteStocks, [{
+    key: "getStocks",
+    value: function () {
+      var _getStocks = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(this.stocksAPI);
+
+              case 3:
+                response = _context.sent;
+                return _context.abrupt("return", response.data);
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                console.error(_context.t0);
+                return _context.abrupt("return", false);
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 7]]);
+      }));
+
+      function getStocks() {
+        return _getStocks.apply(this, arguments);
+      }
+
+      return getStocks;
+    }()
+  }, {
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      this.getStocks().then(function (stockData) {
+        return _this2.setState({
+          stocks: stockData
+        });
+      });
+    }
+  }, {
+    key: "addStock",
+    value: function addStock(newStock) {
+      var stocks = this.state.stocks;
+      stocks.push(newStock);
+      this.setState({
+        stocks: stocks
+      });
+    }
+  }, {
+    key: "removeStock",
+    value: function removeStock(stockId) {
+      var stocks = this.state.stocks;
+      var stockIndex = stocks.findIndex(function (item) {
+        return item.id == stockId;
+      });
+
+      if (stockIndex >= 0) {
+        stocks.splice(stockIndex, 1);
+        this.setState({
+          stocks: stocks
+        });
+      }
+    }
+  }, {
     key: "updateStocks",
-    value: function updateStocks(stocks) {}
+    value: function updateStocks(stocks) {
+      this.setState({
+        stocks: stocks
+      });
+    }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      console.log(this.state.stocks);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "main-favorite-stocks-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_add_favorite_stock_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        updateStocks: this.updateStocks()
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_add_favorite_stock__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        addStock: this.addStock
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_display_favorite_stocks__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        stocks: this.state.stocks,
+        removeStock: this.removeStock,
+        updateStocks: this.updateStocks
       }));
     }
   }]);
 
   return FavoriteStocks;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (FavoriteStocks);
 

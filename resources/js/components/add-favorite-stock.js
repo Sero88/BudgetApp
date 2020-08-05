@@ -16,17 +16,18 @@ class AddFavoriteStock extends React.Component{
 
         
 
-        this.apiURL = "https://cloud.iexapis.com/stable/tops?token=" + process.env.MIX_IEX_TOKEN + "&symbols=";
-        //this.apiURL = 'https://repeated-alpaca.glitch.me/v1/stock/vti/quote';
+        //this.apiURL = "https://cloud.iexapis.com/stable/tops?token=" + process.env.MIX_IEX_TOKEN + "&symbols=";
+        //this.apiURL = 'https://crossorigin.me/https://finnhub.io/api/v1/quote?symbol=';
+        this.apiURL = '/api/getStock/'
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    saveStock(name){
+
+    async saveStock(name){
         try{
-            const response = axios.get(this.apiURL+name);
-            console.log(response.data);
+            const response = await axios.get(this.apiURL+name);      
             return response.data;
         } catch(e){
             console.error(e);
@@ -62,9 +63,20 @@ class AddFavoriteStock extends React.Component{
             error:''
         });
 
-        this.saveStock(this.state[this.stockSymbolState]);
+        this.saveStock(this.state[this.stockSymbolState])
+        .then(
+            async (newStock) => {
+                if('symbol' in newStock){
+                    this.props.addStock(newStock);
+                } else if('error' in newStock){
+                    this.setState({error: newStock.error})
+                }  
+                
+                this.setState({canSubmit:true});
+            }            
+        );
         
-        console.log(this.state[this.stockSymbolState]);
+        
     }
     render(){     
         return(

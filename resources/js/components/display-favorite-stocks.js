@@ -1,28 +1,52 @@
 import React from 'react';
 import axios from 'axios';
 
+function SortingButton(props){
+
+    const sortArrowClass = props.sorting.order == 'desc' ? ' fas fa-angle-down' : ' fas fa-angle-up';
+    return (
+        <button 
+            name={props.name} 
+            onClick={props.handleChange}
+        >
+            {props.children} {props.sorting.active == props.name ? <span className={"active-setting"+sortArrowClass}></span> : ''}
+        </button>
+        
+    );
+}
+
 function SortSettings(props){
     
     return (
         <div className="sort-settings-container">
-            <button name="name" onClick={props.handleChange}>Name{props.sorting.active == 'name' ? <span class="active-setting"></span> : ''}</button>
-            <button name="price" onClick={props.handleChange}>Price{props.sorting.active == 'price' ? <span class="active-setting"></span> : ''}</button>
+            <SortingButton 
+                name="name"
+                handleChange={props.handleChange}
+                sorting={props.sorting}                
+            >Name
+            </SortingButton>
+
+            <SortingButton
+                name="price"
+                handleChange={props.handleChange}
+                sorting={props.sorting}  
+            >Price
+            </SortingButton>
+                        
         </div>
     );
 }
 
 function Favorite(props){
     return(
-        <div className="favorite">
-            <div className="stock-card">
-                <div className="stock-card-header">
-                    <p>{props.symbol}</p>
-                    <button data-stockid={props.stockId} onClick={props.removeFavorite}>x</button>
-                </div>
+        <div className="favorite">           
+            <div className="stock-card-header">
+                <p>{props.symbol}</p>
+                <button data-stockid={props.stockId} onClick={props.removeFavorite}>x</button>
+            </div>
 
-                <div className="stock-card-body">        
-                    <p>{props.price}</p>
-                </div>
+            <div className="stock-card-body">        
+                <p>{props.price}</p>
             </div>
         </div>
     );
@@ -55,7 +79,28 @@ class DisplayFavorites extends React.Component{
 
     sortSettingChange(event){
         event.preventDefault();
-        console.log(event.target.name);
+        const active = event.target.name;
+        const order = active != this.state.sorting.active || this.state.sorting.order == 'asc' ? 'desc' : 'asc'; 
+        let stocks = this.props.stocks; 
+
+        console.log(order);
+
+        switch(active){
+            case 'name':
+                stocks = sortStocksByName(this.props.stocks, order);
+                break;
+
+            case 'price':
+                stocks = sortStocksByPrice(this.props.stocks, order);
+                break;                            
+        }
+
+        this.props.updateStocks(stocks);
+
+        this.setState({
+            sorting: {active, order}
+        })
+        
     }
 
     handleRemove(event){
@@ -83,14 +128,44 @@ class DisplayFavorites extends React.Component{
 
         return(
             <div className="stock-favorites-container">      
-                <SortSettings 
-                    handleChange={this.sortSettingChange} 
-                    sorting={this.state.sorting} 
+                Sort: <SortSettings 
+                    handleChange={this.sortSettingChange}                     
+                    sorting={this.state.sorting}                     
                 />
                 {favorites}          
             </div>
         );
     }
+}
+
+function sortStocksByName(stocks, order){
+
+    if(order == 'asc'){
+        stocks.sort( (a, b) => {        
+            return a.symbol < b.symbol ? -1 : 1;
+        });
+    } else{
+        stocks.sort( (a, b) => {        
+            return a.symbol > b.symbol ? -1 : 1;
+        });
+    }
+
+    return stocks;
+}
+
+
+function sortStocksByPrice(stocks, order){
+    if(order == 'asc'){
+        stocks.sort( (a, b) => {        
+            return a.price - b.price;
+        });
+    } else{
+        stocks.sort( (a, b) => {        
+            return b.price - a.price;
+        });
+    }
+
+    return stocks;
 }
 
 export default DisplayFavorites;

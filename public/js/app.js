@@ -69367,27 +69367,33 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+function SortingButton(props) {
+  var sortArrowClass = props.sorting.order == 'desc' ? ' fas fa-angle-down' : ' fas fa-angle-up';
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    name: props.name,
+    onClick: props.handleChange
+  }, props.children, " ", props.sorting.active == props.name ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "active-setting" + sortArrowClass
+  }) : '');
+}
+
 function SortSettings(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "sort-settings-container"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(SortingButton, {
     name: "name",
-    onClick: props.handleChange
-  }, "Name", props.sorting.active == 'name' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-    "class": "active-setting"
-  }) : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    handleChange: props.handleChange,
+    sorting: props.sorting
+  }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(SortingButton, {
     name: "price",
-    onClick: props.handleChange
-  }, "Price", props.sorting.active == 'price' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-    "class": "active-setting"
-  }) : ''));
+    handleChange: props.handleChange,
+    sorting: props.sorting
+  }, "Price"));
 }
 
 function Favorite(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "favorite"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "stock-card"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stock-card-header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, props.symbol), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
@@ -69395,7 +69401,7 @@ function Favorite(props) {
     onClick: props.removeFavorite
   }, "x")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stock-card-body"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, props.price))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, props.price)));
 }
 
 var DisplayFavorites = /*#__PURE__*/function (_React$Component) {
@@ -69463,7 +69469,28 @@ var DisplayFavorites = /*#__PURE__*/function (_React$Component) {
     key: "sortSettingChange",
     value: function sortSettingChange(event) {
       event.preventDefault();
-      console.log(event.target.name);
+      var active = event.target.name;
+      var order = active != this.state.sorting.active || this.state.sorting.order == 'asc' ? 'desc' : 'asc';
+      var stocks = this.props.stocks;
+      console.log(order);
+
+      switch (active) {
+        case 'name':
+          stocks = sortStocksByName(this.props.stocks, order);
+          break;
+
+        case 'price':
+          stocks = sortStocksByPrice(this.props.stocks, order);
+          break;
+      }
+
+      this.props.updateStocks(stocks);
+      this.setState({
+        sorting: {
+          active: active,
+          order: order
+        }
+      });
     }
   }, {
     key: "handleRemove",
@@ -69498,7 +69525,7 @@ var DisplayFavorites = /*#__PURE__*/function (_React$Component) {
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "stock-favorites-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(SortSettings, {
+      }, "Sort: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(SortSettings, {
         handleChange: this.sortSettingChange,
         sorting: this.state.sorting
       }), favorites);
@@ -69507,6 +69534,34 @@ var DisplayFavorites = /*#__PURE__*/function (_React$Component) {
 
   return DisplayFavorites;
 }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
+
+function sortStocksByName(stocks, order) {
+  if (order == 'asc') {
+    stocks.sort(function (a, b) {
+      return a.symbol < b.symbol ? -1 : 1;
+    });
+  } else {
+    stocks.sort(function (a, b) {
+      return a.symbol > b.symbol ? -1 : 1;
+    });
+  }
+
+  return stocks;
+}
+
+function sortStocksByPrice(stocks, order) {
+  if (order == 'asc') {
+    stocks.sort(function (a, b) {
+      return a.price - b.price;
+    });
+  } else {
+    stocks.sort(function (a, b) {
+      return b.price - a.price;
+    });
+  }
+
+  return stocks;
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (DisplayFavorites);
 

@@ -53,7 +53,6 @@ class FavoriteStocks extends React.Component{
     }
 
     render(){
-        console.log(this.state.stocks);
         return (
             <div className="main-favorite-stocks-container">
                 <AddFavoriteStock addStock={this.addStock} stocks={this.state.stocks}/> 

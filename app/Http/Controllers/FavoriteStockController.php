@@ -134,6 +134,7 @@ class FavoriteStockController extends Controller
         return json_encode($this->prepareStock($dataArray, $newSymbol->id));
     }
 
+    //prepares stock date before returning
     private function prepareStock($dataArray, $id){
         return [
             'symbol'=>$dataArray[0]->symbol, 

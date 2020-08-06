@@ -29,7 +29,7 @@ class FavoriteStockController extends Controller
         $stockData = [];
 
         foreach($stocks as $stock){            
-            $content = $client->get("https://cloud.iexapis.com/stable/tops?token=pk_e07e24a396204a49a73ee863c7c60e61&symbols=" . $stock->symbol) ;
+            $content = $client->get("https://cloud.iexapis.com/stable/stock/{$stock->symbol}/book/?token=".env('MIX_IEX_TOKEN')) ;
             $response = $content->getBody();
             $dataArray = json_decode($response);
             $stockData[] = $this->prepareStock($dataArray, $stock->id);
@@ -112,7 +112,7 @@ class FavoriteStockController extends Controller
     public function getStock($symbol){
 
         $client = new \GuzzleHttp\Client();
-        $content = $client->get("https://cloud.iexapis.com/stable/tops?token=pk_e07e24a396204a49a73ee863c7c60e61&symbols=" . $symbol) ;
+        $content = $client->get("https://cloud.iexapis.com/stable/stock/$symbol/book/?token=".env('MIX_IEX_TOKEN'));
         $response = $content->getBody();
         $dataArray = json_decode($response);
 
@@ -122,7 +122,7 @@ class FavoriteStockController extends Controller
 
         //get the stock data
         
-        $symbol = $dataArray[0]->symbol;
+        $symbol = $dataArray->quote->symbol;
         
         //save as a favorite
         $user_id = Auth::user()->id;        
@@ -137,9 +137,10 @@ class FavoriteStockController extends Controller
     //prepares stock date before returning
     private function prepareStock($dataArray, $id){
         return [
-            'symbol'=>$dataArray[0]->symbol, 
-            'price' => $dataArray[0]->lastSalePrice,
-            'id' => $id
+            'symbol'=>$dataArray->quote->symbol, 
+            'price' => $dataArray->quote->latestPrice,
+            'id' => $id,
+            'change'=> $dataArray->quote->change
         ];
     }
 }

@@ -48,6 +48,7 @@ function Favorite(props){
 
             <div className="stock-card-body">        
                 <p>${props.price}</p>
+                <p className="stock-change">Change: {props.change}</p>
             </div>
         </div>
     );
@@ -119,7 +120,8 @@ class DisplayFavorites extends React.Component{
                     <Favorite 
                         key={index} 
                         price={stock.price} 
-                        symbol={stock.symbol} 
+                        symbol={stock.symbol}
+                        change={stock.change} 
                         stockId={stock.id} 
                         removeFavorite={this.handleRemove}
                     />);

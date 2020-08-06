@@ -78,7 +78,10 @@ class AddFavoriteStock extends React.Component{
                     this.setState({error: newStock.error})
                 }  
                 
-                this.setState({canSubmit:true});
+                this.setState({
+                    canSubmit:true,
+                    [this.stockSymbolState]: '',
+                });
             }            
         );
         

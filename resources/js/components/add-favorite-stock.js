@@ -13,11 +13,7 @@ class AddFavoriteStock extends React.Component{
             canSubmit: true,
             error: '',
         };
-
-        
-
-        //this.apiURL = "https://cloud.iexapis.com/stable/tops?token=" + process.env.MIX_IEX_TOKEN + "&symbols=";
-        //this.apiURL = 'https://crossorigin.me/https://finnhub.io/api/v1/quote?symbol=';
+    
         this.apiURL = '/api/getStock/'
 
         this.handleChange = this.handleChange.bind(this);
@@ -36,7 +32,7 @@ class AddFavoriteStock extends React.Component{
     }
 
     handleChange (event) {
-        if(event.target.name && event.target.value){
+        if(event.target.name){
             this.setState({
                 [event.target.name]: event.target.value
             })
@@ -53,6 +49,16 @@ class AddFavoriteStock extends React.Component{
         if(!this.state[this.stockSymbolState]){
             this.setState({
                 error:'Error: empty symbol.'
+            })
+            return;
+        }
+
+        const symbol = this.state[this.stockSymbolState].toUpperCase();
+        const repeated = this.props.stocks.findIndex( stock => stock.symbol == symbol);
+
+        if(repeated != -1){
+            this.setState({
+                error: "Stock has already been added",
             })
             return;
         }
@@ -84,8 +90,8 @@ class AddFavoriteStock extends React.Component{
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Symbol: 
-                        <input type="text" value={this.state[this.stockSymbolState]} name={this.stockSymbolState} onChange={this.handleChange}/>
-        {this.state.canSubmit ? <button className="btn" disabled={!this.state.canSubmit}>Add Stock</button> : <div>Retrieving stock <span className="loader-element"></span></div> }
+                        <input id="favorite-stock-input" type="text" placeholder="ex.GOOG" value={this.state[this.stockSymbolState]} name={this.stockSymbolState} onChange={this.handleChange}/>
+        {this.state.canSubmit ? <button className="btn add-favorite-btn" disabled={!this.state.canSubmit}>Add</button> : <div>Retrieving stock <span className="loader-element"></span></div> }
                     </label>
                     
                 </form>

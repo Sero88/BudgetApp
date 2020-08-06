@@ -6,6 +6,7 @@ function SortingButton(props){
     const sortArrowClass = props.sorting.order == 'desc' ? ' fas fa-angle-down' : ' fas fa-angle-up';
     return (
         <button 
+            className="settings-button"
             name={props.name} 
             onClick={props.handleChange}
         >
@@ -39,14 +40,14 @@ function SortSettings(props){
 
 function Favorite(props){
     return(
-        <div className="favorite">           
+        <div className="favorite-stock">           
             <div className="stock-card-header">
                 <p>{props.symbol}</p>
-                <button data-stockid={props.stockId} onClick={props.removeFavorite}>x</button>
+                <button onClick={props.removeFavorite}><span data-stockid={props.stockId} className="fas fa-window-close"></span></button>
             </div>
 
             <div className="stock-card-body">        
-                <p>{props.price}</p>
+                <p>${props.price}</p>
             </div>
         </div>
     );
@@ -67,8 +68,7 @@ class DisplayFavorites extends React.Component{
 
     async removeFavorite(stockId){
         try{
-            const response = await axios.delete(this.apiURL + stockId);
-            console.log('after delete: ' , response.data)
+            const response = await axios.delete(this.apiURL + stockId);       
             return response.data;
         } catch(e){
             console.error(e);
@@ -79,11 +79,11 @@ class DisplayFavorites extends React.Component{
 
     sortSettingChange(event){
         event.preventDefault();
-        const active = event.target.name;
+        const button = event.target.closest('.settings-button');
+
+        const active = button.name;
         const order = active != this.state.sorting.active || this.state.sorting.order == 'asc' ? 'desc' : 'asc'; 
         let stocks = this.props.stocks; 
-
-        console.log(order);
 
         switch(active){
             case 'name':
@@ -103,7 +103,7 @@ class DisplayFavorites extends React.Component{
         
     }
 
-    handleRemove(event){
+    handleRemove(event){        
         const stockId = event.target.dataset.stockid;
         this.removeFavorite(stockId)
         .then( response => {this.props.removeStock(stockId)} )
@@ -127,12 +127,14 @@ class DisplayFavorites extends React.Component{
         }
 
         return(
-            <div className="stock-favorites-container">      
+            <div className="display-favorites-container">      
                 Sort: <SortSettings 
                     handleChange={this.sortSettingChange}                     
                     sorting={this.state.sorting}                     
                 />
-                {favorites}          
+                <div className="favorites-container" >
+                    {favorites}          
+                </div>
             </div>
         );
     }

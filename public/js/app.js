@@ -69184,9 +69184,7 @@ var AddFavoriteStock = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.stockSymbolState = 'stockSymbol';
-    _this.state = (_this$state = {}, _defineProperty(_this$state, _this.stockSymbolState, ''), _defineProperty(_this$state, "canSubmit", true), _defineProperty(_this$state, "error", ''), _this$state); //this.apiURL = "https://cloud.iexapis.com/stable/tops?token=" + process.env.MIX_IEX_TOKEN + "&symbols=";
-    //this.apiURL = 'https://crossorigin.me/https://finnhub.io/api/v1/quote?symbol=';
-
+    _this.state = (_this$state = {}, _defineProperty(_this$state, _this.stockSymbolState, ''), _defineProperty(_this$state, "canSubmit", true), _defineProperty(_this$state, "error", ''), _this$state);
     _this.apiURL = '/api/getStock/';
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -69235,7 +69233,7 @@ var AddFavoriteStock = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleChange",
     value: function handleChange(event) {
-      if (event.target.name && event.target.value) {
+      if (event.target.name) {
         this.setState(_defineProperty({}, event.target.name, event.target.value));
       }
     }
@@ -69253,6 +69251,18 @@ var AddFavoriteStock = /*#__PURE__*/function (_React$Component) {
       if (!this.state[this.stockSymbolState]) {
         this.setState({
           error: 'Error: empty symbol.'
+        });
+        return;
+      }
+
+      var symbol = this.state[this.stockSymbolState].toUpperCase();
+      var repeated = this.props.stocks.findIndex(function (stock) {
+        return stock.symbol == symbol;
+      });
+
+      if (repeated != -1) {
+        this.setState({
+          error: "Stock has already been added"
         });
         return;
       } //disable submission until process is ready and clear errors
@@ -69301,14 +69311,16 @@ var AddFavoriteStock = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Symbol:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "favorite-stock-input",
         type: "text",
+        placeholder: "ex.GOOG",
         value: this.state[this.stockSymbolState],
         name: this.stockSymbolState,
         onChange: this.handleChange
       }), this.state.canSubmit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-        className: "btn",
+        className: "btn add-favorite-btn",
         disabled: !this.state.canSubmit
-      }, "Add Stock") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, "Retrieving stock ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, "Add") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, "Retrieving stock ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "loader-element"
       })))), this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.error) : '');
     }
@@ -69370,6 +69382,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function SortingButton(props) {
   var sortArrowClass = props.sorting.order == 'desc' ? ' fas fa-angle-down' : ' fas fa-angle-up';
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    className: "settings-button",
     name: props.name,
     onClick: props.handleChange
   }, props.children, " ", props.sorting.active == props.name ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
@@ -69393,15 +69406,17 @@ function SortSettings(props) {
 
 function Favorite(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "favorite"
+    className: "favorite-stock"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stock-card-header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, props.symbol), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-    "data-stockid": props.stockId,
     onClick: props.removeFavorite
-  }, "x")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    "data-stockid": props.stockId,
+    className: "fas fa-window-close"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stock-card-body"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, props.price)));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "$", props.price)));
 }
 
 var DisplayFavorites = /*#__PURE__*/function (_React$Component) {
@@ -69442,21 +69457,20 @@ var DisplayFavorites = /*#__PURE__*/function (_React$Component) {
 
               case 3:
                 response = _context.sent;
-                console.log('after delete: ', response.data);
                 return _context.abrupt("return", response.data);
 
-              case 8:
-                _context.prev = 8;
+              case 7:
+                _context.prev = 7;
                 _context.t0 = _context["catch"](0);
                 console.error(_context.t0);
                 return _context.abrupt("return", 'Error deleting favorite stock');
 
-              case 12:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 8]]);
+        }, _callee, this, [[0, 7]]);
       }));
 
       function removeFavorite(_x) {
@@ -69469,10 +69483,10 @@ var DisplayFavorites = /*#__PURE__*/function (_React$Component) {
     key: "sortSettingChange",
     value: function sortSettingChange(event) {
       event.preventDefault();
-      var active = event.target.name;
+      var button = event.target.closest('.settings-button');
+      var active = button.name;
       var order = active != this.state.sorting.active || this.state.sorting.order == 'asc' ? 'desc' : 'asc';
       var stocks = this.props.stocks;
-      console.log(order);
 
       switch (active) {
         case 'name':
@@ -69524,11 +69538,13 @@ var DisplayFavorites = /*#__PURE__*/function (_React$Component) {
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "stock-favorites-container"
+        className: "display-favorites-container"
       }, "Sort: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(SortSettings, {
         handleChange: this.sortSettingChange,
         sorting: this.state.sorting
-      }), favorites);
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "favorites-container"
+      }, favorites));
     }
   }]);
 
@@ -69724,7 +69740,8 @@ var FavoriteStocks = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "main-favorite-stocks-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_add_favorite_stock__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        addStock: this.addStock
+        addStock: this.addStock,
+        stocks: this.state.stocks
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_display_favorite_stocks__WEBPACK_IMPORTED_MODULE_3__["default"], {
         stocks: this.state.stocks,
         removeStock: this.removeStock,

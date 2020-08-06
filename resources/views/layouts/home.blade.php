@@ -93,8 +93,6 @@
                                     Settings
                                 </a>
 
-                                
-
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -139,12 +137,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header"><h1>@yield('title', 'BudgetApp')</h1></div>
-                            <div class="card-body">
-                                @yield('content')
-                            </div>
-                        </div>
+                        @yield('content');
                     </div>
                 </div>
             </div>
